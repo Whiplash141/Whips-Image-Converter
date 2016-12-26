@@ -4,14 +4,12 @@ This is an image converter that I created to convert images for Space Engineers
 
 If you modify this, please credit me :) I spent a lot of time on this, and I hope y'all enjoy!
 
-///Description///
-
+##Description
 This code utilizes a variety of dithering methods to convert each pixel from  a 256x256x256 color into a 8x8x8 color.
 By reducing the number of colors in an image, we can use the color pixels in the Monospace font in Space Engineers
 to "draw" the image.
 
-///How to use///
-
+##How to use
 1) Browse for your desired image file.
 
 2) Select resizing option.
