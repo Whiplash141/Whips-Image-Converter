@@ -1,6 +1,10 @@
 # Whips-Image-Converter
 ##Where do I get the program?
-Navigate to Whips-Image-Converter/WindowsForms2/bin/Release/Whips Image Converter.exe
+Option 1: Download Whips-Image-Converter/Release.exe
+
+Option 2: Navigate to Whips-Image-Converter/WindowsForms2/bin/debug and download the debug folder
+
+Option 3: Download all the source files and complie the project in Visual Studio
 
 ## Intro
 This is an image converter that I created to convert images for Space Engineers.
