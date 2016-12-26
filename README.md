@@ -1,6 +1,5 @@
 # Whips-Image-Converter
-///Intro///
-
+## Intro
 This is an image converter that I created to convert images for Space Engineers
 
 If you modify this, please credit me :) I spent a lot of time on this, and I hope y'all enjoy!
