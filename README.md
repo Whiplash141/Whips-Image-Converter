@@ -1,8 +1,13 @@
 # Whips-Image-Converter
-## Intro
-This is an image converter that I created to convert images for Space Engineers
+##Where do I get the program?
+Navigate to Whips-Image-Converter/WindowsForms2/bin/Release/Whips Image Converter.exe
 
-If you modify this, please credit me :) I spent a lot of time on this, and I hope y'all enjoy!
+## Intro
+This is an image converter that I created to convert images for Space Engineers.
+
+If you modify this, please credit me :) 
+
+This is my first windows app, and I spent a lot of time on this. I hope y'all enjoy!
 
 ##Description
 This code utilizes a variety of dithering methods to convert each pixel from  a 256x256x256 color into a 8x8x8 color.
