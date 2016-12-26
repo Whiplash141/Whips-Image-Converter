@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsForms2", "WindowsForms2\WindowsForms2.csproj", "{9643C76C-617C-4B4B-AAB9-ABDB489E2AAD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WhipsImageConverter", "WindowsForms2\WhipsImageConverter.csproj", "{9643C76C-617C-4B4B-AAB9-ABDB489E2AAD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

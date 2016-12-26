@@ -63,6 +63,12 @@
     <Compile Include="DitheringPopup_Form.Designer.cs">
       <DependentUpon>DitheringPopup_Form.cs</DependentUpon>
     </Compile>
+    <Compile Include="popup_credits.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="popup_credits.Designer.cs">
+      <DependentUpon>popup_credits.cs</DependentUpon>
+    </Compile>
     <Compile Include="popup_imagebox.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -76,6 +82,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DitheringPopup_Form.resx">
       <DependentUpon>DitheringPopup_Form.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="popup_credits.resx">
+      <DependentUpon>popup_credits.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="popup_imagebox.resx">
       <DependentUpon>popup_imagebox.cs</DependentUpon>

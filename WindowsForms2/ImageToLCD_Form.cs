@@ -19,6 +19,18 @@ namespace WindowsForms2
     {
         string fileDirectory = "";
 
+        Bitmap squareImage;
+        Bitmap rectangleImage;
+        Bitmap baseImage;
+        Bitmap convertedImage;
+        Bitmap desiredImage;
+
+        bool imageLoaded = false;
+
+        Color[,] convertedColorArray = null;
+        int imageWidth = 0;
+        int imageHeight = 0;
+
         List<Color> allowedColors = new List<Color>();
 
         void ConstructColorMap()
@@ -36,6 +48,108 @@ namespace WindowsForms2
             }
         }
 
+        void CacheImages()
+        {
+            //Check if file exists
+            fileDirectory = textBox_FileDirectory.Text;
+
+            if (!File.Exists(fileDirectory))
+            {
+                MessageBox.Show("Error! Filepath is invalid");
+                imageLoaded = false;
+                return;
+            }
+
+            //Check if valid file type
+            if (!(fileDirectory.ToLower().EndsWith(".png") || fileDirectory.ToLower().EndsWith(".jpg") || fileDirectory.EndsWith(".jpeg") || fileDirectory.EndsWith(".bmp")))
+            {
+                MessageBox.Show("Error! File must be a png or jpg or bmp image");
+                return;
+            }
+
+            baseImage = (Bitmap)Image.FromFile(fileDirectory, true);
+            squareImage = new Bitmap(baseImage, new Size(178, 178));
+            rectangleImage = new Bitmap(baseImage, new Size(356, 178));
+
+            imageLoaded = true;
+        }
+
+        void DitherImage()
+        {
+            if (!imageLoaded)
+            {
+                return;
+            }
+            
+            
+            desiredImage = baseImage;
+            
+            //Get resize parameters
+            switch (combobox_resize.SelectedIndex)
+            {
+                case 0:
+                    desiredImage = squareImage;
+                    //ImagePreviewBox.Height = ImagePreviewBox.Width;
+                    break;
+
+                case 1:
+                    desiredImage = rectangleImage;
+                    //ImagePreviewBox.Height = ImagePreviewBox.Width / 2;
+                    break;
+
+                case 2:
+                    desiredImage = baseImage;
+                    //ImagePreviewBox.Height = ImagePreviewBox.Width;
+                    break;
+            }
+            
+
+            //Get image dimensions
+            imageWidth = desiredImage.Width;
+            imageHeight = desiredImage.Height;
+
+            //Initialize empty color array
+            convertedColorArray = new Color[imageHeight, imageWidth];
+
+            //Get dithering type
+            int type = combobox_dither.SelectedIndex;
+
+            //Assign color array based on dithering options
+            if (type == 0) //no dithering
+            {
+                convertedColorArray = NoDithering(desiredImage, imageWidth, imageHeight);
+            }
+            else //dithering
+            {
+                convertedColorArray = Dithering(desiredImage, imageWidth, imageHeight, type);
+            }
+
+            convertedImage = ArrayToBmp(convertedColorArray, imageWidth, imageHeight);
+            ImagePreviewBox.Image = convertedImage;
+        }
+
+        void ConvertImage()
+        {
+            if (!imageLoaded)
+            {
+                MessageBox.Show("Error: No image loaded");
+                return;
+            } 
+            
+            //Create encoded string
+            string convertedImageString = BuildFinalString(convertedColorArray, imageWidth, imageHeight);
+
+            //Display converted image and encoded string
+            textBox_Return.Text = convertedImageString;
+
+            //textBox_Return.Text = debug.ToString(); //for debugging
+            //ImagePreviewBox.Image = convertedImage;
+
+            label_stringLength.Text = $"String Length: {textBox_Return.Text.Length}";
+            MessageBox.Show("Image Converted"); //successful conversion
+        }
+
+        /*
         void ConvertImage()
         {
             //Check if file exists
@@ -50,9 +164,9 @@ namespace WindowsForms2
             }
 
             //Check if valid file type
-            if (!(fileDirectory.ToLower().EndsWith(".png") || fileDirectory.ToLower().EndsWith(".jpg") || fileDirectory.EndsWith(".jpeg")))
+            if (!(fileDirectory.ToLower().EndsWith(".png") || fileDirectory.ToLower().EndsWith(".jpg") || fileDirectory.EndsWith(".jpeg") || fileDirectory.EndsWith(".bmp")))
             {
-                MessageBox.Show("Error! File must be a png or jpg image");
+                MessageBox.Show("Error! File must be a png or jpg or bmp image");
                 return;
             }
 
@@ -111,6 +225,7 @@ namespace WindowsForms2
             label_stringLength.Text = $"String Length: {textBox_Return.Text.Length}";
             MessageBox.Show("Image Converted"); //successful conversion
         }
+        */
 
         public Color3 ColorToColor3(Color regularColor)
         {
@@ -743,6 +858,7 @@ namespace WindowsForms2
             InitializeComponent();
             combobox_dither.SelectedIndex = 0;
             combobox_resize.SelectedIndex = 0;
+            openFileDialog1.Filter = "Image files (*.jpg, *.jpeg, *.jpe, *.jfif, *.png, *.bmp) | *.jpg; *.jpeg; *.jpe; *.jfif; *.png; *.bmp";
 
             //Construct colormap
             ConstructColorMap();
@@ -1280,15 +1396,14 @@ namespace WindowsForms2
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            Clipboard.SetText(textBox_Return.Text, TextDataFormat.UnicodeText);
+            if (!String.IsNullOrEmpty(textBox_Return.Text))
+                Clipboard.SetText(textBox_Return.Text, TextDataFormat.UnicodeText);
         }
 
         private void linkLabel_Credits_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            MessageBox.Show("Dithering methods adapted from  Wikipedia's pseudocode"
-                + "\nhttps://en.wikipedia.org/wiki/Floyd%E2%80%93Steinberg_dithering"
-                + "\n\nColor3 method based off of StackExchange user dacwe's Java code"
-                + "\nhttps://stackoverflow.com/questions/5940188/how-to-convert-a-24-bit-png-to-3-bit-png-using-floyd-steinberg-dithering");
+            var creditsPopup = new popup_credits();
+            creditsPopup.Show();
         }
 
         private void linkLabel_Dithering_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -1373,6 +1488,16 @@ namespace WindowsForms2
         private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
         {
             textBox_FileDirectory.Text = openFileDialog1.FileName;
+
+            //reset comboboxes to initial values
+            combobox_dither.SelectedIndex = 0;
+            combobox_resize.SelectedIndex = 0;
+
+            //reset return string
+            textBox_Return.Text = "";
+
+            CacheImages(); //cache all image size
+            DitherImage(); //initial image dithering
         }
 
         private void label4_Click(object sender, EventArgs e)
@@ -1383,6 +1508,32 @@ namespace WindowsForms2
         private void label9_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void combobox_dither_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //reset return string
+            textBox_Return.Text = "";
+
+            DitherImage();
+        }
+
+        private void combobox_resize_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //reset return string
+            textBox_Return.Text = "";
+
+            if (combobox_resize.SelectedIndex == 2)
+            {
+                var confirmResult = MessageBox.Show("Selecting '(None)' for the resizing option can cause the code to take longer than normal and can lead to unexected errors!\n\nContinue?", 
+                    "WARNING:", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
+                if (confirmResult == DialogResult.No)
+                {
+                    combobox_resize.SelectedIndex = 0; //reset selection index to a safe option
+                }
+            }
+
+            DitherImage();
         }
     }
 }

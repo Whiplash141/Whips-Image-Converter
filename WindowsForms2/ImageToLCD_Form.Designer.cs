@@ -105,6 +105,7 @@
             // 
             this.textBox_FileDirectory.Location = new System.Drawing.Point(409, 200);
             this.textBox_FileDirectory.Name = "textBox_FileDirectory";
+            this.textBox_FileDirectory.ReadOnly = true;
             this.textBox_FileDirectory.Size = new System.Drawing.Size(334, 22);
             this.textBox_FileDirectory.TabIndex = 8;
             // 
@@ -119,7 +120,6 @@
             // 
             // openFileDialog1
             // 
-            this.openFileDialog1.FileName = "openFileDialog1";
             this.openFileDialog1.Filter = "All Image Files|*.png;*.jpg;*.bmp";
             this.openFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog1_FileOk);
             // 
@@ -147,7 +147,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(684, 538);
+            this.label3.Location = new System.Drawing.Point(13, 547);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(148, 17);
             this.label3.TabIndex = 12;
@@ -186,7 +186,7 @@
             // linkLabel_Credits
             // 
             this.linkLabel_Credits.AutoSize = true;
-            this.linkLabel_Credits.Location = new System.Drawing.Point(694, 556);
+            this.linkLabel_Credits.Location = new System.Drawing.Point(23, 565);
             this.linkLabel_Credits.Name = "linkLabel_Credits";
             this.linkLabel_Credits.Size = new System.Drawing.Size(129, 17);
             this.linkLabel_Credits.TabIndex = 16;
@@ -230,6 +230,7 @@
             this.combobox_dither.Name = "combobox_dither";
             this.combobox_dither.Size = new System.Drawing.Size(158, 24);
             this.combobox_dither.TabIndex = 19;
+            this.combobox_dither.SelectedIndexChanged += new System.EventHandler(this.combobox_dither_SelectedIndexChanged);
             // 
             // label5
             // 
@@ -260,6 +261,7 @@
             this.combobox_resize.Name = "combobox_resize";
             this.combobox_resize.Size = new System.Drawing.Size(158, 24);
             this.combobox_resize.TabIndex = 22;
+            this.combobox_resize.SelectedIndexChanged += new System.EventHandler(this.combobox_resize_SelectedIndexChanged);
             // 
             // label7
             // 
@@ -322,7 +324,7 @@
             this.MinimizeBox = false;
             this.Name = "ImageToLCD";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Whip\'s ImageToLCD Converter Beta5 - 12.22.16";
+            this.Text = "Whip\'s ImageToLCD Converter Beta6 - 12.26.16";
             ((System.ComponentModel.ISupportInitialize)(this.ImagePreviewBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
