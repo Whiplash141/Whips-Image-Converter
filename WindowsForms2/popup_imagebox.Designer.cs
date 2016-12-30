@@ -61,6 +61,7 @@
             // saveFileDialog1
             // 
             this.saveFileDialog1.DefaultExt = "png";
+            this.saveFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.saveFileDialog1_FileOk);
             // 
             // popup_imagebox
             // 

@@ -1384,7 +1384,7 @@ namespace WindowsForms2
         };
         
 
-        private void button1_Click(object sender, EventArgs e)
+        private void button_Convert_Click(object sender, EventArgs e)
         {
             ConvertImage();
         }
@@ -1394,7 +1394,7 @@ namespace WindowsForms2
             openFileDialog1.ShowDialog(); // Show the dialog.
         }
 
-        private void button1_Click_1(object sender, EventArgs e)
+        private void button_Clipboard_Click(object sender, EventArgs e)
         {
             if (!String.IsNullOrEmpty(textBox_Return.Text))
                 Clipboard.SetText(textBox_Return.Text, TextDataFormat.UnicodeText);

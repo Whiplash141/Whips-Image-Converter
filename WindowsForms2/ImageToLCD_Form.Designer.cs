@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ImageToLCD));
-            this.ConvertButton = new System.Windows.Forms.Button();
+            this.button_Convert = new System.Windows.Forms.Button();
             this.ImagePreviewBox = new System.Windows.Forms.PictureBox();
             this.label2 = new System.Windows.Forms.Label();
             this.BrowseButton = new System.Windows.Forms.Button();
@@ -37,7 +37,7 @@
             this.textBox_Return = new System.Windows.Forms.TextBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.label1 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.button_Clipboard = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.instructions = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -55,16 +55,16 @@
             ((System.ComponentModel.ISupportInitialize)(this.ImagePreviewBox)).BeginInit();
             this.SuspendLayout();
             // 
-            // ConvertButton
+            // button_Convert
             // 
-            this.ConvertButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ConvertButton.Location = new System.Drawing.Point(528, 317);
-            this.ConvertButton.Name = "ConvertButton";
-            this.ConvertButton.Size = new System.Drawing.Size(151, 42);
-            this.ConvertButton.TabIndex = 0;
-            this.ConvertButton.Text = "Convert";
-            this.ConvertButton.UseVisualStyleBackColor = true;
-            this.ConvertButton.Click += new System.EventHandler(this.button1_Click);
+            this.button_Convert.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_Convert.Location = new System.Drawing.Point(528, 317);
+            this.button_Convert.Name = "button_Convert";
+            this.button_Convert.Size = new System.Drawing.Size(151, 42);
+            this.button_Convert.TabIndex = 0;
+            this.button_Convert.Text = "Convert";
+            this.button_Convert.UseVisualStyleBackColor = true;
+            this.button_Convert.Click += new System.EventHandler(this.button_Convert_Click);
             // 
             // ImagePreviewBox
             // 
@@ -133,16 +133,16 @@
             this.label1.TabIndex = 10;
             this.label1.Text = "Converted String";
             // 
-            // button1
+            // button_Clipboard
             // 
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(330, 521);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(218, 34);
-            this.button1.TabIndex = 11;
-            this.button1.Text = "Copy to Clipboard";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            this.button_Clipboard.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_Clipboard.Location = new System.Drawing.Point(330, 521);
+            this.button_Clipboard.Name = "button_Clipboard";
+            this.button_Clipboard.Size = new System.Drawing.Size(218, 34);
+            this.button_Clipboard.TabIndex = 11;
+            this.button_Clipboard.Text = "Copy to Clipboard";
+            this.button_Clipboard.UseVisualStyleBackColor = true;
+            this.button_Clipboard.Click += new System.EventHandler(this.button_Clipboard_Click);
             // 
             // label3
             // 
@@ -310,14 +310,14 @@
             this.Controls.Add(this.label4);
             this.Controls.Add(this.instructions);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.button_Clipboard);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBox_Return);
             this.Controls.Add(this.textBox_FileDirectory);
             this.Controls.Add(this.BrowseButton);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.ImagePreviewBox);
-            this.Controls.Add(this.ConvertButton);
+            this.Controls.Add(this.button_Convert);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -333,7 +333,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Button ConvertButton;
+        private System.Windows.Forms.Button button_Convert;
         private System.Windows.Forms.PictureBox ImagePreviewBox;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button BrowseButton;
@@ -341,7 +341,7 @@
         private System.Windows.Forms.TextBox textBox_Return;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button_Clipboard;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label instructions;
         private System.Windows.Forms.Label label4;
