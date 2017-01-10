@@ -14,9 +14,9 @@ If you modify this, please credit me :)
 This is my first windows app, and I spent a lot of time on this. I hope y'all enjoy!
 
 ##Description
-This code utilizes a variety of dithering methods to convert each pixel from  a 256x256x256 color into a 8x8x8 color.
+This code utilizes a variety of dithering methods to convert each pixel from  a 24 bit color into a 9 bit color.
 By reducing the number of colors in an image, we can use the color pixels in the Monospace font in Space Engineers
-to "draw" the image.
+to "draw" the image on a text panel without the need for mods.
 
 ##How to use
 1) Browse for your desired image file.
