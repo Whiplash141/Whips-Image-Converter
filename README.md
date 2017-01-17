@@ -1,8 +1,8 @@
 # Whips-Image-Converter
 ##Where do I get the program?
-Option 1: Download the program [HERE](https://github.com/Whiplash141/Whips-Image-Converter/raw/master/WindowsForms2/bin/Debug/Whips%20Image%20Converter.exe)
+Option 1: Download the program [HERE](https://github.com/Whiplash141/Whips-Image-Converter/raw/master/WhipsImageConverter/bin/Debug/Whip%60s%20Image%20Converter.exe)
 
-Option 2: Navigate to Whips-Image-Converter/WindowsForms2/bin/debug and download the debug folder
+Option 2: Navigate to Whips-Image-Converter/WhipsImageConverter/bin/debug and download the debug folder
 
 Option 3: Download all the source files and complie the project in Visual Studio
 
