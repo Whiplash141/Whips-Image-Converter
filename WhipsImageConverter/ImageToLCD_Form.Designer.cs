@@ -1,4 +1,4 @@
-﻿namespace WindowsForms2
+﻿namespace WhipsImageConverter
 {
     partial class ImageToLCD
     {
@@ -52,13 +52,14 @@
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
+            this.checkBox_aspectratio = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.ImagePreviewBox)).BeginInit();
             this.SuspendLayout();
             // 
             // button_Convert
             // 
             this.button_Convert.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_Convert.Location = new System.Drawing.Point(528, 317);
+            this.button_Convert.Location = new System.Drawing.Point(528, 331);
             this.button_Convert.Name = "button_Convert";
             this.button_Convert.Size = new System.Drawing.Size(151, 42);
             this.button_Convert.TabIndex = 0;
@@ -226,7 +227,7 @@
             "Sierra-3",
             "Sierra-2",
             "Sierra Lite"});
-            this.combobox_dither.Location = new System.Drawing.Point(627, 268);
+            this.combobox_dither.Location = new System.Drawing.Point(622, 268);
             this.combobox_dither.Name = "combobox_dither";
             this.combobox_dither.Size = new System.Drawing.Size(158, 24);
             this.combobox_dither.TabIndex = 19;
@@ -235,7 +236,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(624, 248);
+            this.label5.Location = new System.Drawing.Point(619, 248);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(108, 17);
             this.label5.TabIndex = 20;
@@ -257,7 +258,7 @@
             "Square (178x178)",
             "Wide (356x178)",
             "(None)"});
-            this.combobox_resize.Location = new System.Drawing.Point(431, 268);
+            this.combobox_resize.Location = new System.Drawing.Point(409, 268);
             this.combobox_resize.Name = "combobox_resize";
             this.combobox_resize.Size = new System.Drawing.Size(158, 24);
             this.combobox_resize.TabIndex = 22;
@@ -266,7 +267,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(428, 248);
+            this.label7.Location = new System.Drawing.Point(406, 248);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(112, 17);
             this.label7.TabIndex = 23;
@@ -291,11 +292,25 @@
             this.label9.Text = "(Click image to enlarge)";
             this.label9.Click += new System.EventHandler(this.label9_Click);
             // 
+            // checkBox_aspectratio
+            // 
+            this.checkBox_aspectratio.AutoSize = true;
+            this.checkBox_aspectratio.Checked = true;
+            this.checkBox_aspectratio.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_aspectratio.Location = new System.Drawing.Point(409, 298);
+            this.checkBox_aspectratio.Name = "checkBox_aspectratio";
+            this.checkBox_aspectratio.Size = new System.Drawing.Size(167, 21);
+            this.checkBox_aspectratio.TabIndex = 26;
+            this.checkBox_aspectratio.Text = "Maintain Aspect Ratio";
+            this.checkBox_aspectratio.UseVisualStyleBackColor = true;
+            this.checkBox_aspectratio.CheckedChanged += new System.EventHandler(this.checkBox_aspectratio_CheckedChanged);
+            // 
             // ImageToLCD
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(862, 593);
+            this.Controls.Add(this.checkBox_aspectratio);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label7);
@@ -324,7 +339,7 @@
             this.MinimizeBox = false;
             this.Name = "ImageToLCD";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Whip\'s ImageToLCD Converter Beta6 - 12.26.16";
+            this.Text = "Whip\'s Image Converter Beta7- 1.17.17";
             ((System.ComponentModel.ISupportInitialize)(this.ImagePreviewBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -356,6 +371,7 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.CheckBox checkBox_aspectratio;
     }
 }
 

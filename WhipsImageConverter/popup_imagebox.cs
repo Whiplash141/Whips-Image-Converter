@@ -11,7 +11,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Numerics;
 
-namespace WindowsForms2
+namespace WhipsImageConverter
 {
     public partial class popup_imagebox : Form
     {

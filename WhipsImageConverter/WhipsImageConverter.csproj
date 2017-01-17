@@ -7,8 +7,8 @@
     <ProjectGuid>{9643C76C-617C-4B4B-AAB9-ABDB489E2AAD}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WindowsForms2</RootNamespace>
-    <AssemblyName>Whips Image Converter</AssemblyName>
+    <RootNamespace>WhipsImageConverter</RootNamespace>
+    <AssemblyName>Whip`s Image Converter</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

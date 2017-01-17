@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace WindowsForms2
+namespace WhipsImageConverter
 {
     public partial class DitheringPopup : Form
     {
@@ -21,19 +21,19 @@ namespace WindowsForms2
         private void ShowImages(int mode)
         {
             /*var assembly = System.Reflection.Assembly.GetExecutingAssembly();
-            using (var imgStream = assembly.GetManifestResourceStream("WindowsForms2.original.png"))
+            using (var imgStream = assembly.GetManifestResourceStream("WhipsImageConverter.original.png"))
             {
                 var img = new Bitmap(imgStream);
                 OriginalBox.Image = img;
             }
 
-            using (var imgStream = assembly.GetManifestResourceStream("WindowsForms2.dithering.png"))
+            using (var imgStream = assembly.GetManifestResourceStream("WhipsImageConverter.dithering.png"))
             {
                 var img = new Bitmap(imgStream);
                 DitherBox.Image = img;
             }
 
-            using (var imgStream = assembly.GetManifestResourceStream("WindowsForms2.nodithering.png"))
+            using (var imgStream = assembly.GetManifestResourceStream("WhipsImageConverter.nodithering.png"))
             {
                 var img = new Bitmap(imgStream);
                 NoDitherBox.Image = img;

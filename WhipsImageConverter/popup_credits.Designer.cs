@@ -1,4 +1,4 @@
-﻿namespace WindowsForms2
+﻿namespace WhipsImageConverter
 {
     partial class popup_credits
     {

@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace WindowsForms2
+namespace WhipsImageConverter
 {
     public partial class popup_credits : Form
     {

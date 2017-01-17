@@ -13,7 +13,7 @@ using System.Numerics;
 
 //Reference: http://www.efg2.com/Lab/Library/ImageProcessing/DHALF.TXT
 
-namespace WindowsForms2
+namespace WhipsImageConverter
 {
     public partial class ImageToLCD : Form
     {
@@ -68,10 +68,117 @@ namespace WindowsForms2
             }
 
             baseImage = (Bitmap)Image.FromFile(fileDirectory, true);
-            squareImage = new Bitmap(baseImage, new Size(178, 178));
-            rectangleImage = new Bitmap(baseImage, new Size(356, 178));
+
+            bool maintainAspectRatio = checkBox_aspectratio.Checked; //default is false
+
+            if (!maintainAspectRatio)
+            {
+                squareImage = new Bitmap(baseImage, new Size(178, 178));
+                rectangleImage = new Bitmap(baseImage, new Size(356, 178));
+            }
+            else
+            {
+                squareImage = FrameImage(baseImage, 178, 178);
+                rectangleImage = FrameImage(baseImage, 356, 178);
+            }
 
             imageLoaded = true;
+        }
+
+        Bitmap FrameImage(Bitmap baseImage, int width, int height)
+        {
+            Bitmap framedImage;
+            int borderThickness = 0;
+            float compressionRatio = 1;
+            int borderMode = 0; //0 = none; 1 = horizontal; 2 = vertical bars
+            int desiredWidth = 0;
+            int desiredHeight = 0;
+
+
+            framedImage = new Bitmap(width, height);
+            if ((float)baseImage.Width / width > (float)baseImage.Height / height) //horizontal bars
+            {
+                desiredWidth = width;
+                compressionRatio = (float)width / baseImage.Width;
+                desiredHeight = (int)(baseImage.Height * compressionRatio);
+
+                borderThickness =Math.Abs(desiredHeight - height) / 2;
+                borderMode = 1;
+            }
+            else if ((float)baseImage.Width / width == (float)baseImage.Height / height)
+            {
+                borderMode = 0;
+                desiredWidth = width;
+                desiredHeight = height;
+            }
+            else //vertical bars
+            {
+                desiredHeight = height;
+                compressionRatio = (float)height / baseImage.Height;
+                desiredWidth = (int)(baseImage.Width * compressionRatio);
+
+                borderThickness = Math.Abs(desiredWidth - width) / 2;
+                borderMode = 2;
+            }
+
+            if (borderThickness == 0)
+            {
+                borderMode = 0;
+            }
+
+            Bitmap imageNoBorder = new Bitmap(baseImage, new Size(desiredWidth, desiredHeight));
+            Bitmap border;
+
+            switch (borderMode)
+            {
+                case 0:
+                    framedImage = imageNoBorder;
+                    break;
+
+                case 1: // horizontal bars
+                    border = new Bitmap(width, borderThickness);
+
+                    for (int w = 0; w < width; w++)
+                    {
+                        for (int h = 0; h < height; h++)
+                        {
+                            if (h < borderThickness)
+                            {
+                                framedImage.SetPixel(w, h, border.GetPixel(w, h));
+                            }
+                            else
+                            {
+                                if (h - borderThickness < imageNoBorder.Height)
+                                    framedImage.SetPixel(w, h, imageNoBorder.GetPixel(w, h - borderThickness));
+                            }
+                        }
+                    }
+
+                    break;
+
+                case 2: //vertical bars
+                    border = new Bitmap(borderThickness, height);
+
+                    for (int h = 0; h < height; h++)
+                    {
+                        for (int w = 0; w < width; w++)
+                        {
+                            if (w < borderThickness)
+                            {
+                                framedImage.SetPixel(w, h, border.GetPixel(w, h));
+                            }
+                            else
+                            {
+                                if (w - borderThickness < imageNoBorder.Width)
+                                    framedImage.SetPixel(w, h, imageNoBorder.GetPixel(w - borderThickness, h));
+                            }
+                        }
+                    }
+
+                    break;
+            }
+
+            return framedImage;
         }
 
         void DitherImage()
@@ -1533,6 +1640,15 @@ namespace WindowsForms2
                 }
             }
 
+            DitherImage();
+        }
+
+        private void checkBox_aspectratio_CheckedChanged(object sender, EventArgs e)
+        {
+            //reset return string
+            textBox_Return.Text = "";
+
+            CacheImages();
             DitherImage();
         }
     }
