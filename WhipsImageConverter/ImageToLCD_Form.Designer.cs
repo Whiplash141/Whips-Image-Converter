@@ -339,7 +339,7 @@
             this.MinimizeBox = false;
             this.Name = "ImageToLCD";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Whip\'s Image Converter Beta7- 1.17.17";
+            this.Text = "Whip\'s Image Converter Beta8- 1.17.17";
             ((System.ComponentModel.ISupportInitialize)(this.ImagePreviewBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

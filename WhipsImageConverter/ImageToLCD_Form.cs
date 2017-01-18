@@ -127,7 +127,6 @@ namespace WhipsImageConverter
             }
 
             Bitmap imageNoBorder = new Bitmap(baseImage, new Size(desiredWidth, desiredHeight));
-            Bitmap border;
 
             switch (borderMode)
             {
@@ -136,42 +135,26 @@ namespace WhipsImageConverter
                     break;
 
                 case 1: // horizontal bars
-                    border = new Bitmap(width, borderThickness);
 
                     for (int w = 0; w < width; w++)
                     {
                         for (int h = 0; h < height; h++)
                         {
-                            if (h < borderThickness)
-                            {
-                                framedImage.SetPixel(w, h, border.GetPixel(w, h));
-                            }
-                            else
-                            {
-                                if (h - borderThickness < imageNoBorder.Height)
-                                    framedImage.SetPixel(w, h, imageNoBorder.GetPixel(w, h - borderThickness));
-                            }
+                            if (h - borderThickness < imageNoBorder.Height && h >= borderThickness)
+                                framedImage.SetPixel(w, h, imageNoBorder.GetPixel(w, h - borderThickness));
                         }
                     }
 
                     break;
 
                 case 2: //vertical bars
-                    border = new Bitmap(borderThickness, height);
 
                     for (int h = 0; h < height; h++)
                     {
                         for (int w = 0; w < width; w++)
                         {
-                            if (w < borderThickness)
-                            {
-                                framedImage.SetPixel(w, h, border.GetPixel(w, h));
-                            }
-                            else
-                            {
-                                if (w - borderThickness < imageNoBorder.Width)
-                                    framedImage.SetPixel(w, h, imageNoBorder.GetPixel(w - borderThickness, h));
-                            }
+                            if (w - borderThickness < imageNoBorder.Width && w >= borderThickness)
+                                framedImage.SetPixel(w, h, imageNoBorder.GetPixel(w - borderThickness, h));
                         }
                     }
 
