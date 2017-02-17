@@ -48,7 +48,7 @@ namespace WhipsImageConverter
             }
         }
 
-        void CacheImages()
+        void CacheImages(bool getBaseImage = true)
         {
             //Check if file exists
             fileDirectory = textBox_FileDirectory.Text;
@@ -67,7 +67,8 @@ namespace WhipsImageConverter
                 return;
             }
 
-            baseImage = (Bitmap)Image.FromFile(fileDirectory, true);
+            if (getBaseImage)
+                baseImage = (Bitmap)Image.FromFile(fileDirectory, true);
 
             bool maintainAspectRatio = checkBox_aspectratio.Checked; //default is false
 
@@ -1615,7 +1616,7 @@ namespace WhipsImageConverter
 
             if (combobox_resize.SelectedIndex == 2)
             {
-                var confirmResult = MessageBox.Show("Selecting '(None)' for the resizing option can cause the code to take longer than normal and can lead to unexected errors!\n\nContinue?", 
+                var confirmResult = MessageBox.Show("Selecting '(None)' for the resizing option can cause the code to take longer than normal and can lead to unexpected crashes!\n\nContinue?", 
                     "WARNING:", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
                 if (confirmResult == DialogResult.No)
                 {
@@ -1633,6 +1634,34 @@ namespace WhipsImageConverter
 
             CacheImages();
             DitherImage();
+        }
+
+        private void buttonRotateCCW_Click(object sender, EventArgs e)
+        {
+            RotateImage(false);
+        }
+
+        private void buttonRotateCW_Click(object sender, EventArgs e)
+        {
+            RotateImage(true);
+        }
+
+        void RotateImage(bool clockwise)
+        {
+            if (baseImage == null)
+                return;
+
+            if (clockwise)
+            {
+                baseImage.RotateFlip(RotateFlipType.Rotate90FlipNone);
+            }
+            else
+            {
+                baseImage.RotateFlip(RotateFlipType.Rotate270FlipNone);
+            }
+
+            CacheImages(false); //cache rotated images
+            DitherImage(); //rotated image dithering
         }
     }
 }

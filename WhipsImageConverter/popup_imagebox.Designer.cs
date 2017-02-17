@@ -50,6 +50,7 @@
             // button_saveimage
             // 
             this.button_saveimage.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.button_saveimage.Cursor = System.Windows.Forms.Cursors.Hand;
             this.button_saveimage.Location = new System.Drawing.Point(354, 472);
             this.button_saveimage.Name = "button_saveimage";
             this.button_saveimage.Size = new System.Drawing.Size(126, 36);

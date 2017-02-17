@@ -127,7 +127,9 @@
     <EmbeddedResource Include="Resources\nasa_original.PNG" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\CCW arrow.png" />
     <Content Include="Emblem.ico" />
+    <EmbeddedResource Include="Resources\CW arrow.png" />
     <Content Include="Resources\Emblem.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

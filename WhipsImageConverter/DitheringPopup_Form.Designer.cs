@@ -108,6 +108,7 @@
             this.Controls.Add(this.OriginalBox);
             this.Controls.Add(this.NoDitherBox);
             this.Controls.Add(this.DitherBox);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "DitheringPopup";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ImageToLCD));
             this.button_Convert = new System.Windows.Forms.Button();
             this.ImagePreviewBox = new System.Windows.Forms.PictureBox();
@@ -53,13 +54,17 @@
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.checkBox_aspectratio = new System.Windows.Forms.CheckBox();
+            this.buttonRotateCW = new System.Windows.Forms.Button();
+            this.buttonRotateCCW = new System.Windows.Forms.Button();
+            this.toolTipRotate = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.ImagePreviewBox)).BeginInit();
             this.SuspendLayout();
             // 
             // button_Convert
             // 
+            this.button_Convert.Cursor = System.Windows.Forms.Cursors.Hand;
             this.button_Convert.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_Convert.Location = new System.Drawing.Point(528, 331);
+            this.button_Convert.Location = new System.Drawing.Point(526, 334);
             this.button_Convert.Name = "button_Convert";
             this.button_Convert.Size = new System.Drawing.Size(151, 42);
             this.button_Convert.TabIndex = 0;
@@ -74,6 +79,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ImagePreviewBox.BackColor = System.Drawing.SystemColors.ControlDark;
             this.ImagePreviewBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.ImagePreviewBox.Cursor = System.Windows.Forms.Cursors.Hand;
             this.ImagePreviewBox.Location = new System.Drawing.Point(12, 29);
             this.ImagePreviewBox.Name = "ImagePreviewBox";
             this.ImagePreviewBox.Size = new System.Drawing.Size(356, 356);
@@ -94,7 +100,8 @@
             // 
             // BrowseButton
             // 
-            this.BrowseButton.Location = new System.Drawing.Point(757, 186);
+            this.BrowseButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.BrowseButton.Location = new System.Drawing.Point(757, 193);
             this.BrowseButton.Name = "BrowseButton";
             this.BrowseButton.Size = new System.Drawing.Size(75, 36);
             this.BrowseButton.TabIndex = 7;
@@ -136,6 +143,7 @@
             // 
             // button_Clipboard
             // 
+            this.button_Clipboard.Cursor = System.Windows.Forms.Cursors.Hand;
             this.button_Clipboard.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_Clipboard.Location = new System.Drawing.Point(330, 521);
             this.button_Clipboard.Name = "button_Clipboard";
@@ -176,6 +184,7 @@
             // 
             // linkLabel_Dithering
             // 
+            this.linkLabel_Dithering.Cursor = System.Windows.Forms.Cursors.Hand;
             this.linkLabel_Dithering.Location = new System.Drawing.Point(566, 65);
             this.linkLabel_Dithering.Name = "linkLabel_Dithering";
             this.linkLabel_Dithering.Size = new System.Drawing.Size(134, 17);
@@ -187,6 +196,7 @@
             // linkLabel_Credits
             // 
             this.linkLabel_Credits.AutoSize = true;
+            this.linkLabel_Credits.Cursor = System.Windows.Forms.Cursors.Hand;
             this.linkLabel_Credits.Location = new System.Drawing.Point(23, 565);
             this.linkLabel_Credits.Name = "linkLabel_Credits";
             this.linkLabel_Credits.Size = new System.Drawing.Size(129, 17);
@@ -198,6 +208,7 @@
             // linkLabel_Dithering2
             // 
             this.linkLabel_Dithering2.BackColor = System.Drawing.SystemColors.Control;
+            this.linkLabel_Dithering2.Cursor = System.Windows.Forms.Cursors.Hand;
             this.linkLabel_Dithering2.Location = new System.Drawing.Point(706, 65);
             this.linkLabel_Dithering2.Name = "linkLabel_Dithering2";
             this.linkLabel_Dithering2.Size = new System.Drawing.Size(134, 17);
@@ -218,6 +229,7 @@
             // 
             // combobox_dither
             // 
+            this.combobox_dither.Cursor = System.Windows.Forms.Cursors.Hand;
             this.combobox_dither.FormattingEnabled = true;
             this.combobox_dither.Items.AddRange(new object[] {
             "(None)",
@@ -253,6 +265,7 @@
             // 
             // combobox_resize
             // 
+            this.combobox_resize.Cursor = System.Windows.Forms.Cursors.Hand;
             this.combobox_resize.FormattingEnabled = true;
             this.combobox_resize.Items.AddRange(new object[] {
             "Square (178x178)",
@@ -305,11 +318,42 @@
             this.checkBox_aspectratio.UseVisualStyleBackColor = true;
             this.checkBox_aspectratio.CheckedChanged += new System.EventHandler(this.checkBox_aspectratio_CheckedChanged);
             // 
+            // buttonRotateCW
+            // 
+            this.buttonRotateCW.BackgroundImage = global::WhipsImageConverter.Properties.Resources.CW_arrow;
+            this.buttonRotateCW.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.buttonRotateCW.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.buttonRotateCW.Font = new System.Drawing.Font("Century", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonRotateCW.Location = new System.Drawing.Point(12, 353);
+            this.buttonRotateCW.Name = "buttonRotateCW";
+            this.buttonRotateCW.Size = new System.Drawing.Size(32, 32);
+            this.buttonRotateCW.TabIndex = 27;
+            this.buttonRotateCW.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.toolTipRotate.SetToolTip(this.buttonRotateCW, "Rotate Image Clockwise");
+            this.buttonRotateCW.UseVisualStyleBackColor = true;
+            this.buttonRotateCW.Click += new System.EventHandler(this.buttonRotateCW_Click);
+            // 
+            // buttonRotateCCW
+            // 
+            this.buttonRotateCCW.BackgroundImage = global::WhipsImageConverter.Properties.Resources.CCW_arrow;
+            this.buttonRotateCCW.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.buttonRotateCCW.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.buttonRotateCCW.Font = new System.Drawing.Font("Century", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonRotateCCW.Location = new System.Drawing.Point(336, 353);
+            this.buttonRotateCCW.Name = "buttonRotateCCW";
+            this.buttonRotateCCW.Size = new System.Drawing.Size(32, 32);
+            this.buttonRotateCCW.TabIndex = 28;
+            this.toolTipRotate.SetToolTip(this.buttonRotateCCW, "Rotate Counter-Clockwise");
+            this.buttonRotateCCW.UseVisualStyleBackColor = true;
+            this.buttonRotateCCW.Click += new System.EventHandler(this.buttonRotateCCW_Click);
+            // 
             // ImageToLCD
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(862, 593);
+            this.Controls.Add(this.buttonRotateCCW);
+            this.Controls.Add(this.buttonRotateCW);
             this.Controls.Add(this.checkBox_aspectratio);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.label8);
@@ -339,7 +383,7 @@
             this.MinimizeBox = false;
             this.Name = "ImageToLCD";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Whip\'s Image Converter Beta8- 1.17.17";
+            this.Text = "Whip\'s Image Converter Beta10 - 2.16.17";
             ((System.ComponentModel.ISupportInitialize)(this.ImagePreviewBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -372,6 +416,9 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.CheckBox checkBox_aspectratio;
+        private System.Windows.Forms.Button buttonRotateCW;
+        private System.Windows.Forms.ToolTip toolTipRotate;
+        private System.Windows.Forms.Button buttonRotateCCW;
     }
 }
 
