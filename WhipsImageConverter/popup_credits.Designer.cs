@@ -72,6 +72,7 @@
             // link_wiki
             // 
             this.link_wiki.AutoSize = true;
+            this.link_wiki.Cursor = System.Windows.Forms.Cursors.Hand;
             this.link_wiki.Location = new System.Drawing.Point(22, 39);
             this.link_wiki.Name = "link_wiki";
             this.link_wiki.Size = new System.Drawing.Size(426, 17);
@@ -83,6 +84,7 @@
             // link_stackOverflow
             // 
             this.link_stackOverflow.AutoSize = true;
+            this.link_stackOverflow.Cursor = System.Windows.Forms.Cursors.Hand;
             this.link_stackOverflow.Location = new System.Drawing.Point(22, 136);
             this.link_stackOverflow.Name = "link_stackOverflow";
             this.link_stackOverflow.Size = new System.Drawing.Size(749, 17);
@@ -105,6 +107,7 @@
             // link_tanner
             // 
             this.link_tanner.AutoSize = true;
+            this.link_tanner.Cursor = System.Windows.Forms.Cursors.Hand;
             this.link_tanner.Location = new System.Drawing.Point(22, 60);
             this.link_tanner.Name = "link_tanner";
             this.link_tanner.Size = new System.Drawing.Size(492, 17);
@@ -116,6 +119,7 @@
             // link_efg2
             // 
             this.link_efg2.AutoSize = true;
+            this.link_efg2.Cursor = System.Windows.Forms.Cursors.Hand;
             this.link_efg2.Location = new System.Drawing.Point(22, 81);
             this.link_efg2.Name = "link_efg2";
             this.link_efg2.Size = new System.Drawing.Size(401, 17);

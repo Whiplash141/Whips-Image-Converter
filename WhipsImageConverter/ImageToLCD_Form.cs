@@ -21,6 +21,7 @@ namespace WhipsImageConverter
 
         Bitmap squareImage;
         Bitmap rectangleImage;
+        Bitmap cornerImage;
         Bitmap baseImage;
         Bitmap convertedImage;
         Bitmap desiredImage;
@@ -76,11 +77,13 @@ namespace WhipsImageConverter
             {
                 squareImage = new Bitmap(baseImage, new Size(178, 178));
                 rectangleImage = new Bitmap(baseImage, new Size(356, 178));
+                cornerImage = new Bitmap(baseImage, new Size(178, 30));
             }
             else
             {
                 squareImage = FrameImage(baseImage, 178, 178);
                 rectangleImage = FrameImage(baseImage, 356, 178);
+                cornerImage = FrameImage(baseImage, 178, 30);
             }
 
             imageLoaded = true;
@@ -180,17 +183,18 @@ namespace WhipsImageConverter
             {
                 case 0:
                     desiredImage = squareImage;
-                    //ImagePreviewBox.Height = ImagePreviewBox.Width;
                     break;
 
                 case 1:
                     desiredImage = rectangleImage;
-                    //ImagePreviewBox.Height = ImagePreviewBox.Width / 2;
                     break;
 
                 case 2:
+                    desiredImage = cornerImage;
+                    break;
+
+                case 3:
                     desiredImage = baseImage;
-                    //ImagePreviewBox.Height = ImagePreviewBox.Width;
                     break;
             }
             
@@ -239,84 +243,6 @@ namespace WhipsImageConverter
             label_stringLength.Text = $"String Length: {textBox_Return.Text.Length}";
             MessageBox.Show("Image Converted"); //successful conversion
         }
-
-        /*
-        void ConvertImage()
-        {
-            //Check if file exists
-            fileDirectory = textBox_FileDirectory.Text;
-
-            bool fileExists = File.Exists(fileDirectory);
-
-            if (!fileExists)
-            {
-                MessageBox.Show("Error! Filepath is invalid");
-                return;
-            }
-
-            //Check if valid file type
-            if (!(fileDirectory.ToLower().EndsWith(".png") || fileDirectory.ToLower().EndsWith(".jpg") || fileDirectory.EndsWith(".jpeg") || fileDirectory.EndsWith(".bmp")))
-            {
-                MessageBox.Show("Error! File must be a png or jpg or bmp image");
-                return;
-            }
-
-            //Get our image
-            Bitmap image = (Bitmap)Image.FromFile(fileDirectory, true);
-
-            //Get resize parameters
-            switch (combobox_resize.SelectedIndex)
-            {
-                case 0:
-                    image = new Bitmap(image, new Size(178, 178));
-                    //ImagePreviewBox.Height = ImagePreviewBox.Width;
-                    break;
-
-                case 1:
-                    image = new Bitmap(image, new Size(356, 178));
-                    //ImagePreviewBox.Height = ImagePreviewBox.Width / 2;
-                    break;
-
-                case 2:
-                    //do nothing because no resize
-                    ImagePreviewBox.Height = ImagePreviewBox.Width;
-                    break;
-            }
-
-            //Get image dimensions
-            int width = image.Width;
-            int height = image.Height;
-
-            //Initialize empty color array
-            var colorArray  = new Color[height, width];
-
-            //Get dithering type
-            int type = combobox_dither.SelectedIndex;
-
-            //Assign color array based on dithering options
-            if (type == 0) //no dithering
-            {
-                colorArray = NoDithering(image, width, height);
-            }
-            else //dithering
-            {
-                colorArray = Dithering(image, width, height, type);
-            }
-
-            //Create encoded string
-            string convertedImageString = BuildFinalString(colorArray, width, height);
-
-            //Create converted image
-            var convertedImage = ArrayToBmp(colorArray, width, height);
-
-            //Display converted image and encoded string
-            textBox_Return.Text = convertedImageString;
-            //textBox_Return.Text = debug.ToString(); //for debugging
-            ImagePreviewBox.Image = convertedImage;
-            label_stringLength.Text = $"String Length: {textBox_Return.Text.Length}";
-            MessageBox.Show("Image Converted"); //successful conversion
-        }
-        */
 
         public Color3 ColorToColor3(Color regularColor)
         {
@@ -649,196 +575,6 @@ namespace WhipsImageConverter
 
             return colorArray;
         }
-
-        /*
-         private Color[,] Dithering(Bitmap image, int width, int height, int type)
-        {
-            Color[,] initialColorArray = new Color[height, width];
-
-            for (int row = 0; row < height; row++)
-            {
-                for (int col = 0; col < width; col++)
-                {
-                    initialColorArray[row, col] = image.GetPixel(col, row);
-                }
-            }
-
-            Color[,] convertedColorArray = new Color[height, width];
-
-            for (int row = 0; row < height; row++)
-            {
-                for (int col = 0; col < width; col++)
-                {
-                    var oldColor = initialColorArray[row, col];
-                    var newColor = GetClosestColor(oldColor);
-                    convertedColorArray[row, col] = newColor;
-
-                    Color error = ColorSubtract(oldColor, newColor);
-
-                    if (type == 1)
-                    {
-                        if (col + 1 < width)
-                        {
-                            initialColorArray[row, col + 1] = ColorAdd(initialColorArray[row, col + 1], ColorMultiply(7f / 16f, error));
-                        }
-
-                        if (col - 1 >= 0 && row + 1 < height)
-                        {
-                            initialColorArray[row + 1, col - 1] = ColorAdd(initialColorArray[row + 1, col - 1], ColorMultiply(3f / 16f, error));
-                        }
-
-                        if (row + 1 < height)
-                        {
-                            initialColorArray[row + 1, col] = ColorAdd(initialColorArray[row + 1, col], ColorMultiply(5f / 16f, error));
-                        }
-
-                        if (col + 1 < width && row + 1 < height)
-                        {
-                            initialColorArray[row + 1, col + 1] = ColorAdd(initialColorArray[row + 1, col + 1], ColorMultiply(1f / 16f, error));
-                        }
-                    }
-                    else if (type == 2) //Jarvis
-                    {
-                        if (row + 2 < height)
-                        {
-                            initialColorArray[row + 2, col] = ColorAdd(initialColorArray[row + 2, col], ColorMultiply(5f / 48f, error));
-
-                            if (col - 2 >= 0)
-                            {
-                                initialColorArray[row + 2, col - 2] = ColorAdd(initialColorArray[row + 2, col - 2], ColorMultiply(1f / 48f, error));
-                            }
-                            if (col - 1 >= 0)
-                            {
-                                initialColorArray[row + 2, col - 1] = ColorAdd(initialColorArray[row + 2, col - 1], ColorMultiply(3f / 48f, error));
-                            }
-
-                            if (col + 1 < width)
-                            {
-                                initialColorArray[row + 2, col + 1] = ColorAdd(initialColorArray[row + 2, col + 1], ColorMultiply(3f / 48f, error));
-                            }
-
-                            if (col + 2 < width)
-                            {
-                                initialColorArray[row + 2, col + 2] = ColorAdd(initialColorArray[row + 2, col + 2], ColorMultiply(1f / 48f, error));
-                            }
-                        }
-
-                        if (row + 1 < height)
-                        {
-                            initialColorArray[row + 1, col] = ColorAdd(initialColorArray[row + 1, col], ColorMultiply(7f / 48f, error));
-
-                            if (col - 2 >= 0)
-                            {
-                                initialColorArray[row + 1, col - 2] = ColorAdd(initialColorArray[row + 1, col - 2], ColorMultiply(3f / 48f, error));
-                            }
-                            if (col - 1 >= 0)
-                            {
-                                initialColorArray[row + 1, col - 1] = ColorAdd(initialColorArray[row + 1, col - 1], ColorMultiply(5f / 48f, error));
-                            }
-
-                            if (col + 1 < width)
-                            {
-                                initialColorArray[row + 1, col + 1] = ColorAdd(initialColorArray[row + 1, col + 1], ColorMultiply(5f / 48f, error));
-                            }
-
-                            if (col + 2 < width)
-                            {
-                                initialColorArray[row + 1, col + 2] = ColorAdd(initialColorArray[row + 1, col + 2], ColorMultiply(3f / 48f, error));
-                            }
-                        }
-
-                        if (col + 1 < width)
-                        {
-                            initialColorArray[row, col + 1] = ColorAdd(initialColorArray[row, col + 1], ColorMultiply(7f / 48f, error));
-                        }
-
-                        if (col + 2 < width)
-                        {
-                            initialColorArray[row, col + 2] = ColorAdd(initialColorArray[row, col + 2], ColorMultiply(5f / 48f, error));
-                        }
-                    }
-                    else if (type == 3) //stucci
-                    {
-                        if (row + 2 < height)
-                        {
-                            initialColorArray[row + 2, col] = ColorAdd(initialColorArray[row + 2, col], ColorMultiply(4f / 48f, error));
-
-                            if (col - 2 >= 0)
-                            {
-                                initialColorArray[row + 2, col - 2] = ColorAdd(initialColorArray[row + 2, col - 2], ColorMultiply(1f / 48f, error));
-                            }
-                            if (col - 1 >= 0)
-                            {
-                                initialColorArray[row + 2, col - 1] = ColorAdd(initialColorArray[row + 2, col - 1], ColorMultiply(2f / 48f, error));
-                            }
-
-                            if (col + 1 < width)
-                            {
-                                initialColorArray[row + 2, col + 1] = ColorAdd(initialColorArray[row + 2, col + 1], ColorMultiply(2f / 48f, error));
-                            }
-
-                            if (col + 2 < width)
-                            {
-                                initialColorArray[row + 2, col + 2] = ColorAdd(initialColorArray[row + 2, col + 2], ColorMultiply(1f / 48f, error));
-                            }
-                        }
-
-                        if (row + 1 < height)
-                        {
-                            initialColorArray[row + 1, col] = ColorAdd(initialColorArray[row + 1, col], ColorMultiply(8f / 48f, error));
-
-                            if (col - 2 >= 0)
-                            {
-                                initialColorArray[row + 1, col - 2] = ColorAdd(initialColorArray[row + 1, col - 2], ColorMultiply(2f / 48f, error));
-                            }
-                            if (col - 1 >= 0)
-                            {
-                                initialColorArray[row + 1, col - 1] = ColorAdd(initialColorArray[row + 1, col - 1], ColorMultiply(4f / 48f, error));
-                            }
-
-                            if (col + 1 < width)
-                            {
-                                initialColorArray[row + 1, col + 1] = ColorAdd(initialColorArray[row + 1, col + 1], ColorMultiply(4f / 48f, error));
-                            }
-
-                            if (col + 2 < width)
-                            {
-                                initialColorArray[row + 1, col + 2] = ColorAdd(initialColorArray[row + 1, col + 2], ColorMultiply(2f / 48f, error));
-                            }
-                        }
-
-                        if (col + 1 < width)
-                        {
-                            initialColorArray[row, col + 1] = ColorAdd(initialColorArray[row, col + 1], ColorMultiply(8f / 48f, error));
-                        }
-
-                        if (col + 2 < width)
-                        {
-                            initialColorArray[row, col + 2] = ColorAdd(initialColorArray[row, col + 2], ColorMultiply(4f / 48f, error));
-                        }
-                    }
-                }
-            }
-           
-            return convertedColorArray;
-        }
-
-        private Color[,] NoDithering(Bitmap image, int width, int height)
-        {
-            Color[,]colorArray = new Color[height, width];
-
-            for (int row = 0; row < height; row++)
-            {
-                for (int col = 0; col < width; col++)
-                {
-                    Color pixelColor = image.GetPixel(col, row);
-                    colorArray[row, col] = GetClosestColor(pixelColor);
-                }
-            }
-
-            return colorArray;
-        }
-        */
 
         //Manhattan distance
         int ColorDiff(Color color1, Color color2)
@@ -1570,9 +1306,6 @@ namespace WhipsImageConverter
             {
                 var popup_image = new popup_imagebox((Bitmap)ImagePreviewBox.Image);
                 popup_image.Show();
-                /*saveFileDialog1.Filter = "PNG Image|*.png|Bitmap Image|*.bmp|JPEG Image|*.jpg";
-                saveFileDialog1.Title = "Save Converted Image File";
-                saveFileDialog1.ShowDialog();*/
             }
         }
 
@@ -1586,6 +1319,7 @@ namespace WhipsImageConverter
 
             //reset return string
             textBox_Return.Text = "";
+            label_stringLength.Text = "String Length: 0";
 
             CacheImages(); //cache all image size
             DitherImage(); //initial image dithering
@@ -1605,6 +1339,7 @@ namespace WhipsImageConverter
         {
             //reset return string
             textBox_Return.Text = "";
+            label_stringLength.Text = "String Length: 0";
 
             DitherImage();
         }
@@ -1613,8 +1348,9 @@ namespace WhipsImageConverter
         {
             //reset return string
             textBox_Return.Text = "";
+            label_stringLength.Text = "String Length: 0";
 
-            if (combobox_resize.SelectedIndex == 2)
+            if (combobox_resize.SelectedIndex == 3)
             {
                 var confirmResult = MessageBox.Show("Selecting '(None)' for the resizing option can cause the code to take longer than normal and can lead to unexpected crashes!\n\nContinue?", 
                     "WARNING:", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
@@ -1659,6 +1395,28 @@ namespace WhipsImageConverter
             {
                 baseImage.RotateFlip(RotateFlipType.Rotate270FlipNone);
             }
+
+            CacheImages(false); //cache rotated images
+            DitherImage(); //rotated image dithering
+        }
+
+        private void buttonFlipHorizontal_Click(object sender, EventArgs e)
+        {
+            if (baseImage == null)
+                return;
+
+            baseImage.RotateFlip(RotateFlipType.RotateNoneFlipX);
+
+            CacheImages(false); //cache rotated images
+            DitherImage(); //rotated image dithering
+        }
+
+        private void buttonFlipVertical_Click(object sender, EventArgs e)
+        {
+            if (baseImage == null)
+                return;
+
+            baseImage.RotateFlip(RotateFlipType.RotateNoneFlipY);
 
             CacheImages(false); //cache rotated images
             DitherImage(); //rotated image dithering

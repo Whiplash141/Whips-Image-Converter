@@ -56,7 +56,9 @@
             this.checkBox_aspectratio = new System.Windows.Forms.CheckBox();
             this.buttonRotateCW = new System.Windows.Forms.Button();
             this.buttonRotateCCW = new System.Windows.Forms.Button();
-            this.toolTipRotate = new System.Windows.Forms.ToolTip(this.components);
+            this.toolTipMaster = new System.Windows.Forms.ToolTip(this.components);
+            this.buttonFlipHorizontal = new System.Windows.Forms.Button();
+            this.buttonFlipVertical = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.ImagePreviewBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -86,6 +88,7 @@
             this.ImagePreviewBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.ImagePreviewBox.TabIndex = 1;
             this.ImagePreviewBox.TabStop = false;
+            this.toolTipMaster.SetToolTip(this.ImagePreviewBox, "Click to enlarge");
             this.ImagePreviewBox.Click += new System.EventHandler(this.ImagePreviewBox_Click);
             // 
             // label2
@@ -270,6 +273,7 @@
             this.combobox_resize.Items.AddRange(new object[] {
             "Square (178x178)",
             "Wide (356x178)",
+            "Corner (178x32)",
             "(None)"});
             this.combobox_resize.Location = new System.Drawing.Point(409, 268);
             this.combobox_resize.Name = "combobox_resize";
@@ -310,6 +314,7 @@
             this.checkBox_aspectratio.AutoSize = true;
             this.checkBox_aspectratio.Checked = true;
             this.checkBox_aspectratio.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_aspectratio.Cursor = System.Windows.Forms.Cursors.Hand;
             this.checkBox_aspectratio.Location = new System.Drawing.Point(409, 298);
             this.checkBox_aspectratio.Name = "checkBox_aspectratio";
             this.checkBox_aspectratio.Size = new System.Drawing.Size(167, 21);
@@ -329,7 +334,7 @@
             this.buttonRotateCW.Size = new System.Drawing.Size(32, 32);
             this.buttonRotateCW.TabIndex = 27;
             this.buttonRotateCW.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.toolTipRotate.SetToolTip(this.buttonRotateCW, "Rotate Image Clockwise");
+            this.toolTipMaster.SetToolTip(this.buttonRotateCW, "Rotate clockwise");
             this.buttonRotateCW.UseVisualStyleBackColor = true;
             this.buttonRotateCW.Click += new System.EventHandler(this.buttonRotateCW_Click);
             // 
@@ -343,15 +348,43 @@
             this.buttonRotateCCW.Name = "buttonRotateCCW";
             this.buttonRotateCCW.Size = new System.Drawing.Size(32, 32);
             this.buttonRotateCCW.TabIndex = 28;
-            this.toolTipRotate.SetToolTip(this.buttonRotateCCW, "Rotate Counter-Clockwise");
+            this.toolTipMaster.SetToolTip(this.buttonRotateCCW, "Rotate counter-clockwise");
             this.buttonRotateCCW.UseVisualStyleBackColor = true;
             this.buttonRotateCCW.Click += new System.EventHandler(this.buttonRotateCCW_Click);
+            // 
+            // buttonFlipHorizontal
+            // 
+            this.buttonFlipHorizontal.BackgroundImage = global::WhipsImageConverter.Properties.Resources.Double_headed_arrow;
+            this.buttonFlipHorizontal.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.buttonFlipHorizontal.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.buttonFlipHorizontal.Location = new System.Drawing.Point(152, 353);
+            this.buttonFlipHorizontal.Name = "buttonFlipHorizontal";
+            this.buttonFlipHorizontal.Size = new System.Drawing.Size(32, 32);
+            this.buttonFlipHorizontal.TabIndex = 29;
+            this.toolTipMaster.SetToolTip(this.buttonFlipHorizontal, "Flip horizontally");
+            this.buttonFlipHorizontal.UseVisualStyleBackColor = true;
+            this.buttonFlipHorizontal.Click += new System.EventHandler(this.buttonFlipHorizontal_Click);
+            // 
+            // buttonFlipVertical
+            // 
+            this.buttonFlipVertical.BackgroundImage = global::WhipsImageConverter.Properties.Resources.Double_headed_arrow_rotated;
+            this.buttonFlipVertical.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.buttonFlipVertical.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.buttonFlipVertical.Location = new System.Drawing.Point(190, 353);
+            this.buttonFlipVertical.Name = "buttonFlipVertical";
+            this.buttonFlipVertical.Size = new System.Drawing.Size(32, 32);
+            this.buttonFlipVertical.TabIndex = 30;
+            this.toolTipMaster.SetToolTip(this.buttonFlipVertical, "Flip vertically");
+            this.buttonFlipVertical.UseVisualStyleBackColor = true;
+            this.buttonFlipVertical.Click += new System.EventHandler(this.buttonFlipVertical_Click);
             // 
             // ImageToLCD
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(862, 593);
+            this.Controls.Add(this.buttonFlipVertical);
+            this.Controls.Add(this.buttonFlipHorizontal);
             this.Controls.Add(this.buttonRotateCCW);
             this.Controls.Add(this.buttonRotateCW);
             this.Controls.Add(this.checkBox_aspectratio);
@@ -383,7 +416,7 @@
             this.MinimizeBox = false;
             this.Name = "ImageToLCD";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Whip\'s Image Converter Beta10 - 2.16.17";
+            this.Text = "Whip\'s Image Converter Beta11 - 3.1.17";
             ((System.ComponentModel.ISupportInitialize)(this.ImagePreviewBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -417,8 +450,10 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.CheckBox checkBox_aspectratio;
         private System.Windows.Forms.Button buttonRotateCW;
-        private System.Windows.Forms.ToolTip toolTipRotate;
+        private System.Windows.Forms.ToolTip toolTipMaster;
         private System.Windows.Forms.Button buttonRotateCCW;
+        private System.Windows.Forms.Button buttonFlipHorizontal;
+        private System.Windows.Forms.Button buttonFlipVertical;
     }
 }
 

@@ -130,6 +130,7 @@
     <EmbeddedResource Include="Resources\CCW arrow.png" />
     <Content Include="Emblem.ico" />
     <EmbeddedResource Include="Resources\CW arrow.png" />
+    <EmbeddedResource Include="Resources\Double headed arrow rotated.png" />
     <Content Include="Resources\Emblem.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
