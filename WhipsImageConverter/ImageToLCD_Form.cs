@@ -5,7 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Windows.Forms;
 using System.Drawing.Imaging;
 using System.IO;
@@ -33,6 +33,8 @@ namespace WhipsImageConverter
         int imageHeight = 0;
 
         List<Color> allowedColors = new List<Color>();
+
+        ImageLoadProgressForm progressBarForm = new ImageLoadProgressForm();
 
         void ConstructColorMap()
         {
@@ -174,8 +176,7 @@ namespace WhipsImageConverter
             {
                 return;
             }
-            
-            
+
             desiredImage = baseImage;
             
             //Get resize parameters
@@ -210,17 +211,14 @@ namespace WhipsImageConverter
             int type = combobox_dither.SelectedIndex;
 
             //Assign color array based on dithering options
-            if (type == 0) //no dithering
-            {
-                convertedColorArray = NoDithering(desiredImage, imageWidth, imageHeight);
-            }
-            else //dithering
-            {
-                convertedColorArray = Dithering(desiredImage, imageWidth, imageHeight, type);
-            }
+            StartBackgroundWorker(type);
+        }
 
-            convertedImage = ArrayToBmp(convertedColorArray, imageWidth, imageHeight);
-            ImagePreviewBox.Image = convertedImage;
+        public int GetPercentCompletion(int maxRows, int maxColumns, int currentRow, int currentColumn)
+        {
+            int maximumValue = maxRows * maxColumns;
+            int currentValue = currentRow * maxColumns + (currentColumn + 1);
+            return (int)((float)currentValue / maximumValue * 100f);
         }
 
         void ConvertImage()
@@ -407,153 +405,8 @@ namespace WhipsImageConverter
                             continue;
                     }
 
-                    #region Old Dithering Filters
-                    /*
-                    if (type == 1)
-                    {
-                        if (col + 1 < width)
-                        {
-                            initialColorArray[row, col + 1] = initialColorArray[row, col + 1].Add(error.Multiply(7f / 16f));
-                        }
-
-                        if (col - 1 >= 0 && row + 1 < height)
-                        {
-                            initialColorArray[row + 1, col - 1] = initialColorArray[row + 1, col - 1].Add( error.Multiply(3f / 16f));
-                        }
-
-                        if (row + 1 < height)
-                        {
-                            initialColorArray[row + 1, col] = initialColorArray[row + 1, col].Add(error.Multiply(5f / 16f));
-                        }
-
-                        if (col + 1 < width && row + 1 < height)
-                        {
-                            initialColorArray[row + 1, col + 1] = initialColorArray[row + 1, col + 1].Add(error.Multiply(1f / 16f)); ;
-                        }
-                    }
-                    else if (type == 2) //Jarvis
-                    {
-                        if (row + 2 < height)
-                        {
-                            initialColorArray[row + 2, col] = initialColorArray[row + 2, col].Add(error.Multiply(5f / 48f));
-
-                            if (col - 2 >= 0)
-                            {
-                                initialColorArray[row + 2, col - 2] = initialColorArray[row + 2, col - 2].Add(error.Multiply(1f / 48f));
-                            }
-                            if (col - 1 >= 0)
-                            {
-                                initialColorArray[row + 2, col - 1] = initialColorArray[row + 2, col - 1].Add(error.Multiply(3f / 48f));
-                            }
-
-                            if (col + 1 < width)
-                            {
-                                initialColorArray[row + 2, col + 1] = initialColorArray[row + 2, col + 1].Add(error.Multiply(3f / 48f));
-                            }
-
-                            if (col + 2 < width)
-                            {
-                                initialColorArray[row + 2, col + 2] = initialColorArray[row + 2, col + 2].Add(error.Multiply(1f / 48f));
-                            }
-                        }
-
-                        if (row + 1 < height)
-                        {
-                            initialColorArray[row + 1, col] = initialColorArray[row + 1, col].Add(error.Multiply(7f / 48f));
-
-                            if (col - 2 >= 0)
-                            {
-                                initialColorArray[row + 1, col - 2] = initialColorArray[row + 1, col - 2].Add(error.Multiply(3f / 48f));
-                            }
-                            if (col - 1 >= 0)
-                            {
-                                initialColorArray[row + 1, col - 1] = initialColorArray[row + 1, col - 1].Add(error.Multiply(5f / 48f));
-                            }
-
-                            if (col + 1 < width)
-                            {
-                                initialColorArray[row + 1, col + 1] = initialColorArray[row + 1, col + 1].Add(error.Multiply(5f / 48f));
-                            }
-
-                            if (col + 2 < width)
-                            {
-                                initialColorArray[row + 1, col + 2] = initialColorArray[row + 1, col + 2].Add(error.Multiply(3f / 48f));
-                            }
-                        }
-
-                        if (col + 1 < width)
-                        {
-                            initialColorArray[row, col + 1] = initialColorArray[row, col + 1].Add(error.Multiply(7f / 48f));
-                        }
-
-                        if (col + 2 < width)
-                        {
-                            initialColorArray[row, col + 2] = initialColorArray[row, col + 2].Add(error.Multiply(5f / 48f));
-                        }
-                    }
-                    
-                    else if (type == 3) //stucci
-                    {
-                        if (row + 2 < height)
-                        {
-                            initialColorArray[row + 2, col] = initialColorArray[row + 2, col].Add(error.Multiply(4f / 48f));
-
-                            if (col - 2 >= 0)
-                            {
-                                initialColorArray[row + 2, col - 2] = initialColorArray[row + 2, col - 2].Add(error.Multiply(1f / 48f));
-                            }
-                            if (col - 1 >= 0)
-                            {
-                                initialColorArray[row + 2, col - 1] = initialColorArray[row + 2, col - 1].Add(error.Multiply(2f / 48f));
-                            }
-
-                            if (col + 1 < width)
-                            {
-                                initialColorArray[row + 2, col + 1] = initialColorArray[row + 2, col + 1].Add(error.Multiply(2f / 48f));
-                            }
-
-                            if (col + 2 < width)
-                            {
-                                initialColorArray[row + 2, col + 2] = initialColorArray[row + 2, col + 2].Add(error.Multiply(1f / 48f));
-                            }
-                        }
-
-                        if (row + 1 < height)
-                        {
-                            initialColorArray[row + 1, col] = initialColorArray[row + 1, col].Add(error.Multiply(8f / 48f));
-
-                            if (col - 2 >= 0)
-                            {
-                                initialColorArray[row + 1, col - 2] = initialColorArray[row + 1, col - 2].Add(error.Multiply(2f / 48f));
-                            }
-                            if (col - 1 >= 0)
-                            {
-                                initialColorArray[row + 1, col - 1] = initialColorArray[row + 1, col - 1].Add(error.Multiply(4f / 48f));
-                            }
-
-                            if (col + 1 < width)
-                            {
-                                initialColorArray[row + 1, col + 1] = initialColorArray[row + 1, col + 1].Add(error.Multiply(4f / 48f));
-                            }
-
-                            if (col + 2 < width)
-                            {
-                                initialColorArray[row + 1, col + 2] =initialColorArray[row + 1, col + 2].Add(error.Multiply(2f / 48f));
-                            }
-                        }
-
-                        if (col + 1 < width)
-                        {
-                            initialColorArray[row, col + 1] = initialColorArray[row, col + 1].Add(error.Multiply(8f / 48f));
-                        }
-
-                        if (col + 2 < width)
-                        {
-                            initialColorArray[row, col + 2] = initialColorArray[row, col + 2].Add(error.Multiply(4f / 48f));
-                        }
-                    }
-                    */
-                    #endregion
+                    if (progressBarForm.DialogResult != DialogResult.Abort)
+                        backgroundWorker1.ReportProgress(GetPercentCompletion(height, width, row, col));
                 }
             }
            
@@ -570,6 +423,9 @@ namespace WhipsImageConverter
                 {
                     Color pixelColor = image.GetPixel(col, row);
                     colorArray[row, col] = GetClosestColor(pixelColor);
+
+                    if (progressBarForm.DialogResult != DialogResult.Abort)
+                            backgroundWorker1.ReportProgress(GetPercentCompletion(height, width, row, col));
                 }
             }
 
@@ -1309,8 +1165,10 @@ namespace WhipsImageConverter
             }
         }
 
+        bool newImageLoaded = false;
         private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
         {
+            newImageLoaded = true;
             textBox_FileDirectory.Text = openFileDialog1.FileName;
 
             //reset comboboxes to initial values
@@ -1323,16 +1181,7 @@ namespace WhipsImageConverter
 
             CacheImages(); //cache all image size
             DitherImage(); //initial image dithering
-        }
-
-        private void label4_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label9_Click(object sender, EventArgs e)
-        {
-
+            newImageLoaded = false;
         }
 
         private void combobox_dither_SelectedIndexChanged(object sender, EventArgs e)
@@ -1341,7 +1190,8 @@ namespace WhipsImageConverter
             textBox_Return.Text = "";
             label_stringLength.Text = "String Length: 0";
 
-            DitherImage();
+            if (!newImageLoaded)
+                DitherImage();
         }
 
         private void combobox_resize_SelectedIndexChanged(object sender, EventArgs e)
@@ -1356,11 +1206,14 @@ namespace WhipsImageConverter
                     "WARNING:", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
                 if (confirmResult == DialogResult.No)
                 {
+                    newImageLoaded = true; //this avoids double processing of the image
                     combobox_resize.SelectedIndex = 0; //reset selection index to a safe option
+                    newImageLoaded = false;
                 }
             }
 
-            DitherImage();
+            if (!newImageLoaded)
+                DitherImage();
         }
 
         private void checkBox_aspectratio_CheckedChanged(object sender, EventArgs e)
@@ -1421,5 +1274,64 @@ namespace WhipsImageConverter
             CacheImages(false); //cache rotated images
             DitherImage(); //rotated image dithering
         }
+
+        //bool abortLoad = false;
+        void ImageLoadProgressBarClosed(object sender, FormClosedEventArgs e)
+        {
+            if (progressBarForm.DialogResult == DialogResult.Abort)
+            {
+                backgroundWorker1.CancelAsync();
+                Close();
+                //Application.Exit();
+            }
+        }
+
+        #region Running the mathy crap in another thread
+
+        void StartBackgroundWorker(int type)
+        {
+            this.Enabled = false;
+
+            if (!backgroundWorker1.IsBusy)
+                backgroundWorker1.RunWorkerAsync(type);
+
+            progressBarForm = new ImageLoadProgressForm();
+            progressBarForm.FormClosed += ImageLoadProgressBarClosed;
+            progressBarForm.ShowDialog();
+        }
+
+        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+        {
+            if (backgroundWorker1.CancellationPending)
+            {
+                e.Cancel = true;
+                return;
+            }
+
+            if ((int)e.Argument == 0) //no dithering
+            {
+                convertedColorArray = NoDithering(desiredImage, imageWidth, imageHeight);
+            }
+            else //dithering
+            {
+                convertedColorArray = Dithering(desiredImage, imageWidth, imageHeight, (int)e.Argument);
+            }
+
+            //e.Result = convertedColorArray;
+        }
+
+        private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            progressBarForm.SetProgressBarValue(e.ProgressPercentage);
+        }
+
+        private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            progressBarForm.Close();
+            this.Enabled = true;
+            convertedImage = ArrayToBmp(convertedColorArray, imageWidth, imageHeight);
+            ImagePreviewBox.Image = convertedImage;
+        }
+        #endregion
     }
 }

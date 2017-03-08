@@ -20,25 +20,6 @@ namespace WhipsImageConverter
 
         private void ShowImages(int mode)
         {
-            /*var assembly = System.Reflection.Assembly.GetExecutingAssembly();
-            using (var imgStream = assembly.GetManifestResourceStream("WhipsImageConverter.original.png"))
-            {
-                var img = new Bitmap(imgStream);
-                OriginalBox.Image = img;
-            }
-
-            using (var imgStream = assembly.GetManifestResourceStream("WhipsImageConverter.dithering.png"))
-            {
-                var img = new Bitmap(imgStream);
-                DitherBox.Image = img;
-            }
-
-            using (var imgStream = assembly.GetManifestResourceStream("WhipsImageConverter.nodithering.png"))
-            {
-                var img = new Bitmap(imgStream);
-                NoDitherBox.Image = img;
-            }*/
-
             Bitmap originalBmp;
             Bitmap ditheringBmp;
             Bitmap noditheringBmp;

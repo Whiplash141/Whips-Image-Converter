@@ -59,6 +59,7 @@
             this.toolTipMaster = new System.Windows.Forms.ToolTip(this.components);
             this.buttonFlipHorizontal = new System.Windows.Forms.Button();
             this.buttonFlipVertical = new System.Windows.Forms.Button();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             ((System.ComponentModel.ISupportInitialize)(this.ImagePreviewBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -183,7 +184,6 @@
             this.label4.Size = new System.Drawing.Size(114, 20);
             this.label4.TabIndex = 14;
             this.label4.Text = "Instructions:";
-            this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
             // linkLabel_Dithering
             // 
@@ -273,7 +273,7 @@
             this.combobox_resize.Items.AddRange(new object[] {
             "Square (178x178)",
             "Wide (356x178)",
-            "Corner (178x32)",
+            "Corner (178x30)",
             "(None)"});
             this.combobox_resize.Location = new System.Drawing.Point(409, 268);
             this.combobox_resize.Name = "combobox_resize";
@@ -307,7 +307,6 @@
             this.label9.Size = new System.Drawing.Size(157, 17);
             this.label9.TabIndex = 25;
             this.label9.Text = "(Click image to enlarge)";
-            this.label9.Click += new System.EventHandler(this.label9_Click);
             // 
             // checkBox_aspectratio
             // 
@@ -378,6 +377,14 @@
             this.buttonFlipVertical.UseVisualStyleBackColor = true;
             this.buttonFlipVertical.Click += new System.EventHandler(this.buttonFlipVertical_Click);
             // 
+            // backgroundWorker1
+            // 
+            this.backgroundWorker1.WorkerReportsProgress = true;
+            this.backgroundWorker1.WorkerSupportsCancellation = true;
+            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
+            this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
+            this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
+            // 
             // ImageToLCD
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
@@ -413,10 +420,9 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.MinimizeBox = false;
             this.Name = "ImageToLCD";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Whip\'s Image Converter Beta11 - 3.1.17";
+            this.Text = "Whip\'s Image Converter Beta14 - 3.8.17";
             ((System.ComponentModel.ISupportInitialize)(this.ImagePreviewBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -454,6 +460,7 @@
         private System.Windows.Forms.Button buttonRotateCCW;
         private System.Windows.Forms.Button buttonFlipHorizontal;
         private System.Windows.Forms.Button buttonFlipVertical;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
     }
 }
 

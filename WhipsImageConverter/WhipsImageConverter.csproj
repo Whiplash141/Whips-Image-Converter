@@ -51,6 +51,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ImageLoadProgressForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ImageLoadProgressForm.Designer.cs">
+      <DependentUpon>ImageLoadProgressForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ImageToLCD_Form.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -77,6 +83,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="ImageLoadProgressForm.resx">
+      <DependentUpon>ImageLoadProgressForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ImageToLCD_Form.resx">
       <DependentUpon>ImageToLCD_Form.cs</DependentUpon>
     </EmbeddedResource>
@@ -127,6 +136,7 @@
     <EmbeddedResource Include="Resources\nasa_original.PNG" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\nuke.png" />
     <EmbeddedResource Include="Resources\CCW arrow.png" />
     <Content Include="Emblem.ico" />
     <EmbeddedResource Include="Resources\CW arrow.png" />

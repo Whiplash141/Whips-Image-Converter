@@ -117,31 +117,24 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="toolTipMaster.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>184, 17</value>
-  </metadata>
-  <metadata name="openFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="buttonCancelLoading.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAAGQAAAAzCAYAAABhaa0bAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
+        EwAACxMBAJqcGAAAAAd0SU1FB+EDCAYzMqvpeLoAAAHgSURBVHhe7dstSwVRFIXhC2oQi00UBKOIoMGq
+        QUwmi8UiNouY/QNWwR9gMllNRpPBYDKYLAaLWFQQ/Fob69Y7Z2btmTN31gtPvGeGgbnnzFdPKaWUUqrr
+        7cN3IhXUFjyAd9D/01iTsAFHcAVP4O1gqnVoujW4AW//+qm1MdgG1sH/ywecwQrU3QJcgLdfRdTSMOyC
+        twPR3uAEliC6KTgFbz+KCm8Wos+Iop7hGOaA3QjY36+33RSh2RzhbTQHj3AIM8DIVlTv4G0rRVg2V3gb
+        zNE9HMAElKnsisoTUs5nRj+3sAfjUKQqKyoPPZszvA210TXswCh4VV1ReajZaiqXCZztEjZhCCzGispD
+        raml7SChZRd93gYkDa02rapyRmtQ5466UbIbhd7gko5Sm687ckOJcQ9HflGy5xne4F3wBa/wUoH93sax
+        8Sh1dUK3g3gOizANdqOyjHmwcWw8Sp/g7fCgs2ctq8BoGWw8SjpDMjtDNIf4c0NR9DlEqyweSroO4aGk
+        K3UeWrqXxUFLd3s5aOl5CAc1PTGsjpqeqVdHT2+dVBOS3ssqLyy9uVhOaHq3N114evs9TS3p+5Diak1f
+        UPXXWPrG0KeCat1XuF3IVl53YMtq7+B7lFJKKdWNer0fiLED+hwQTV4AAAAASUVORK5CYII=
+</value>
+  </data>
+  <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
-  <data name="instructions.Text" xml:space="preserve">
-    <value>1) Browse for your desired image file.
-2) Select resizing option.
-3) Select dithering option.
-4) Click "Convert".
-5) Copy and Paste all of the text in the "Converted String" output
-     into your in-game LCD panel. Make the font size 0.1 and the 
-     font MONOSPACED.</value>
-  </data>
-  <metadata name="toolTipMaster.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>184, 17</value>
-  </metadata>
-  <metadata name="backgroundWorker1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>335, 17</value>
-  </metadata>
-  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>47</value>
-  </metadata>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         AAABAAEAAAAAAAEAIAB+kwAAFgAAAIlQTkcNChoKAAAADUlIRFIAAAHWAAAB1ggGAAAAyhqoWgAAIABJ
