@@ -195,6 +195,13 @@ namespace WhipsImageConverter
                     break;
 
                 case 3:
+                    if (!checkBox_aspectratio.Checked)
+                        desiredImage = new Bitmap(baseImage, new Size((int)numericUpDownWidth.Value, (int)numericUpDownHeight.Value));
+                    else
+                        desiredImage = FrameImage(baseImage, (int)numericUpDownWidth.Value, (int)numericUpDownHeight.Value);
+                    break;
+
+                case 4:
                     desiredImage = baseImage;
                     break;
             }
@@ -1200,7 +1207,7 @@ namespace WhipsImageConverter
             textBox_Return.Text = "";
             label_stringLength.Text = "String Length: 0";
 
-            if (combobox_resize.SelectedIndex == 3)
+            if (combobox_resize.SelectedIndex == 4)
             {
                 var confirmResult = MessageBox.Show("Selecting '(None)' for the resizing option can cause the code to take longer than normal and can lead to unexpected crashes!\n\nContinue?", 
                     "WARNING:", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
@@ -1210,6 +1217,38 @@ namespace WhipsImageConverter
                     combobox_resize.SelectedIndex = 0; //reset selection index to a safe option
                     newImageLoaded = false;
                 }
+            }
+
+            if (combobox_resize.SelectedIndex == 3)
+            {
+                var confirmResult = MessageBox.Show("Selecting '(Custom)' for the resizing option can cause the code to take longer than normal and can lead to unexpected crashes!\n\nContinue?",
+                    "WARNING:", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
+                if (confirmResult == DialogResult.No)
+                {
+                    newImageLoaded = true; //this avoids double processing of the image
+                    combobox_resize.SelectedIndex = 0; //reset selection index to a safe option
+                    newImageLoaded = false;
+
+                    //disable numeric sliders
+                    numericUpDownWidth.Enabled = false;
+                    numericUpDownHeight.Enabled = false;
+                    buttonUpdateResolution.Enabled = false;
+                }
+                else
+                {
+                    //enable numeric sliders
+                    numericUpDownWidth.Enabled = true;
+                    numericUpDownHeight.Enabled = true;
+                    buttonUpdateResolution.Enabled = true;
+                }
+            }
+            else
+            {
+                numericUpDownWidth.Value = 100;
+                numericUpDownHeight.Value = 100;
+                numericUpDownWidth.Enabled = false;
+                numericUpDownHeight.Enabled = false;
+                buttonUpdateResolution.Enabled = false;
             }
 
             if (!newImageLoaded)
@@ -1333,5 +1372,13 @@ namespace WhipsImageConverter
             ImagePreviewBox.Image = convertedImage;
         }
         #endregion
+
+        private void buttonUpdateResolution_Click(object sender, EventArgs e)
+        {
+            if (combobox_resize.SelectedIndex == 3)
+            {
+                DitherImage(); //this will update our resolution and recompile the image
+            }
+        }
     }
 }

@@ -60,14 +60,21 @@
             this.buttonFlipHorizontal = new System.Windows.Forms.Button();
             this.buttonFlipVertical = new System.Windows.Forms.Button();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.numericUpDownWidth = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDownHeight = new System.Windows.Forms.NumericUpDown();
+            this.buttonUpdateResolution = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.ImagePreviewBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWidth)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHeight)).BeginInit();
             this.SuspendLayout();
             // 
             // button_Convert
             // 
             this.button_Convert.Cursor = System.Windows.Forms.Cursors.Hand;
             this.button_Convert.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_Convert.Location = new System.Drawing.Point(526, 334);
+            this.button_Convert.Location = new System.Drawing.Point(609, 353);
             this.button_Convert.Name = "button_Convert";
             this.button_Convert.Size = new System.Drawing.Size(151, 42);
             this.button_Convert.TabIndex = 0;
@@ -242,7 +249,7 @@
             "Sierra-3",
             "Sierra-2",
             "Sierra Lite"});
-            this.combobox_dither.Location = new System.Drawing.Point(622, 268);
+            this.combobox_dither.Location = new System.Drawing.Point(622, 257);
             this.combobox_dither.Name = "combobox_dither";
             this.combobox_dither.Size = new System.Drawing.Size(158, 24);
             this.combobox_dither.TabIndex = 19;
@@ -251,7 +258,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(619, 248);
+            this.label5.Location = new System.Drawing.Point(619, 237);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(108, 17);
             this.label5.TabIndex = 20;
@@ -274,8 +281,9 @@
             "Square (178x178)",
             "Wide (356x178)",
             "Corner (178x30)",
+            "(Custom)",
             "(None)"});
-            this.combobox_resize.Location = new System.Drawing.Point(409, 268);
+            this.combobox_resize.Location = new System.Drawing.Point(409, 257);
             this.combobox_resize.Name = "combobox_resize";
             this.combobox_resize.Size = new System.Drawing.Size(158, 24);
             this.combobox_resize.TabIndex = 22;
@@ -284,7 +292,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(406, 248);
+            this.label7.Location = new System.Drawing.Point(406, 237);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(112, 17);
             this.label7.TabIndex = 23;
@@ -314,7 +322,7 @@
             this.checkBox_aspectratio.Checked = true;
             this.checkBox_aspectratio.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox_aspectratio.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.checkBox_aspectratio.Location = new System.Drawing.Point(409, 298);
+            this.checkBox_aspectratio.Location = new System.Drawing.Point(409, 353);
             this.checkBox_aspectratio.Name = "checkBox_aspectratio";
             this.checkBox_aspectratio.Size = new System.Drawing.Size(167, 21);
             this.checkBox_aspectratio.TabIndex = 26;
@@ -385,11 +393,91 @@
             this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
             this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
             // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(406, 290);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(130, 17);
+            this.label10.TabIndex = 33;
+            this.label10.Text = "Custom Resoultion:";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(473, 313);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(14, 17);
+            this.label11.TabIndex = 34;
+            this.label11.Text = "x";
+            // 
+            // numericUpDownWidth
+            // 
+            this.numericUpDownWidth.Enabled = false;
+            this.numericUpDownWidth.Location = new System.Drawing.Point(409, 311);
+            this.numericUpDownWidth.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.numericUpDownWidth.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDownWidth.Name = "numericUpDownWidth";
+            this.numericUpDownWidth.Size = new System.Drawing.Size(58, 22);
+            this.numericUpDownWidth.TabIndex = 35;
+            this.numericUpDownWidth.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            // 
+            // numericUpDownHeight
+            // 
+            this.numericUpDownHeight.Enabled = false;
+            this.numericUpDownHeight.Location = new System.Drawing.Point(490, 311);
+            this.numericUpDownHeight.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.numericUpDownHeight.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDownHeight.Name = "numericUpDownHeight";
+            this.numericUpDownHeight.Size = new System.Drawing.Size(58, 22);
+            this.numericUpDownHeight.TabIndex = 36;
+            this.numericUpDownHeight.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            // 
+            // buttonUpdateResolution
+            // 
+            this.buttonUpdateResolution.Enabled = false;
+            this.buttonUpdateResolution.Location = new System.Drawing.Point(554, 306);
+            this.buttonUpdateResolution.Name = "buttonUpdateResolution";
+            this.buttonUpdateResolution.Size = new System.Drawing.Size(133, 31);
+            this.buttonUpdateResolution.TabIndex = 37;
+            this.buttonUpdateResolution.Text = "Update Resolution";
+            this.buttonUpdateResolution.UseVisualStyleBackColor = true;
+            this.buttonUpdateResolution.Click += new System.EventHandler(this.buttonUpdateResolution_Click);
+            // 
             // ImageToLCD
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(862, 593);
+            this.Controls.Add(this.buttonUpdateResolution);
+            this.Controls.Add(this.numericUpDownHeight);
+            this.Controls.Add(this.numericUpDownWidth);
+            this.Controls.Add(this.label11);
+            this.Controls.Add(this.label10);
             this.Controls.Add(this.buttonFlipVertical);
             this.Controls.Add(this.buttonFlipHorizontal);
             this.Controls.Add(this.buttonRotateCCW);
@@ -422,8 +510,10 @@
             this.MaximizeBox = false;
             this.Name = "ImageToLCD";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Whip\'s Image Converter Beta14 - 3.8.17";
+            this.Text = "Whip\'s Image Converter Beta15 - 3.8.17";
             ((System.ComponentModel.ISupportInitialize)(this.ImagePreviewBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWidth)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHeight)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -461,6 +551,11 @@
         private System.Windows.Forms.Button buttonFlipHorizontal;
         private System.Windows.Forms.Button buttonFlipVertical;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.NumericUpDown numericUpDownWidth;
+        private System.Windows.Forms.NumericUpDown numericUpDownHeight;
+        private System.Windows.Forms.Button buttonUpdateResolution;
     }
 }
 
