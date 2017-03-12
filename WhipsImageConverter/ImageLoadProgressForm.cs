@@ -12,8 +12,6 @@ namespace WhipsImageConverter
 {
     public partial class ImageLoadProgressForm : Form
     {
-        //string labelText = "Progress: 0%";
-        //int progressValue = 0;
 
         public ImageLoadProgressForm()
         {
@@ -24,7 +22,7 @@ namespace WhipsImageConverter
         {
             progressBar1.Value = inputValue;
             label_progress.Text = $"Progress: {inputValue}%";
-            Update();
+            //Update();
         }
 
         private void buttonCancelLoading_Click(object sender, EventArgs e)

@@ -1210,7 +1210,7 @@ namespace WhipsImageConverter
             if (combobox_resize.SelectedIndex == 4)
             {
                 var confirmResult = MessageBox.Show("Selecting '(None)' for the resizing option can cause the code to take longer than normal and can lead to unexpected crashes!\n\nContinue?", 
-                    "WARNING:", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
+                    "WARNING", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
                 if (confirmResult == DialogResult.No)
                 {
                     newImageLoaded = true; //this avoids double processing of the image
@@ -1222,7 +1222,7 @@ namespace WhipsImageConverter
             if (combobox_resize.SelectedIndex == 3)
             {
                 var confirmResult = MessageBox.Show("Selecting '(Custom)' for the resizing option can cause the code to take longer than normal and can lead to unexpected crashes!\n\nContinue?",
-                    "WARNING:", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
+                    "WARNING", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
                 if (confirmResult == DialogResult.No)
                 {
                     newImageLoaded = true; //this avoids double processing of the image

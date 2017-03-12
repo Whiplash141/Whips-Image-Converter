@@ -510,7 +510,7 @@
             this.MaximizeBox = false;
             this.Name = "ImageToLCD";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Whip\'s Image Converter Beta15 - 3.8.17";
+            this.Text = "Whip\'s Image Converter Beta16 - 3.8.17";
             ((System.ComponentModel.ISupportInitialize)(this.ImagePreviewBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWidth)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHeight)).EndInit();

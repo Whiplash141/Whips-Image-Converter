@@ -38,9 +38,10 @@
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(12, 34);
+            this.progressBar1.Location = new System.Drawing.Point(12, 42);
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(470, 23);
+            this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.progressBar1.TabIndex = 0;
             // 
             // label_progress
@@ -63,8 +64,8 @@
             this.buttonCancelLoading.Name = "buttonCancelLoading";
             this.buttonCancelLoading.Size = new System.Drawing.Size(63, 38);
             this.buttonCancelLoading.TabIndex = 2;
-            this.toolTip1.SetToolTip(this.buttonCancelLoading, "This will \"nuke\" the entire program! Using this will abort the loading process an" +
-        "d close the program.");
+            this.toolTip1.SetToolTip(this.buttonCancelLoading, "This is the NUKE button. It will close the entire program! Use this to stop the c" +
+        "ode if it gets stuck processing an image.");
             this.buttonCancelLoading.UseVisualStyleBackColor = true;
             this.buttonCancelLoading.Click += new System.EventHandler(this.buttonCancelLoading_Click);
             // 
@@ -77,8 +78,7 @@
             // 
             // ImageLoadProgressForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.CancelButton = this.buttonCancelLoading;
             this.ClientSize = new System.Drawing.Size(494, 69);
             this.ControlBox = false;
