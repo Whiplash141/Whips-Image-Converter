@@ -7,7 +7,7 @@
 * Option 3: Download all the source files and compile the project in Visual Studio.
 
 ## Intro
-This is an image converter that I created to convert images for Space Engineers.
+This is an application that I created to convert images to monospace pixel strings for Space Engineers.
 
 If you modify this, please credit me :) 
 
