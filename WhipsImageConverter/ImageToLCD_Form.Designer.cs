@@ -65,16 +65,20 @@
             this.numericUpDownWidth = new System.Windows.Forms.NumericUpDown();
             this.numericUpDownHeight = new System.Windows.Forms.NumericUpDown();
             this.buttonUpdateResolution = new System.Windows.Forms.Button();
+            this.colorDialog1 = new System.Windows.Forms.ColorDialog();
+            this.button_background_color = new System.Windows.Forms.Button();
+            this.pictureBox_background_color = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.ImagePreviewBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWidth)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHeight)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_background_color)).BeginInit();
             this.SuspendLayout();
             // 
             // button_Convert
             // 
             this.button_Convert.Cursor = System.Windows.Forms.Cursors.Hand;
             this.button_Convert.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_Convert.Location = new System.Drawing.Point(609, 353);
+            this.button_Convert.Location = new System.Drawing.Point(510, 390);
             this.button_Convert.Name = "button_Convert";
             this.button_Convert.Size = new System.Drawing.Size(151, 42);
             this.button_Convert.TabIndex = 0;
@@ -84,9 +88,6 @@
             // 
             // ImagePreviewBox
             // 
-            this.ImagePreviewBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.ImagePreviewBox.BackColor = System.Drawing.SystemColors.ControlDark;
             this.ImagePreviewBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.ImagePreviewBox.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -112,7 +113,7 @@
             // BrowseButton
             // 
             this.BrowseButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.BrowseButton.Location = new System.Drawing.Point(757, 193);
+            this.BrowseButton.Location = new System.Drawing.Point(754, 181);
             this.BrowseButton.Name = "BrowseButton";
             this.BrowseButton.Size = new System.Drawing.Size(75, 36);
             this.BrowseButton.TabIndex = 7;
@@ -122,7 +123,7 @@
             // 
             // textBox_FileDirectory
             // 
-            this.textBox_FileDirectory.Location = new System.Drawing.Point(409, 200);
+            this.textBox_FileDirectory.Location = new System.Drawing.Point(409, 188);
             this.textBox_FileDirectory.Name = "textBox_FileDirectory";
             this.textBox_FileDirectory.ReadOnly = true;
             this.textBox_FileDirectory.Size = new System.Drawing.Size(334, 22);
@@ -130,7 +131,7 @@
             // 
             // textBox_Return
             // 
-            this.textBox_Return.Location = new System.Drawing.Point(88, 435);
+            this.textBox_Return.Location = new System.Drawing.Point(88, 485);
             this.textBox_Return.Multiline = true;
             this.textBox_Return.Name = "textBox_Return";
             this.textBox_Return.ReadOnly = true;
@@ -146,7 +147,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(75, 395);
+            this.label1.Location = new System.Drawing.Point(75, 445);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(150, 20);
             this.label1.TabIndex = 10;
@@ -156,7 +157,7 @@
             // 
             this.button_Clipboard.Cursor = System.Windows.Forms.Cursors.Hand;
             this.button_Clipboard.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_Clipboard.Location = new System.Drawing.Point(330, 521);
+            this.button_Clipboard.Location = new System.Drawing.Point(330, 571);
             this.button_Clipboard.Name = "button_Clipboard";
             this.button_Clipboard.Size = new System.Drawing.Size(218, 34);
             this.button_Clipboard.TabIndex = 11;
@@ -167,7 +168,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(13, 547);
+            this.label3.Location = new System.Drawing.Point(13, 597);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(148, 17);
             this.label3.TabIndex = 12;
@@ -195,7 +196,7 @@
             // linkLabel_Dithering
             // 
             this.linkLabel_Dithering.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.linkLabel_Dithering.Location = new System.Drawing.Point(566, 65);
+            this.linkLabel_Dithering.Location = new System.Drawing.Point(569, 65);
             this.linkLabel_Dithering.Name = "linkLabel_Dithering";
             this.linkLabel_Dithering.Size = new System.Drawing.Size(134, 17);
             this.linkLabel_Dithering.TabIndex = 15;
@@ -207,7 +208,7 @@
             // 
             this.linkLabel_Credits.AutoSize = true;
             this.linkLabel_Credits.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.linkLabel_Credits.Location = new System.Drawing.Point(23, 565);
+            this.linkLabel_Credits.Location = new System.Drawing.Point(23, 615);
             this.linkLabel_Credits.Name = "linkLabel_Credits";
             this.linkLabel_Credits.Size = new System.Drawing.Size(129, 17);
             this.linkLabel_Credits.TabIndex = 16;
@@ -219,7 +220,7 @@
             // 
             this.linkLabel_Dithering2.BackColor = System.Drawing.SystemColors.Control;
             this.linkLabel_Dithering2.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.linkLabel_Dithering2.Location = new System.Drawing.Point(706, 65);
+            this.linkLabel_Dithering2.Location = new System.Drawing.Point(709, 65);
             this.linkLabel_Dithering2.Name = "linkLabel_Dithering2";
             this.linkLabel_Dithering2.Size = new System.Drawing.Size(134, 17);
             this.linkLabel_Dithering2.TabIndex = 17;
@@ -231,7 +232,7 @@
             // 
             this.label_stringLength.AutoSize = true;
             this.label_stringLength.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_stringLength.Location = new System.Drawing.Point(618, 415);
+            this.label_stringLength.Location = new System.Drawing.Point(618, 465);
             this.label_stringLength.Name = "label_stringLength";
             this.label_stringLength.Size = new System.Drawing.Size(125, 17);
             this.label_stringLength.TabIndex = 18;
@@ -249,16 +250,16 @@
             "Sierra-3",
             "Sierra-2",
             "Sierra Lite"});
-            this.combobox_dither.Location = new System.Drawing.Point(622, 257);
+            this.combobox_dither.Location = new System.Drawing.Point(619, 245);
             this.combobox_dither.Name = "combobox_dither";
-            this.combobox_dither.Size = new System.Drawing.Size(158, 24);
+            this.combobox_dither.Size = new System.Drawing.Size(167, 24);
             this.combobox_dither.TabIndex = 19;
             this.combobox_dither.SelectedIndexChanged += new System.EventHandler(this.combobox_dither_SelectedIndexChanged);
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(619, 237);
+            this.label5.Location = new System.Drawing.Point(616, 225);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(108, 17);
             this.label5.TabIndex = 20;
@@ -267,7 +268,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(108, 415);
+            this.label6.Location = new System.Drawing.Point(108, 465);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(334, 17);
             this.label6.TabIndex = 21;
@@ -283,16 +284,16 @@
             "Corner (178x30)",
             "(Custom)",
             "(None)"});
-            this.combobox_resize.Location = new System.Drawing.Point(409, 257);
+            this.combobox_resize.Location = new System.Drawing.Point(409, 245);
             this.combobox_resize.Name = "combobox_resize";
-            this.combobox_resize.Size = new System.Drawing.Size(158, 24);
+            this.combobox_resize.Size = new System.Drawing.Size(167, 24);
             this.combobox_resize.TabIndex = 22;
             this.combobox_resize.SelectedIndexChanged += new System.EventHandler(this.combobox_resize_SelectedIndexChanged);
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(406, 237);
+            this.label7.Location = new System.Drawing.Point(406, 225);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(112, 17);
             this.label7.TabIndex = 23;
@@ -301,7 +302,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(409, 177);
+            this.label8.Location = new System.Drawing.Point(406, 165);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(109, 17);
             this.label8.TabIndex = 24;
@@ -322,7 +323,7 @@
             this.checkBox_aspectratio.Checked = true;
             this.checkBox_aspectratio.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox_aspectratio.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.checkBox_aspectratio.Location = new System.Drawing.Point(409, 353);
+            this.checkBox_aspectratio.Location = new System.Drawing.Point(409, 346);
             this.checkBox_aspectratio.Name = "checkBox_aspectratio";
             this.checkBox_aspectratio.Size = new System.Drawing.Size(167, 21);
             this.checkBox_aspectratio.TabIndex = 26;
@@ -396,7 +397,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(406, 290);
+            this.label10.Location = new System.Drawing.Point(406, 282);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(130, 17);
             this.label10.TabIndex = 33;
@@ -405,7 +406,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(473, 313);
+            this.label11.Location = new System.Drawing.Point(473, 305);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(14, 17);
             this.label11.TabIndex = 34;
@@ -414,7 +415,7 @@
             // numericUpDownWidth
             // 
             this.numericUpDownWidth.Enabled = false;
-            this.numericUpDownWidth.Location = new System.Drawing.Point(409, 311);
+            this.numericUpDownWidth.Location = new System.Drawing.Point(409, 303);
             this.numericUpDownWidth.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -437,7 +438,7 @@
             // numericUpDownHeight
             // 
             this.numericUpDownHeight.Enabled = false;
-            this.numericUpDownHeight.Location = new System.Drawing.Point(490, 311);
+            this.numericUpDownHeight.Location = new System.Drawing.Point(490, 303);
             this.numericUpDownHeight.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -459,8 +460,9 @@
             // 
             // buttonUpdateResolution
             // 
+            this.buttonUpdateResolution.Cursor = System.Windows.Forms.Cursors.Hand;
             this.buttonUpdateResolution.Enabled = false;
-            this.buttonUpdateResolution.Location = new System.Drawing.Point(554, 306);
+            this.buttonUpdateResolution.Location = new System.Drawing.Point(554, 298);
             this.buttonUpdateResolution.Name = "buttonUpdateResolution";
             this.buttonUpdateResolution.Size = new System.Drawing.Size(133, 31);
             this.buttonUpdateResolution.TabIndex = 37;
@@ -468,11 +470,35 @@
             this.buttonUpdateResolution.UseVisualStyleBackColor = true;
             this.buttonUpdateResolution.Click += new System.EventHandler(this.buttonUpdateResolution_Click);
             // 
+            // button_background_color
+            // 
+            this.button_background_color.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button_background_color.Location = new System.Drawing.Point(657, 340);
+            this.button_background_color.Name = "button_background_color";
+            this.button_background_color.Size = new System.Drawing.Size(186, 31);
+            this.button_background_color.TabIndex = 38;
+            this.button_background_color.Text = "Change Background Color";
+            this.button_background_color.UseVisualStyleBackColor = true;
+            this.button_background_color.Click += new System.EventHandler(this.button_background_color_Click);
+            // 
+            // pictureBox_background_color
+            // 
+            this.pictureBox_background_color.BackColor = System.Drawing.Color.Black;
+            this.pictureBox_background_color.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBox_background_color.Location = new System.Drawing.Point(621, 340);
+            this.pictureBox_background_color.Name = "pictureBox_background_color";
+            this.pictureBox_background_color.Size = new System.Drawing.Size(30, 31);
+            this.pictureBox_background_color.TabIndex = 39;
+            this.pictureBox_background_color.TabStop = false;
+            this.pictureBox_background_color.Click += new System.EventHandler(this.pictureBox_background_color_Click);
+            // 
             // ImageToLCD
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(862, 593);
+            this.ClientSize = new System.Drawing.Size(862, 633);
+            this.Controls.Add(this.pictureBox_background_color);
+            this.Controls.Add(this.button_background_color);
             this.Controls.Add(this.buttonUpdateResolution);
             this.Controls.Add(this.numericUpDownHeight);
             this.Controls.Add(this.numericUpDownWidth);
@@ -510,10 +536,11 @@
             this.MaximizeBox = false;
             this.Name = "ImageToLCD";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Whip\'s Image Converter Beta16 - 3.8.17";
+            this.Text = "Whip\'s Image Converter (Version 18 - 6/27/17)";
             ((System.ComponentModel.ISupportInitialize)(this.ImagePreviewBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWidth)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHeight)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_background_color)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -556,6 +583,9 @@
         private System.Windows.Forms.NumericUpDown numericUpDownWidth;
         private System.Windows.Forms.NumericUpDown numericUpDownHeight;
         private System.Windows.Forms.Button buttonUpdateResolution;
+        private System.Windows.Forms.ColorDialog colorDialog1;
+        private System.Windows.Forms.Button button_background_color;
+        private System.Windows.Forms.PictureBox pictureBox_background_color;
     }
 }
 

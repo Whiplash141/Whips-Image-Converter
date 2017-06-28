@@ -36,6 +36,8 @@ namespace WhipsImageConverter
 
         ImageLoadProgressForm progressBarForm = new ImageLoadProgressForm();
 
+        Color backgroundColor = Color.FromArgb(0, 0, 0);
+
         void ConstructColorMap()
         {
             allowedColors.Clear();
@@ -93,22 +95,28 @@ namespace WhipsImageConverter
 
         Bitmap FrameImage(Bitmap baseImage, int width, int height)
         {
-            Bitmap framedImage;
+            Bitmap framedImage = new Bitmap(width, height);
             int borderThickness = 0;
             float compressionRatio = 1;
             int borderMode = 0; //0 = none; 1 = horizontal; 2 = vertical bars
             int desiredWidth = 0;
             int desiredHeight = 0;
 
+            //Change background color of the image
+            //method from https://stackoverflow.com/a/1720261
+            using (Graphics gfx = Graphics.FromImage(framedImage))
+            using (SolidBrush brush = new SolidBrush(backgroundColor))
+            {
+                gfx.FillRectangle(brush, 0, 0, width, height);
+            }
 
-            framedImage = new Bitmap(width, height);
             if ((float)baseImage.Width / width > (float)baseImage.Height / height) //horizontal bars
             {
                 desiredWidth = width;
                 compressionRatio = (float)width / baseImage.Width;
                 desiredHeight = (int)(baseImage.Height * compressionRatio);
 
-                borderThickness =Math.Abs(desiredHeight - height) / 2;
+                borderThickness = Math.Abs(desiredHeight - height) / 2;
                 borderMode = 1;
             }
             else if ((float)baseImage.Width / width == (float)baseImage.Height / height)
@@ -360,14 +368,16 @@ namespace WhipsImageConverter
 
         StringBuilder debug = new StringBuilder();
 
-        //Color3 medhod adapted from user dacwe on StackExchange 
-        //Without using a custom color class, the clamping of Color will distort the colors
-        //https://stackoverflow.com/questions/5940188/how-to-convert-a-24-bit-png-to-3-bit-png-using-floyd-steinberg-dithering
+        /*
+        Color3 medhod adapted from user dacwe on StackExchange 
+        Without using a custom color class, the clamping of Color will distort the colors
+        https://stackoverflow.com/questions/5940188/how-to-convert-a-24-bit-png-to-3-bit-png-using-floyd-steinberg-dithering
 
-        //Dithering methods found from: 
-        //https://en.wikipedia.org/wiki/Floyd%E2%80%93Steinberg_dithering
-        //http://www.tannerhelland.com/4660/dithering-eleven-algorithms-source-code/
-        //http://www.efg2.com/Lab/Library/ImageProcessing/DHALF.TXT
+        Dithering methods found from: 
+        https://en.wikipedia.org/wiki/Floyd%E2%80%93Steinberg_dithering
+        http://www.tannerhelland.com/4660/dithering-eleven-algorithms-source-code/
+        http://www.efg2.com/Lab/Library/ImageProcessing/DHALF.TXT
+        */
         private Color[,] Dithering(Bitmap image, int width, int height, int type)
         {
             var filterArray = GetDitherFilter(type);
@@ -1183,7 +1193,7 @@ namespace WhipsImageConverter
             combobox_resize.SelectedIndex = 0;
 
             //reset return string
-            textBox_Return.Text = "";
+            textBox_Return.Clear();
             label_stringLength.Text = "String Length: 0";
 
             CacheImages(); //cache all image size
@@ -1194,7 +1204,7 @@ namespace WhipsImageConverter
         private void combobox_dither_SelectedIndexChanged(object sender, EventArgs e)
         {
             //reset return string
-            textBox_Return.Text = "";
+            textBox_Return.Clear();
             label_stringLength.Text = "String Length: 0";
 
             if (!newImageLoaded)
@@ -1204,7 +1214,7 @@ namespace WhipsImageConverter
         private void combobox_resize_SelectedIndexChanged(object sender, EventArgs e)
         {
             //reset return string
-            textBox_Return.Text = "";
+            textBox_Return.Clear();
             label_stringLength.Text = "String Length: 0";
 
             if (combobox_resize.SelectedIndex == 4)
@@ -1258,7 +1268,11 @@ namespace WhipsImageConverter
         private void checkBox_aspectratio_CheckedChanged(object sender, EventArgs e)
         {
             //reset return string
-            textBox_Return.Text = "";
+            textBox_Return.Clear();
+
+            //enable or disable background color selector
+            button_background_color.Enabled = checkBox_aspectratio.Checked;
+            pictureBox_background_color.Enabled = checkBox_aspectratio.Checked;
 
             CacheImages();
             DitherImage();
@@ -1378,6 +1392,37 @@ namespace WhipsImageConverter
             if (combobox_resize.SelectedIndex == 3)
             {
                 DitherImage(); //this will update our resolution and recompile the image
+            }
+        }
+
+        private void button_background_color_Click(object sender, EventArgs e)
+        {
+            BackgroundColorButtonPressed();
+        }
+
+        private void pictureBox_background_color_Click(object sender, EventArgs e)
+        {
+            BackgroundColorButtonPressed();
+        }
+
+        void BackgroundColorButtonPressed()
+        {
+            var result = colorDialog1.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                backgroundColor = colorDialog1.Color;
+
+                pictureBox_background_color.BackColor = backgroundColor;
+
+                //reset return string
+                textBox_Return.Clear();
+
+                //Redraw image
+                if (imageLoaded)
+                {
+                    CacheImages();
+                    DitherImage();
+                }
             }
         }
     }

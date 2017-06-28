@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Whip's Image Converter")]
-[assembly: AssemblyCopyright("Copyright Whiplash141 ©  2016")]
+[assembly: AssemblyCopyright("Copyright Whiplash141 ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
