@@ -21,7 +21,8 @@ namespace WhipsImageConverter
 
         Bitmap squareImage;
         Bitmap rectangleImage;
-        Bitmap cornerImage;
+        Bitmap largeCornerImage;
+        Bitmap smallCornerImage;
         Bitmap baseImage;
         Bitmap convertedImage;
         Bitmap desiredImage;
@@ -79,15 +80,17 @@ namespace WhipsImageConverter
 
             if (!maintainAspectRatio)
             {
-                squareImage = new Bitmap(baseImage, new Size(178, 178));
-                rectangleImage = new Bitmap(baseImage, new Size(356, 178));
-                cornerImage = new Bitmap(baseImage, new Size(178, 30));
+                squareImage = new Bitmap(baseImage, 178, 178);
+                rectangleImage = new Bitmap(baseImage, 356, 178);
+                largeCornerImage = new Bitmap(baseImage, 178, 27);
+                smallCornerImage = new Bitmap(baseImage, 178, 47);
             }
             else
             {
                 squareImage = FrameImage(baseImage, 178, 178);
                 rectangleImage = FrameImage(baseImage, 356, 178);
-                cornerImage = FrameImage(baseImage, 178, 30);
+                largeCornerImage = FrameImage(baseImage, 178, 27);
+                smallCornerImage = FrameImage(baseImage, 178, 47);
             }
 
             imageLoaded = true;
@@ -199,17 +202,21 @@ namespace WhipsImageConverter
                     break;
 
                 case 2:
-                    desiredImage = cornerImage;
+                    desiredImage = largeCornerImage;
                     break;
 
                 case 3:
+                    desiredImage = smallCornerImage;
+                    break;
+
+                case 4:
                     if (!checkBox_aspectratio.Checked)
                         desiredImage = new Bitmap(baseImage, new Size((int)numericUpDownWidth.Value, (int)numericUpDownHeight.Value));
                     else
                         desiredImage = FrameImage(baseImage, (int)numericUpDownWidth.Value, (int)numericUpDownHeight.Value);
                     break;
 
-                case 4:
+                case 5:
                     desiredImage = baseImage;
                     break;
             }
@@ -1189,8 +1196,8 @@ namespace WhipsImageConverter
             textBox_FileDirectory.Text = openFileDialog1.FileName;
 
             //reset comboboxes to initial values
-            combobox_dither.SelectedIndex = 0;
-            combobox_resize.SelectedIndex = 0;
+            //combobox_dither.SelectedIndex = 0;
+            //combobox_resize.SelectedIndex = 0;
 
             //reset return string
             textBox_Return.Clear();
@@ -1217,7 +1224,7 @@ namespace WhipsImageConverter
             textBox_Return.Clear();
             label_stringLength.Text = "String Length: 0";
 
-            if (combobox_resize.SelectedIndex == 4)
+            if (combobox_resize.SelectedIndex == 5)
             {
                 var confirmResult = MessageBox.Show("Selecting '(None)' for the resizing option can cause the code to take longer than normal and can lead to unexpected crashes!\n\nContinue?", 
                     "WARNING", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
@@ -1229,7 +1236,7 @@ namespace WhipsImageConverter
                 }
             }
 
-            if (combobox_resize.SelectedIndex == 3)
+            if (combobox_resize.SelectedIndex == 4)
             {
                 var confirmResult = MessageBox.Show("Selecting '(Custom)' for the resizing option can cause the code to take longer than normal and can lead to unexpected crashes!\n\nContinue?",
                     "WARNING", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
@@ -1254,8 +1261,8 @@ namespace WhipsImageConverter
             }
             else
             {
-                numericUpDownWidth.Value = 100;
-                numericUpDownHeight.Value = 100;
+                //numericUpDownWidth.Value = 100;
+                //numericUpDownHeight.Value = 100;
                 numericUpDownWidth.Enabled = false;
                 numericUpDownHeight.Enabled = false;
                 buttonUpdateResolution.Enabled = false;
@@ -1389,7 +1396,7 @@ namespace WhipsImageConverter
 
         private void buttonUpdateResolution_Click(object sender, EventArgs e)
         {
-            if (combobox_resize.SelectedIndex == 3)
+            if (combobox_resize.SelectedIndex == 4)
             {
                 DitherImage(); //this will update our resolution and recompile the image
             }
