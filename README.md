@@ -1,10 +1,6 @@
 # Whips-Image-Converter
 ## Where do I get the program?
-* Option 1: Download the program [HERE](https://github.com/Whiplash141/Whips-Image-Converter/raw/master/WhipsImageConverter/bin/Debug/Whip%60s%20Image%20Converter.exe)
-
-* Option 2: Navigate to Whips-Image-Converter/WhipsImageConverter/bin/debug and download "Whip`s Image Converter.exe"
-
-* Option 3: Download all the source files and compile the project in Visual Studio.
+Download the program [HERE](https://github.com/Whiplash141/Whips-Image-Converter/releases/latest)
 
 ## Intro
 This is an application that I created to convert images to monospace pixel strings for Space Engineers.
