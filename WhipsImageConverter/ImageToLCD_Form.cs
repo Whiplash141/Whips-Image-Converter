@@ -10,6 +10,8 @@ using System.Windows.Forms;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Numerics;
+using System.Net.Http;
+using System.Net;
 
 //Reference: http://www.efg2.com/Lab/Library/ImageProcessing/DHALF.TXT
 
@@ -17,6 +19,11 @@ namespace WhipsImageConverter
 {
     public partial class ImageToLCD : Form
     {
+        const string myVersionString = "1.1.0";
+        const string buildDateString = "7/14/17";
+        const string githubVersionUrl = "https://github.com/Whiplash141/Whips-Image-Converter/releases/latest";
+
+        string formTitle = $"Whip's Image Converter (Version {myVersionString} - {buildDateString})";
         string fileDirectory = "";
 
         Bitmap squareImage;
@@ -38,6 +45,53 @@ namespace WhipsImageConverter
         ImageLoadProgressForm progressBarForm = new ImageLoadProgressForm();
 
         Color backgroundColor = Color.FromArgb(0, 0, 0);
+
+        public ImageToLCD()
+        {
+            InitializeComponent();
+            combobox_dither.SelectedIndex = 0;
+            combobox_resize.SelectedIndex = 0;
+            openFileDialog1.Filter = "Image files (*.jpg, *.jpeg, *.jpe, *.jfif, *.png, *.bmp) | *.jpg; *.jpeg; *.jpe; *.jfif; *.png; *.bmp";
+
+            //Set form name
+            this.Text = formTitle;
+
+            //Check for any new updates
+            CheckForUpdates();
+
+            //Construct colormap
+            ConstructColorMap();
+        }
+
+        void CheckForUpdates()
+        {
+            var webRequest = (HttpWebRequest)WebRequest.Create(githubVersionUrl);
+            webRequest.AllowAutoRedirect = true;
+            HttpWebResponse webResponse = (HttpWebResponse)webRequest.GetResponse();
+
+            var latestVersionUrl = webResponse.ResponseUri.ToString();
+            var urlSplit = latestVersionUrl.Split('/');
+            var latestVersionString = urlSplit[urlSplit.Length - 1];
+            
+            Version latestVersion = new Version();
+            if (!Version.TryParse(latestVersionString, out latestVersion))
+                return;
+
+            Version myVersion = new Version();
+            if (!Version.TryParse(myVersionString, out myVersion))
+                return;
+
+            if (latestVersion > myVersion)
+            {
+                var confirmResult = MessageBox.Show($"Old version detected. Update to newest version?\nYour version: {myVersionString}\nLatest release: {latestVersionString}",
+                    "WARNING", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1);
+                if (confirmResult == DialogResult.Yes)
+                {
+                    System.Diagnostics.Process.Start(githubVersionUrl);
+                    this.Close();
+                }
+            }            
+        }
 
         void ConstructColorMap()
         {
@@ -560,18 +614,8 @@ namespace WhipsImageConverter
             return bmp;
         }
 
-        public ImageToLCD()
-        {
-            InitializeComponent();
-            combobox_dither.SelectedIndex = 0;
-            combobox_resize.SelectedIndex = 0;
-            openFileDialog1.Filter = "Image files (*.jpg, *.jpeg, *.jpe, *.jfif, *.png, *.bmp) | *.jpg; *.jpeg; *.jpe; *.jfif; *.png; *.bmp";
-
-            //Construct colormap
-            ConstructColorMap();
-        }
-
         
+
         Dictionary<int, string> colorGlyphs = new Dictionary<int, string>()
         {
             #region Bigass Dictionary
@@ -1090,7 +1134,6 @@ namespace WhipsImageConverter
             #endregion
         };
         
-
         private void button_Convert_Click(object sender, EventArgs e)
         {
             ConvertImage();
