@@ -19,8 +19,8 @@ namespace WhipsImageConverter
 {
     public partial class ImageToLCD : Form
     {
-        const string myVersionString = "1.1.0";
-        const string buildDateString = "7/14/17";
+        const string myVersionString = "1.1.1.0";
+        const string buildDateString = "8/3/17";
         const string githubVersionUrl = "https://github.com/Whiplash141/Whips-Image-Converter/releases/latest";
 
         string formTitle = $"Whip's Image Converter (Version {myVersionString} - {buildDateString})";
@@ -65,6 +65,12 @@ namespace WhipsImageConverter
 
         void CheckForUpdates()
         {
+            /*
+            var client = new GitHubClient(new ProductHeaderValue("WhipsImageConverter"));
+            var latest = client.Repository.Release.GetLatest("Whiplash141", "Whips-Image-Converter");
+            textBox_Return.Text = latest.ToString();
+            */
+
             var webRequest = (HttpWebRequest)WebRequest.Create(githubVersionUrl);
             webRequest.AllowAutoRedirect = true;
             HttpWebResponse webResponse = (HttpWebResponse)webRequest.GetResponse();
@@ -72,6 +78,7 @@ namespace WhipsImageConverter
             var latestVersionUrl = webResponse.ResponseUri.ToString();
             var urlSplit = latestVersionUrl.Split('/');
             var latestVersionString = urlSplit[urlSplit.Length - 1];
+            latestVersionString = latestVersionString.ToLower().Replace("v", "");
             
             Version latestVersion = new Version();
             if (!Version.TryParse(latestVersionString, out latestVersion))
