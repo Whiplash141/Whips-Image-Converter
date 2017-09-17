@@ -16,13 +16,15 @@ namespace WhipsImageConverter
         public ImageLoadProgressForm()
         {
             InitializeComponent();
+            label_progress.Text = "Progress: 0%";
+            progressBar1.Value = 0;
         }
 
         public void SetProgressBarValue(int inputValue)
         {
             progressBar1.Value = inputValue;
             label_progress.Text = $"Progress: {inputValue}%";
-            //Update();
+            Update();
         }
 
         private void buttonCancelLoading_Click(object sender, EventArgs e)
@@ -30,9 +32,5 @@ namespace WhipsImageConverter
             this.Close();
             this.DialogResult = DialogResult.Abort;
         }
-        /*
-            this.Close();
-            this.DialogResult = DialogResult.Abort;
-         */
     }
 }

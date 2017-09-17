@@ -19,8 +19,8 @@ namespace WhipsImageConverter
 {
     public partial class ImageToLCD : Form
     {
-        const string myVersionString = "1.1.1.0";
-        const string buildDateString = "8/3/17";
+        const string myVersionString = "1.1.2.4";
+        const string buildDateString = "9/17/17";
         const string githubVersionUrl = "https://github.com/Whiplash141/Whips-Image-Converter/releases/latest";
 
         string formTitle = $"Whip's Image Converter (Version {myVersionString} - {buildDateString})";
@@ -41,6 +41,7 @@ namespace WhipsImageConverter
         int imageHeight = 0;
 
         List<Color> allowedColors = new List<Color>();
+        List<Color3> allowedColor3s = new List<Color3>();
 
         ImageLoadProgressForm progressBarForm = new ImageLoadProgressForm();
 
@@ -100,9 +101,11 @@ namespace WhipsImageConverter
             }            
         }
 
+        //double bitSpacing = 255.0 / 7.0;
         void ConstructColorMap()
         {
             allowedColors.Clear();
+            allowedColor3s.Clear();
             for (int r = 0; r <= 7; r++)
             {
                 for (int g = 0; g <= 7; g++)
@@ -110,6 +113,7 @@ namespace WhipsImageConverter
                     for (int b = 0; b <= 7; b++)
                     {
                         allowedColors.Add(Color.FromArgb(ClampColor(r * 37), ClampColor(g * 37), ClampColor(b * 37)));
+                        allowedColor3s.Add(new Color3(ClampColor(r * 37), ClampColor(g * 37), ClampColor(b * 37)));
                     }
                 }
             }
@@ -446,6 +450,7 @@ namespace WhipsImageConverter
         http://www.tannerhelland.com/4660/dithering-eleven-algorithms-source-code/
         http://www.efg2.com/Lab/Library/ImageProcessing/DHALF.TXT
         */
+
         private Color[,] Dithering(Bitmap image, int width, int height, int type)
         {
             var filterArray = GetDitherFilter(type);
@@ -500,6 +505,36 @@ namespace WhipsImageConverter
 
         private Color[,] NoDithering(Bitmap image, int width, int height)
         {
+            Color3[,] initialColorArray = new Color3[height, width];
+
+            for (int row = 0; row < height; row++)
+            {
+                for (int col = 0; col < width; col++)
+                {
+                    initialColorArray[row, col] = ColorToColor3(image.GetPixel(col, row));
+                }
+            }
+
+            Color[,] convertedColorArray = new Color[height, width];
+
+            for (int row = 0; row < height; row++)
+            {
+                for (int col = 0; col < width; col++)
+                {
+                    var pixelColor = initialColorArray[row, col];
+                    convertedColorArray[row, col] = GetClosestColor(pixelColor).ToColor();
+
+                    if (progressBarForm.DialogResult != DialogResult.Abort)
+                        backgroundWorker1.ReportProgress(GetPercentCompletion(height, width, row, col));
+                }
+            }
+
+            return convertedColorArray;
+        }
+
+        /*
+        private Color[,] NoDithering(Bitmap image, int width, int height)
+        {
             Color[,]colorArray = new Color[height, width];
 
             for (int row = 0; row < height; row++)
@@ -515,13 +550,15 @@ namespace WhipsImageConverter
             }
 
             return colorArray;
-        }
+        }*/
 
         //Manhattan distance
+        /*
         int ColorDiff(Color color1, Color color2)
         {
             return Math.Abs(color1.R - color2.R) + Math.Abs(color1.G - color2.G) + Math.Abs(color1.B - color2.B);
         }
+        */
 
         int ClampColor(int value)
         {
@@ -539,6 +576,7 @@ namespace WhipsImageConverter
             return clampedValue;
         }
 
+        /*
         Color GetClosestColor(Color pixelColor)
         {
             var leastDiff = 10000000f;
@@ -558,15 +596,16 @@ namespace WhipsImageConverter
 
             return allowedColors[leastIndex];
         }
+        */
 
         Color3 GetClosestColor(Color3 pixelColor)
         {
             var leastDiff = 10000000f;
             var leastIndex = -1;
 
-            for (int i = 0; i < allowedColors.Count; i++)
+            for (int i = 0; i < allowedColor3s.Count; i++)
             {
-                var comparisonColor = ColorToColor3(allowedColors[i]);
+                var comparisonColor = allowedColor3s[i];
                 var thisDiff = pixelColor.Diff(comparisonColor);
 
                 if (thisDiff < leastDiff)
@@ -576,7 +615,7 @@ namespace WhipsImageConverter
                 }
             }
 
-            return ColorToColor3(allowedColors[leastIndex]);
+            return allowedColor3s[leastIndex];
         }
 
         int ColorToInt(byte r, byte g, byte b)
@@ -593,16 +632,16 @@ namespace WhipsImageConverter
                 {
                     var thisColor = colorArray[row, col];
                     var colorInt = ColorToInt(thisColor.R, thisColor.G, thisColor.B);
-                    string colorGlyph = ".";
-                    colorGlyphs.TryGetValue(colorInt, out colorGlyph);
-                    sb.Append(colorGlyph);
+                    //string colorGlyph = ".";
+                    //colorGlyphs.TryGetValue(colorInt, out colorGlyph);
+                    sb.Append((char)colorInt);
                 }
 
                 if (row + 1 < height)
                     sb.Append("\n");
             }
 
-            sb.Append("Converted with Whip's Image Converter");
+            sb.Append($"Converted with Whip's Image Converter - Version {myVersionString}");
             return sb.ToString();
         }
 
@@ -620,8 +659,6 @@ namespace WhipsImageConverter
 
             return bmp;
         }
-
-        
 
         Dictionary<int, string> colorGlyphs = new Dictionary<int, string>()
         {
@@ -1204,6 +1241,7 @@ namespace WhipsImageConverter
                 return clampedValue;
             }
 
+            //Manhattan distance
             public int Diff(Color3 otherColor)
             {
                 return Math.Abs(R - otherColor.R) + Math.Abs(G - otherColor.G) + Math.Abs(B - otherColor.B);
@@ -1426,8 +1464,6 @@ namespace WhipsImageConverter
             {
                 convertedColorArray = Dithering(desiredImage, imageWidth, imageHeight, (int)e.Argument);
             }
-
-            //e.Result = convertedColorArray;
         }
 
         private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)

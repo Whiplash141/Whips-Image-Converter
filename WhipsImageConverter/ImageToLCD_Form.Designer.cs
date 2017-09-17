@@ -486,6 +486,7 @@
             // 
             this.pictureBox_background_color.BackColor = System.Drawing.Color.Black;
             this.pictureBox_background_color.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBox_background_color.Cursor = System.Windows.Forms.Cursors.Hand;
             this.pictureBox_background_color.Location = new System.Drawing.Point(611, 340);
             this.pictureBox_background_color.Name = "pictureBox_background_color";
             this.pictureBox_background_color.Size = new System.Drawing.Size(30, 31);
