@@ -12,6 +12,8 @@ using System.IO;
 using System.Numerics;
 using System.Net.Http;
 using System.Net;
+using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
 
 //Reference: http://www.efg2.com/Lab/Library/ImageProcessing/DHALF.TXT
 
@@ -36,12 +38,11 @@ namespace WhipsImageConverter
 
         bool imageLoaded = false;
 
-        Color[,] convertedColorArray = null;
+        Color3B[,] convertedColorArray = null;
         int imageWidth = 0;
         int imageHeight = 0;
 
         List<Color> allowedColors = new List<Color>();
-        List<Color3> allowedColor3s = new List<Color3>();
 
         ImageLoadProgressForm progressBarForm = new ImageLoadProgressForm();
 
@@ -101,19 +102,19 @@ namespace WhipsImageConverter
             }            
         }
 
-        //double bitSpacing = 255.0 / 7.0;
         void ConstructColorMap()
         {
             allowedColors.Clear();
-            allowedColor3s.Clear();
             for (int r = 0; r <= 7; r++)
             {
                 for (int g = 0; g <= 7; g++)
                 {
                     for (int b = 0; b <= 7; b++)
                     {
-                        allowedColors.Add(Color.FromArgb(ClampColor(r * 37), ClampColor(g * 37), ClampColor(b * 37)));
-                        allowedColor3s.Add(new Color3(ClampColor(r * 37), ClampColor(g * 37), ClampColor(b * 37)));
+                        allowedColors.Add(Color.FromArgb(
+                            ClampColor((int)(r * componentMultipler)),
+                            ClampColor((int)(g * componentMultipler)),
+                            ClampColor((int)(b * componentMultipler))));
                     }
                 }
             }
@@ -292,7 +293,7 @@ namespace WhipsImageConverter
             imageHeight = desiredImage.Height;
 
             //Initialize empty color array
-            convertedColorArray = new Color[imageHeight, imageWidth];
+            convertedColorArray = new Color3B[imageHeight, imageWidth];
 
             //Get dithering type
             int type = combobox_dither.SelectedIndex;
@@ -329,9 +330,10 @@ namespace WhipsImageConverter
             MessageBox.Show("Image Converted"); //successful conversion
         }
 
-        public Color3 ColorToColor3(Color regularColor)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Color3B ColorToColor3(Color regularColor)
         {
-            return new Color3(regularColor.R, regularColor.G, regularColor.B);
+            return new Color3B(regularColor.ToArgb());
         }
 
         int[,] GetDitherFilter(int type)
@@ -450,34 +452,40 @@ namespace WhipsImageConverter
         http://www.tannerhelland.com/4660/dithering-eleven-algorithms-source-code/
         http://www.efg2.com/Lab/Library/ImageProcessing/DHALF.TXT
         */
-
-        private Color[,] Dithering(Bitmap image, int width, int height, int type)
+        private Color3B[,] Dithering(Bitmap image, int width, int height, int type)
         {
             var filterArray = GetDitherFilter(type);
 
-            Color3[,] initialColorArray = new Color3[height, width];
+            Color3S[,] initialColorArray = new Color3S[height, width];
 
+            BitmapData data = image.LockBits(new Rectangle(Point.Empty, image.Size), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
+            int lineWidth = data.Stride / 4;
+            int[] pixelData = new int[lineWidth * data.Height];
+            Marshal.Copy(data.Scan0, pixelData, 0, pixelData.Length);
+            image.UnlockBits(data);
+
+          
             for (int row = 0; row < height; row++)
             {
                 for (int col = 0; col < width; col++)
                 {
-                    initialColorArray[row, col] = ColorToColor3(image.GetPixel(col, row));
+                    initialColorArray[row, col] = new Color3S(pixelData[lineWidth * row + col]);
                 }
             }
-
-            Color[,] convertedColorArray = new Color[height, width];
+            
+            Color3B[,] convertedColorArray = new Color3B[height, width];
 
             int divisor = GetFilterDivisor(filterArray);
-
+            
             for (int row = 0; row < height; row++)
             {
                 for (int col = 0; col < width; col++)
                 {
-                    var oldColor = initialColorArray[row, col];
-                    var newColor = GetClosestColor(oldColor);
-                    convertedColorArray[row, col] = newColor.ToColor();
+                    Color3B oldColor = new Color3B(initialColorArray[row, col]);
+                    Color3B newColor = GetClosestColor3B(ref oldColor);
+                    convertedColorArray[row, col] = newColor;
 
-                    Color3 error = oldColor.Subtract(newColor);
+                    Color3S error = oldColor.Subtract(ref newColor);
 
                     for (int i = 0; i < filterArray.GetLength(0); i++) //iterate through each row
                     {
@@ -485,12 +493,11 @@ namespace WhipsImageConverter
                         int rowIndex = filterArray[i, 1] + row; //adjusted row
                         int colIndex = filterArray[i, 2] + col; //adjusted column
 
-                        #region debugger
-                        //debug.AppendLine(IsIndexAllowed(rowIndex, colIndex, filterArray).ToString());
-                        #endregion
-
                         if (IsIndexAllowed(rowIndex, colIndex, width, height))
-                            initialColorArray[rowIndex, colIndex] = initialColorArray[rowIndex, colIndex].Add(error.Multiply((float)factor / divisor));
+                        {
+                            var mult = (float)factor / divisor;
+                            initialColorArray[rowIndex, colIndex].Add((short)(error.R * mult), (short)(error.G * mult), (short)(error.B * mult));
+                        }
                         else
                             continue;
                     }
@@ -499,66 +506,41 @@ namespace WhipsImageConverter
                         backgroundWorker1.ReportProgress(GetPercentCompletion(height, width, row, col));
                 }
             }
-           
-            return convertedColorArray;
-        }
-
-        private Color[,] NoDithering(Bitmap image, int width, int height)
-        {
-            Color3[,] initialColorArray = new Color3[height, width];
-
-            for (int row = 0; row < height; row++)
-            {
-                for (int col = 0; col < width; col++)
-                {
-                    initialColorArray[row, col] = ColorToColor3(image.GetPixel(col, row));
-                }
-            }
-
-            Color[,] convertedColorArray = new Color[height, width];
-
-            for (int row = 0; row < height; row++)
-            {
-                for (int col = 0; col < width; col++)
-                {
-                    var pixelColor = initialColorArray[row, col];
-                    convertedColorArray[row, col] = GetClosestColor(pixelColor).ToColor();
-
-                    if (progressBarForm.DialogResult != DialogResult.Abort)
-                        backgroundWorker1.ReportProgress(GetPercentCompletion(height, width, row, col));
-                }
-            }
 
             return convertedColorArray;
         }
 
-        /*
-        private Color[,] NoDithering(Bitmap image, int width, int height)
+        private Color3B[,] NoDithering(Bitmap image, int width, int height)
         {
-            Color[,]colorArray = new Color[height, width];
+            BitmapData data = image.LockBits(new Rectangle(Point.Empty, image.Size), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
+            int lineWidth = data.Stride / 4;
+            Color3B[] pixelData = new Color3B[lineWidth * data.Height];
+            var gchandle = GCHandle.Alloc(pixelData, GCHandleType.Pinned);
+            CopyMemory(gchandle.AddrOfPinnedObject(), data.Scan0, data.Stride * data.Height);
+            gchandle.Free();
+            image.UnlockBits(data);
+
+            Color3B[,]colorArray = new Color3B[height, width];
 
             for (int row = 0; row < height; row++)
             {
                 for (int col = 0; col < width; col++)
                 {
-                    Color pixelColor = image.GetPixel(col, row);
-                    colorArray[row, col] = GetClosestColor(pixelColor);
-
+                    colorArray[row, col] = GetClosestColor3B(ref pixelData[lineWidth * row + col]);
+                        
                     if (progressBarForm.DialogResult != DialogResult.Abort)
                             backgroundWorker1.ReportProgress(GetPercentCompletion(height, width, row, col));
                 }
             }
 
             return colorArray;
-        }*/
+        }
 
         //Manhattan distance
-        /*
         int ColorDiff(Color color1, Color color2)
         {
             return Math.Abs(color1.R - color2.R) + Math.Abs(color1.G - color2.G) + Math.Abs(color1.B - color2.B);
         }
-        */
 
         int ClampColor(int value)
         {
@@ -576,7 +558,6 @@ namespace WhipsImageConverter
             return clampedValue;
         }
 
-        /*
         Color GetClosestColor(Color pixelColor)
         {
             var leastDiff = 10000000f;
@@ -596,17 +577,30 @@ namespace WhipsImageConverter
 
             return allowedColors[leastIndex];
         }
-        */
 
-        Color3 GetClosestColor(Color3 pixelColor)
+        Dictionary<int, Color3B> ClosestColors3B = new Dictionary<int, Color3B>();
+
+        Color3B GetClosestColor3B(ref Color3B pixelColor)
+        {
+            Color3B result;
+            if (!ClosestColors3B.TryGetValue(pixelColor.Packed, out result))
+            {
+                result = GetClosestColor3BInt(ref pixelColor);
+                ClosestColors3B[pixelColor.Packed] = result;
+            }
+            return result; 
+        }
+
+
+        Color3B GetClosestColor3BInt(ref Color3B pixelColor)
         {
             var leastDiff = 10000000f;
             var leastIndex = -1;
 
-            for (int i = 0; i < allowedColor3s.Count; i++)
+            for (int i = 0; i < allowedColors.Count; i++)
             {
-                var comparisonColor = allowedColor3s[i];
-                var thisDiff = pixelColor.Diff(comparisonColor);
+                var comparisonColor = ColorToColor3(allowedColors[i]);
+                var thisDiff = pixelColor.Diff(ref comparisonColor);
 
                 if (thisDiff < leastDiff)
                 {
@@ -615,15 +609,23 @@ namespace WhipsImageConverter
                 }
             }
 
-            return allowedColor3s[leastIndex];
+            return ColorToColor3(allowedColors[leastIndex]);
         }
 
-        int ColorToInt(byte r, byte g, byte b)
+        const float componentMultipler = 37;
+
+        byte ReduceComponent(byte component)
         {
-            return (int)(0xe100 + ((r/37) << 6) + ((g/37) << 3) + (b/37));
+            return (byte)(((byte)(component / componentMultipler)) * componentMultipler);
         }
 
-        string BuildFinalString(Color[,] colorArray, int width, int height)
+        int ColorToInt(int r, int g, int b)
+        {
+            const float multiplier = 36.4f;
+            return 0xe100 + ((int)(r / multiplier) << 6) + ((int)(g / multiplier) << 3) + (int)(b / multiplier);
+        }
+
+        string BuildFinalString(Color3B[,] colorArray, int width, int height)
         {
             var sb = new StringBuilder();
             for (int row = 0; row < height; row++)
@@ -632,552 +634,42 @@ namespace WhipsImageConverter
                 {
                     var thisColor = colorArray[row, col];
                     var colorInt = ColorToInt(thisColor.R, thisColor.G, thisColor.B);
-                    //string colorGlyph = ".";
-                    //colorGlyphs.TryGetValue(colorInt, out colorGlyph);
-                    sb.Append((char)colorInt);
+                    char colorGlyph = (char)colorInt;
+                    sb.Append(colorGlyph);
                 }
 
                 if (row + 1 < height)
                     sb.Append("\n");
             }
 
-            sb.Append($"Converted with Whip's Image Converter - Version {myVersionString}");
+            sb.Append("Converted with Whip's Image Converter");
             return sb.ToString();
         }
 
-        private Bitmap ArrayToBmp(Color[,] colorArray, int width, int height)
+        private Bitmap ArrayToBmp(Color3B[,] colorArray, int width, int height)
         {
             Bitmap bmp = new Bitmap(width, height);
-            
+            BitmapData data = bmp.LockBits(new Rectangle(Point.Empty, bmp.Size), ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
+            int lineWidth = data.Stride / 4;
+
+
+            int[] pixelData = new int[lineWidth * height];
+
+
             for (int row = 0; row < height; row++)
             {
                 for (int col = 0; col < width; col++)
                 {
-                    bmp.SetPixel(col, row, colorArray[row, col]); //i think this should work because of how bmp is traversed
+                    pixelData[row * lineWidth + col] = colorArray[row, col].Packed;
                 }
             }
 
+            Marshal.Copy(pixelData, 0, data.Scan0, pixelData.Length);
+            bmp.UnlockBits(data);
+            
             return bmp;
         }
-
-        Dictionary<int, string> colorGlyphs = new Dictionary<int, string>()
-        {
-            #region Bigass Dictionary
-            { (int)0xe100,""},
-            {(int)0xe101,""},
-            {(int)0xe102,""},
-            {(int)0xe103,""},
-            {(int)0xe104,""},
-            {(int)0xe105,""},
-            {(int)0xe106,""},
-            {(int)0xe107,""},
-            {(int)0xe108,""},
-            {(int)0xe109,""},
-            {(int)0xe10a,""},
-            {(int)0xe10b,""},
-            {(int)0xe10c,""},
-            {(int)0xe10d,""},
-            {(int)0xe10e,""},
-            {(int)0xe10f,""},
-            {(int)0xe110,""},
-            {(int)0xe111,""},
-            {(int)0xe112,""},
-            {(int)0xe113,""},
-            {(int)0xe114,""},
-            {(int)0xe115,""},
-            {(int)0xe116,""},
-            {(int)0xe117,""},
-            {(int)0xe118,""},
-            {(int)0xe119,""},
-            {(int)0xe11a,""},
-            {(int)0xe11b,""},
-            {(int)0xe11c,""},
-            {(int)0xe11d,""},
-            {(int)0xe11e,""},
-            {(int)0xe11f,""},
-            {(int)0xe120,""},
-            {(int)0xe121,""},
-            {(int)0xe122,""},
-            {(int)0xe123,""},
-            {(int)0xe124,""},
-            {(int)0xe125,""},
-            {(int)0xe126,""},
-            {(int)0xe127,""},
-            {(int)0xe128,""},
-            {(int)0xe129,""},
-            {(int)0xe12a,""},
-            {(int)0xe12b,""},
-            {(int)0xe12c,""},
-            {(int)0xe12d,""},
-            {(int)0xe12e,""},
-            {(int)0xe12f,""},
-            {(int)0xe130,""},
-            {(int)0xe131,""},
-            {(int)0xe132,""},
-            {(int)0xe133,""},
-            {(int)0xe134,""},
-            {(int)0xe135,""},
-            {(int)0xe136,""},
-            {(int)0xe137,""},
-            {(int)0xe138,""},
-            {(int)0xe139,""},
-            {(int)0xe13a,""},
-            {(int)0xe13b,""},
-            {(int)0xe13c,""},
-            {(int)0xe13d,""},
-            {(int)0xe13e,""},
-            {(int)0xe13f,""},
-            {(int)0xe140,""},
-            {(int)0xe141,""},
-            {(int)0xe142,""},
-            {(int)0xe143,""},
-            {(int)0xe144,""},
-            {(int)0xe145,""},
-            {(int)0xe146,""},
-            {(int)0xe147,""},
-            {(int)0xe148,""},
-            {(int)0xe149,""},
-            {(int)0xe14a,""},
-            {(int)0xe14b,""},
-            {(int)0xe14c,""},
-            {(int)0xe14d,""},
-            {(int)0xe14e,""},
-            {(int)0xe14f,""},
-            {(int)0xe150,""},
-            {(int)0xe151,""},
-            {(int)0xe152,""},
-            {(int)0xe153,""},
-            {(int)0xe154,""},
-            {(int)0xe155,""},
-            {(int)0xe156,""},
-            {(int)0xe157,""},
-            {(int)0xe158,""},
-            {(int)0xe159,""},
-            {(int)0xe15a,""},
-            {(int)0xe15b,""},
-            {(int)0xe15c,""},
-            {(int)0xe15d,""},
-            {(int)0xe15e,""},
-            {(int)0xe15f,""},
-            {(int)0xe160,""},
-            {(int)0xe161,""},
-            {(int)0xe162,""},
-            {(int)0xe163,""},
-            {(int)0xe164,""},
-            {(int)0xe165,""},
-            {(int)0xe166,""},
-            {(int)0xe167,""},
-            {(int)0xe168,""},
-            {(int)0xe169,""},
-            {(int)0xe16a,""},
-            {(int)0xe16b,""},
-            {(int)0xe16c,""},
-            {(int)0xe16d,""},
-            {(int)0xe16e,""},
-            {(int)0xe16f,""},
-            {(int)0xe170,""},
-            {(int)0xe171,""},
-            {(int)0xe172,""},
-            {(int)0xe173,""},
-            {(int)0xe174,""},
-            {(int)0xe175,""},
-            {(int)0xe176,""},
-            {(int)0xe177,""},
-            {(int)0xe178,""},
-            {(int)0xe179,""},
-            {(int)0xe17a,""},
-            {(int)0xe17b,""},
-            {(int)0xe17c,""},
-            {(int)0xe17d,""},
-            {(int)0xe17e,""},
-            {(int)0xe17f,""},
-            {(int)0xe180,""},
-            {(int)0xe181,""},
-            {(int)0xe182,""},
-            {(int)0xe183,""},
-            {(int)0xe184,""},
-            {(int)0xe185,""},
-            {(int)0xe186,""},
-            {(int)0xe187,""},
-            {(int)0xe188,""},
-            {(int)0xe189,""},
-            {(int)0xe18a,""},
-            {(int)0xe18b,""},
-            {(int)0xe18c,""},
-            {(int)0xe18d,""},
-            {(int)0xe18e,""},
-            {(int)0xe18f,""},
-            {(int)0xe190,""},
-            {(int)0xe191,""},
-            {(int)0xe192,""},
-            {(int)0xe193,""},
-            {(int)0xe194,""},
-            {(int)0xe195,""},
-            {(int)0xe196,""},
-            {(int)0xe197,""},
-            {(int)0xe198,""},
-            {(int)0xe199,""},
-            {(int)0xe19a,""},
-            {(int)0xe19b,""},
-            {(int)0xe19c,""},
-            {(int)0xe19d,""},
-            {(int)0xe19e,""},
-            {(int)0xe19f,""},
-            {(int)0xe1a0,""},
-            {(int)0xe1a1,""},
-            {(int)0xe1a2,""},
-            {(int)0xe1a3,""},
-            {(int)0xe1a4,""},
-            {(int)0xe1a5,""},
-            {(int)0xe1a6,""},
-            {(int)0xe1a7,""},
-            {(int)0xe1a8,""},
-            {(int)0xe1a9,""},
-            {(int)0xe1aa,""},
-            {(int)0xe1ab,""},
-            {(int)0xe1ac,""},
-            {(int)0xe1ad,""},
-            {(int)0xe1ae,""},
-            {(int)0xe1af,""},
-            {(int)0xe1b0,""},
-            {(int)0xe1b1,""},
-            {(int)0xe1b2,""},
-            {(int)0xe1b3,""},
-            {(int)0xe1b4,""},
-            {(int)0xe1b5,""},
-            {(int)0xe1b6,""},
-            {(int)0xe1b7,""},
-            {(int)0xe1b8,""},
-            {(int)0xe1b9,""},
-            {(int)0xe1ba,""},
-            {(int)0xe1bb,""},
-            {(int)0xe1bc,""},
-            {(int)0xe1bd,""},
-            {(int)0xe1be,""},
-            {(int)0xe1bf,""},
-            {(int)0xe1c0,""},
-            {(int)0xe1c1,""},
-            {(int)0xe1c2,""},
-            {(int)0xe1c3,""},
-            {(int)0xe1c4,""},
-            {(int)0xe1c5,""},
-            {(int)0xe1c6,""},
-            {(int)0xe1c7,""},
-            {(int)0xe1c8,""},
-            {(int)0xe1c9,""},
-            {(int)0xe1ca,""},
-            {(int)0xe1cb,""},
-            {(int)0xe1cc,""},
-            {(int)0xe1cd,""},
-            {(int)0xe1ce,""},
-            {(int)0xe1cf,""},
-            {(int)0xe1d0,""},
-            {(int)0xe1d1,""},
-            {(int)0xe1d2,""},
-            {(int)0xe1d3,""},
-            {(int)0xe1d4,""},
-            {(int)0xe1d5,""},
-            {(int)0xe1d6,""},
-            {(int)0xe1d7,""},
-            {(int)0xe1d8,""},
-            {(int)0xe1d9,""},
-            {(int)0xe1da,""},
-            {(int)0xe1db,""},
-            {(int)0xe1dc,""},
-            {(int)0xe1dd,""},
-            {(int)0xe1de,""},
-            {(int)0xe1df,""},
-            {(int)0xe1e0,""},
-            {(int)0xe1e1,""},
-            {(int)0xe1e2,""},
-            {(int)0xe1e3,""},
-            {(int)0xe1e4,""},
-            {(int)0xe1e5,""},
-            {(int)0xe1e6,""},
-            {(int)0xe1e7,""},
-            {(int)0xe1e8,""},
-            {(int)0xe1e9,""},
-            {(int)0xe1ea,""},
-            {(int)0xe1eb,""},
-            {(int)0xe1ec,""},
-            {(int)0xe1ed,""},
-            {(int)0xe1ee,""},
-            {(int)0xe1ef,""},
-            {(int)0xe1f0,""},
-            {(int)0xe1f1,""},
-            {(int)0xe1f2,""},
-            {(int)0xe1f3,""},
-            {(int)0xe1f4,""},
-            {(int)0xe1f5,""},
-            {(int)0xe1f6,""},
-            {(int)0xe1f7,""},
-            {(int)0xe1f8,""},
-            {(int)0xe1f9,""},
-            {(int)0xe1fa,""},
-            {(int)0xe1fb,""},
-            {(int)0xe1fc,""},
-            {(int)0xe1fd,""},
-            {(int)0xe1fe,""},
-            {(int)0xe1ff,""},
-            {(int)0xe200,""},
-            {(int)0xe201,""},
-            {(int)0xe202,""},
-            {(int)0xe203,""},
-            {(int)0xe204,""},
-            {(int)0xe205,""},
-            {(int)0xe206,""},
-            {(int)0xe207,""},
-            {(int)0xe208,""},
-            {(int)0xe209,""},
-            {(int)0xe20a,""},
-            {(int)0xe20b,""},
-            {(int)0xe20c,""},
-            {(int)0xe20d,""},
-            {(int)0xe20e,""},
-            {(int)0xe20f,""},
-            {(int)0xe210,""},
-            {(int)0xe211,""},
-            {(int)0xe212,""},
-            {(int)0xe213,""},
-            {(int)0xe214,""},
-            {(int)0xe215,""},
-            {(int)0xe216,""},
-            {(int)0xe217,""},
-            {(int)0xe218,""},
-            {(int)0xe219,""},
-            {(int)0xe21a,""},
-            {(int)0xe21b,""},
-            {(int)0xe21c,""},
-            {(int)0xe21d,""},
-            {(int)0xe21e,""},
-            {(int)0xe21f,""},
-            {(int)0xe220,""},
-            {(int)0xe221,""},
-            {(int)0xe222,""},
-            {(int)0xe223,""},
-            {(int)0xe224,""},
-            {(int)0xe225,""},
-            {(int)0xe226,""},
-            {(int)0xe227,""},
-            {(int)0xe228,""},
-            {(int)0xe229,""},
-            {(int)0xe22a,""},
-            {(int)0xe22b,""},
-            {(int)0xe22c,""},
-            {(int)0xe22d,""},
-            {(int)0xe22e,""},
-            {(int)0xe22f,""},
-            {(int)0xe230,""},
-            {(int)0xe231,""},
-            {(int)0xe232,""},
-            {(int)0xe233,""},
-            {(int)0xe234,""},
-            {(int)0xe235,""},
-            {(int)0xe236,""},
-            {(int)0xe237,""},
-            {(int)0xe238,""},
-            {(int)0xe239,""},
-            {(int)0xe23a,""},
-            {(int)0xe23b,""},
-            {(int)0xe23c,""},
-            {(int)0xe23d,""},
-            {(int)0xe23e,""},
-            {(int)0xe23f,""},
-            {(int)0xe240,""},
-            {(int)0xe241,""},
-            {(int)0xe242,""},
-            {(int)0xe243,""},
-            {(int)0xe244,""},
-            {(int)0xe245,""},
-            {(int)0xe246,""},
-            {(int)0xe247,""},
-            {(int)0xe248,""},
-            {(int)0xe249,""},
-            {(int)0xe24a,""},
-            {(int)0xe24b,""},
-            {(int)0xe24c,""},
-            {(int)0xe24d,""},
-            {(int)0xe24e,""},
-            {(int)0xe24f,""},
-            {(int)0xe250,""},
-            {(int)0xe251,""},
-            {(int)0xe252,""},
-            {(int)0xe253,""},
-            {(int)0xe254,""},
-            {(int)0xe255,""},
-            {(int)0xe256,""},
-            {(int)0xe257,""},
-            {(int)0xe258,""},
-            {(int)0xe259,""},
-            {(int)0xe25a,""},
-            {(int)0xe25b,""},
-            {(int)0xe25c,""},
-            {(int)0xe25d,""},
-            {(int)0xe25e,""},
-            {(int)0xe25f,""},
-            {(int)0xe260,""},
-            {(int)0xe261,""},
-            {(int)0xe262,""},
-            {(int)0xe263,""},
-            {(int)0xe264,""},
-            {(int)0xe265,""},
-            {(int)0xe266,""},
-            {(int)0xe267,""},
-            {(int)0xe268,""},
-            {(int)0xe269,""},
-            {(int)0xe26a,""},
-            {(int)0xe26b,""},
-            {(int)0xe26c,""},
-            {(int)0xe26d,""},
-            {(int)0xe26e,""},
-            {(int)0xe26f,""},
-            {(int)0xe270,""},
-            {(int)0xe271,""},
-            {(int)0xe272,""},
-            {(int)0xe273,""},
-            {(int)0xe274,""},
-            {(int)0xe275,""},
-            {(int)0xe276,""},
-            {(int)0xe277,""},
-            {(int)0xe278,""},
-            {(int)0xe279,""},
-            {(int)0xe27a,""},
-            {(int)0xe27b,""},
-            {(int)0xe27c,""},
-            {(int)0xe27d,""},
-            {(int)0xe27e,""},
-            {(int)0xe27f,""},
-            {(int)0xe280,""},
-            {(int)0xe281,""},
-            {(int)0xe282,""},
-            {(int)0xe283,""},
-            {(int)0xe284,""},
-            {(int)0xe285,""},
-            {(int)0xe286,""},
-            {(int)0xe287,""},
-            {(int)0xe288,""},
-            {(int)0xe289,""},
-            {(int)0xe28a,""},
-            {(int)0xe28b,""},
-            {(int)0xe28c,""},
-            {(int)0xe28d,""},
-            {(int)0xe28e,""},
-            {(int)0xe28f,""},
-            {(int)0xe290,""},
-            {(int)0xe291,""},
-            {(int)0xe292,""},
-            {(int)0xe293,""},
-            {(int)0xe294,""},
-            {(int)0xe295,""},
-            {(int)0xe296,""},
-            {(int)0xe297,""},
-            {(int)0xe298,""},
-            {(int)0xe299,""},
-            {(int)0xe29a,""},
-            {(int)0xe29b,""},
-            {(int)0xe29c,""},
-            {(int)0xe29d,""},
-            {(int)0xe29e,""},
-            {(int)0xe29f,""},
-            {(int)0xe2a0,""},
-            {(int)0xe2a1,""},
-            {(int)0xe2a2,""},
-            {(int)0xe2a3,""},
-            {(int)0xe2a4,""},
-            {(int)0xe2a5,""},
-            {(int)0xe2a6,""},
-            {(int)0xe2a7,""},
-            {(int)0xe2a8,""},
-            {(int)0xe2a9,""},
-            {(int)0xe2aa,""},
-            {(int)0xe2ab,""},
-            {(int)0xe2ac,""},
-            {(int)0xe2ad,""},
-            {(int)0xe2ae,""},
-            {(int)0xe2af,""},
-            {(int)0xe2b0,""},
-            {(int)0xe2b1,""},
-            {(int)0xe2b2,""},
-            {(int)0xe2b3,""},
-            {(int)0xe2b4,""},
-            {(int)0xe2b5,""},
-            {(int)0xe2b6,""},
-            {(int)0xe2b7,""},
-            {(int)0xe2b8,""},
-            {(int)0xe2b9,""},
-            {(int)0xe2ba,""},
-            {(int)0xe2bb,""},
-            {(int)0xe2bc,""},
-            {(int)0xe2bd,""},
-            {(int)0xe2be,""},
-            {(int)0xe2bf,""},
-            {(int)0xe2c0,""},
-            {(int)0xe2c1,""},
-            {(int)0xe2c2,""},
-            {(int)0xe2c3,""},
-            {(int)0xe2c4,""},
-            {(int)0xe2c5,""},
-            {(int)0xe2c6,""},
-            {(int)0xe2c7,""},
-            {(int)0xe2c8,""},
-            {(int)0xe2c9,""},
-            {(int)0xe2ca,""},
-            {(int)0xe2cb,""},
-            {(int)0xe2cc,""},
-            {(int)0xe2cd,""},
-            {(int)0xe2ce,""},
-            {(int)0xe2cf,""},
-            {(int)0xe2d0,""},
-            {(int)0xe2d1,""},
-            {(int)0xe2d2,""},
-            {(int)0xe2d3,""},
-            {(int)0xe2d4,""},
-            {(int)0xe2d5,""},
-            {(int)0xe2d6,""},
-            {(int)0xe2d7,""},
-            {(int)0xe2d8,""},
-            {(int)0xe2d9,""},
-            {(int)0xe2da,""},
-            {(int)0xe2db,""},
-            {(int)0xe2dc,""},
-            {(int)0xe2dd,""},
-            {(int)0xe2de,""},
-            {(int)0xe2df,""},
-            {(int)0xe2e0,""},
-            {(int)0xe2e1,""},
-            {(int)0xe2e2,""},
-            {(int)0xe2e3,""},
-            {(int)0xe2e4,""},
-            {(int)0xe2e5,""},
-            {(int)0xe2e6,""},
-            {(int)0xe2e7,""},
-            {(int)0xe2e8,""},
-            {(int)0xe2e9,""},
-            {(int)0xe2ea,""},
-            {(int)0xe2eb,""},
-            {(int)0xe2ec,""},
-            {(int)0xe2ed,""},
-            {(int)0xe2ee,""},
-            {(int)0xe2ef,""},
-            {(int)0xe2f0,""},
-            {(int)0xe2f1,""},
-            {(int)0xe2f2,""},
-            {(int)0xe2f3,""},
-            {(int)0xe2f4,""},
-            {(int)0xe2f5,""},
-            {(int)0xe2f6,""},
-            {(int)0xe2f7,""},
-            {(int)0xe2f8,""},
-            {(int)0xe2f9,""},
-            {(int)0xe2fa,""},
-            {(int)0xe2fb,""},
-            {(int)0xe2fc,""},
-            {(int)0xe2fd,""},
-            {(int)0xe2fe,""},
-            {(int)0xe2ff,""}
-            #endregion
-        };
-        
+     
         private void button_Convert_Click(object sender, EventArgs e)
         {
             ConvertImage();
@@ -1212,20 +704,113 @@ namespace WhipsImageConverter
             popupForm.Show();
         }
 
-        public class Color3
+        [StructLayout(LayoutKind.Explicit)]
+        public struct Color3S
         {
-            public int R;
-            public int G;
-            public int B;
+            [FieldOffset(0)]
+            public short B;
+            [FieldOffset(2)]
+            public short G;
+            [FieldOffset(4)]
+            public short R;
 
-            public Color3(int R, int G, int B)
+            [FieldOffset(0)]
+            public long Packed;
+        
+
+            public Color3S(short R, short G, short B)
             {
+                this.Packed = 0;
                 this.R = R;
                 this.G = G;
                 this.B = B;
             }
 
-            private int ClampColor(int value)
+            public Color3S(int argb)
+            {
+                Color c = Color.FromArgb(argb);
+                this.Packed = 0;
+                this.R = c.R;
+                this.G = c.G;
+                this.B = c.B;
+            }
+
+            
+            public override int GetHashCode()
+            {
+                return (int)Packed; // overflow it ok
+            }
+
+            public override bool Equals(object obj)
+            {
+                if (!(obj is Color3S))
+                    return false;
+                return Packed == ((Color3S)obj).Packed;
+            }
+
+            public void Add(short dR, short dG, short dB)
+            {
+                this.R += dR;
+                this.G += dG;
+                this.B += dB;
+            }
+        }
+
+        [StructLayout(LayoutKind.Explicit)]
+        public struct Color3B
+        {
+            [FieldOffset(0)]
+            public byte B;
+            [FieldOffset(1)]
+            public byte G;
+            [FieldOffset(2)]
+            public byte R;
+            [FieldOffset(3)]
+            public byte Reserved;
+
+            [FieldOffset(0)]
+            public int Packed;
+
+            public Color3B(byte R, byte G, byte B)
+            {
+                this.Packed = 0;
+                this.Reserved = 255;
+                this.R = R;
+                this.G = G;
+                this.B = B;
+            }
+
+            public Color3B(Color3S c)
+            {
+                this.Packed = 0;
+                this.Reserved = 255;
+                this.R = ClampColor(c.R);
+                this.G = ClampColor(c.G);
+                this.B = ClampColor(c.B);
+            }
+
+            public Color3B(int packed)
+            {
+                this.Reserved = 0;
+                this.R = 0;
+                this.G = 0;
+                this.B = 0;
+                this.Packed = packed;
+            }
+
+            public override int GetHashCode()
+            {
+                return Packed;
+            }
+
+            public override bool Equals(object obj)
+            {
+                if (!(obj is Color3B))
+                    return false;
+                return Packed == ((Color3B)obj).Packed;
+            }
+
+            public static byte ClampColor(int value)
             {
                 int clampedValue = value;
 
@@ -1238,36 +823,21 @@ namespace WhipsImageConverter
                     clampedValue = 0;
                 }
 
-                return clampedValue;
+                return (byte)clampedValue;
             }
 
-            //Manhattan distance
-            public int Diff(Color3 otherColor)
+            public int Diff(ref Color3B otherColor)
             {
                 return Math.Abs(R - otherColor.R) + Math.Abs(G - otherColor.G) + Math.Abs(B - otherColor.B);
             }
 
-            public Color ToColor()
+            public Color3S Subtract(ref Color3B colorToSub)
             {
-                return Color.FromArgb(ClampColor(R), ClampColor(G), ClampColor(B));
+                return new Color3S((short)(R - colorToSub.R), (short)(G - colorToSub.G), (short)(B - colorToSub.B));
             }
-
-            public Color3 Add(Color3 colorToAdd)
-            {
-                return new Color3(R + colorToAdd.R, G + colorToAdd.G, B + colorToAdd.B);
-            }
-
-            public Color3 Subtract(Color3 colorToSub)
-            {
-                return new Color3(R - colorToSub.R, G - colorToSub.G, B - colorToSub.B);
-            }
-
-            public Color3 Multiply(float multiplier)
-            {
-                return new Color3((int)Math.Round(R * multiplier), (int)Math.Round(G * multiplier), (int)Math.Round(B * multiplier));
-            }
+            
         }
-
+         
         private void ImagePreviewBox_Click(object sender, EventArgs e)
         {
             if (ImagePreviewBox.Image != null)
@@ -1518,5 +1088,9 @@ namespace WhipsImageConverter
                 }
             }
         }
+
+
+        [DllImport("kernel32.dll", EntryPoint = "CopyMemory", SetLastError = false)]
+        public static extern void CopyMemory(IntPtr dest, IntPtr src, int count);
     }
 }
