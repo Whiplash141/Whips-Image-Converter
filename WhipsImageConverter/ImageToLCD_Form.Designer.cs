@@ -59,7 +59,7 @@
             this.toolTipMaster = new System.Windows.Forms.ToolTip(this.components);
             this.buttonFlipHorizontal = new System.Windows.Forms.Button();
             this.buttonFlipVertical = new System.Windows.Forms.Button();
-            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.backgroundWorkerDithering = new System.ComponentModel.BackgroundWorker();
             this.label10 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.numericUpDownWidth = new System.Windows.Forms.NumericUpDown();
@@ -68,6 +68,7 @@
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.button_background_color = new System.Windows.Forms.Button();
             this.pictureBox_background_color = new System.Windows.Forms.PictureBox();
+            this.backgroundWorkerUpdate = new System.ComponentModel.BackgroundWorker();
             ((System.ComponentModel.ISupportInitialize)(this.ImagePreviewBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWidth)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHeight)).BeginInit();
@@ -387,13 +388,13 @@
             this.buttonFlipVertical.UseVisualStyleBackColor = true;
             this.buttonFlipVertical.Click += new System.EventHandler(this.buttonFlipVertical_Click);
             // 
-            // backgroundWorker1
+            // backgroundWorkerDithering
             // 
-            this.backgroundWorker1.WorkerReportsProgress = true;
-            this.backgroundWorker1.WorkerSupportsCancellation = true;
-            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
-            this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
-            this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
+            this.backgroundWorkerDithering.WorkerReportsProgress = true;
+            this.backgroundWorkerDithering.WorkerSupportsCancellation = true;
+            this.backgroundWorkerDithering.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorkerDithering_DoWork);
+            this.backgroundWorkerDithering.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorkerDithering_ProgressChanged);
+            this.backgroundWorkerDithering.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorkerDithering_RunWorkerCompleted);
             // 
             // label10
             // 
@@ -579,7 +580,7 @@
         private System.Windows.Forms.Button buttonRotateCCW;
         private System.Windows.Forms.Button buttonFlipHorizontal;
         private System.Windows.Forms.Button buttonFlipVertical;
-        private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private System.ComponentModel.BackgroundWorker backgroundWorkerDithering;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.NumericUpDown numericUpDownWidth;
@@ -588,6 +589,7 @@
         private System.Windows.Forms.ColorDialog colorDialog1;
         private System.Windows.Forms.Button button_background_color;
         private System.Windows.Forms.PictureBox pictureBox_background_color;
+        private System.ComponentModel.BackgroundWorker backgroundWorkerUpdate;
     }
 }
 
