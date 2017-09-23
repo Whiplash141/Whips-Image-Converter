@@ -13,7 +13,6 @@ using System.IO;
 using System.Numerics;
 using System.Net.Http;
 using System.Net;
-//using System.Runtime.InteropServices;
 
 /*
 Color3 method adapted from user dacwe on StackExchange 
@@ -30,8 +29,7 @@ namespace WhipsImageConverter
 {
     public partial class ImageToLCD : Form
     {
-        const string myVersionString = "1.1.3.1";
-        const string buildDateString = "9/17/17";
+        const string myVersionString = "1.1.3.5";
         const string githubVersionUrl = "https://github.com/Whiplash141/Whips-Image-Converter/releases/latest";
 
         string formTitle = $"Whip's Image Converter (Version {myVersionString} - {buildDateString})";
@@ -56,29 +54,29 @@ namespace WhipsImageConverter
 
         ImageLoadProgressForm progressBarForm = new ImageLoadProgressForm();
 
-        Dictionary<int, Color3> paletteColorDictionary = new Dictionary<int, Color3>();
+        Dictionary<int, Color3> paletteColorDictionary = new Dictionary<int, Color3>(512);
 
         Color backgroundColor = Color.FromArgb(0, 0, 0);
 
         const double bitSpacing = 255.0 / 7.0;
 
         //Color3 Class Definition
-        public class Color3
+        public struct Color3
         {
-            public int R;
-            public int G;
-            public int B;
-            public int Packed;
+            public readonly int R;
+            public readonly int G;
+            public readonly int B;
+            public readonly int Packed;
 
             public Color3(int R, int G, int B)
             {
                 this.R = R;
                 this.G = G;
                 this.B = B;
-                this.Packed = this.ToInt();
+                this.Packed = (255 << 24) | (ClampColor(R) << 16) | (ClampColor(G) << 8) | ClampColor(B);
             }
 
-            private int ClampColor(int value)
+            private static int ClampColor(int value)
             {
                 int clampedValue = value;
 
@@ -102,27 +100,37 @@ namespace WhipsImageConverter
 
             public Color ToColor()
             {
-                return Color.FromArgb(ClampColor(R), ClampColor(G), ClampColor(B));
+                return Color.FromArgb(Packed);
             }
 
-            public Color3 Add(Color3 colorToAdd)
+            public static Color3 operator -(Color3 color1, Color3 color2)
             {
-                return new Color3(R + colorToAdd.R, G + colorToAdd.G, B + colorToAdd.B);
+                return new Color3(color1.R - color2.R, color1.G - color2.G, color1.B - color2.B);
             }
 
-            public Color3 Subtract(Color3 colorToSub)
+            public static Color3 operator +(Color3 color1, Color3 color2)
             {
-                return new Color3(R - colorToSub.R, G - colorToSub.G, B - colorToSub.B);
+                return new Color3(color1.R + color2.R, color1.G + color2.G, color1.B + color2.B);
             }
 
-            public Color3 Multiply(float multiplier)
+            public static Color3 operator *(Color3 color, float multiplier)
             {
-                return new Color3((int)Math.Round(R * multiplier), (int)Math.Round(G * multiplier), (int)Math.Round(B * multiplier));
+                return new Color3((int)Math.Round(color.R * multiplier), (int)Math.Round(color.G * multiplier), (int)Math.Round(color.B * multiplier));
             }
 
-            public int ToInt() //this assumes alpha channel is full
+            public static Color3 operator *(float multiplier, Color3 color)
             {
-                return (255 << 24) | (ClampColor(R) << 16) | (ClampColor(G) << 8) | ClampColor(B);
+                return new Color3((int)Math.Round(color.R * multiplier), (int)Math.Round(color.G * multiplier), (int)Math.Round(color.B * multiplier));
+            }
+
+            public static Color3 operator /(float dividend, Color3 color)
+            {
+                return new Color3((int)Math.Round(dividend / color.R), (int)Math.Round(dividend / color.G), (int)Math.Round(dividend / color.B));
+            }
+
+            public static Color3 operator /(Color3 color, float dividend)
+            {
+                return new Color3((int)Math.Round(color.R / dividend), (int)Math.Round(color.G / dividend), (int)Math.Round(color.B / dividend));
             }
         }
 
@@ -355,6 +363,9 @@ namespace WhipsImageConverter
                 return;
             }
 
+            label_stringLength.Text = "String Length: 0";
+            textBox_Return.Text = "";
+
             desiredImage = baseImage;
             
             //Get resize parameters
@@ -423,9 +434,6 @@ namespace WhipsImageConverter
 
             //Display converted image and encoded string
             textBox_Return.Text = convertedImageString;
-
-            //textBox_Return.Text = debug.ToString(); //for debugging
-            //ImagePreviewBox.Image = convertedImage;
 
             label_stringLength.Text = $"String Length: {textBox_Return.Text.Length}";
             MessageBox.Show("Image Converted"); //successful conversion
@@ -540,8 +548,6 @@ namespace WhipsImageConverter
             return (indexRow < height && indexRow >= 0 && indexColumn < width && indexColumn >= 0);
         }
 
-        StringBuilder debug = new StringBuilder();
-
         private int[,] Dithering(Bitmap image, int width, int height, int type)
         {
             var filterArray = GetDitherFilter(type);
@@ -579,9 +585,9 @@ namespace WhipsImageConverter
                 {
                     var oldColor = initialColorArray[row, col];
                     var newColor = GetClosestColorFast(oldColor);
-                    convertedColorArray[row, col] = newColor.ToInt();
+                    convertedColorArray[row, col] = newColor.Packed;
 
-                    Color3 error = oldColor.Subtract(newColor);
+                    Color3 error = oldColor - newColor;
 
                     for (int i = 0; i < filterArray.GetLength(0); i++) //iterate through each row
                     {
@@ -594,7 +600,7 @@ namespace WhipsImageConverter
                         #endregion
 
                         if (IsIndexAllowed(rowIndex, colIndex, width, height))
-                            initialColorArray[rowIndex, colIndex] = initialColorArray[rowIndex, colIndex].Add(error.Multiply((float)factor / divisor));
+                            initialColorArray[rowIndex, colIndex] = initialColorArray[rowIndex, colIndex] + error * ((float)factor / divisor);
                         else
                             continue;
                     }
@@ -606,37 +612,6 @@ namespace WhipsImageConverter
 
             return convertedColorArray;
         }
-
-        /*
-        private Color[,] NoDithering(Bitmap image, int width, int height)
-        {
-            Color3[,] initialColorArray = new Color3[height, width];
-
-            for (int row = 0; row < height; row++)
-            {
-                for (int col = 0; col < width; col++)
-                {
-                    initialColorArray[row, col] = ColorToColor3(image.GetPixel(col, row));
-                }
-            }
-
-            Color[,] convertedColorArray = new Color[height, width];
-
-            for (int row = 0; row < height; row++)
-            {
-                for (int col = 0; col < width; col++)
-                {
-                    var pixelColor = initialColorArray[row, col];
-                    convertedColorArray[row, col] = GetClosestColor(pixelColor).ToColor();
-
-                    if (progressBarForm.DialogResult != DialogResult.Abort)
-                        backgroundWorker1.ReportProgress(GetPercentCompletion(height, width, row, col));
-                }
-            }
-
-            return convertedColorArray;
-        }
-        */
 
         private int[,] NoDithering(Bitmap image, int width, int height)
         {
@@ -657,7 +632,7 @@ namespace WhipsImageConverter
                 for (int col = 0; col < width; col++)
                 {
                     var pixelColor = initialColorArray[row, col];
-                    convertedColorArray[row, col] = GetClosestColorFast(pixelColor).ToInt();
+                    convertedColorArray[row, col] = GetClosestColorFast(pixelColor).Packed;
 
                     if (progressBarForm.DialogResult != DialogResult.Abort)
                         backgroundWorkerDithering.ReportProgress(GetPercentCompletion(height, width, row, col));
@@ -690,13 +665,23 @@ namespace WhipsImageConverter
             if (!paletteColorDictionary.TryGetValue(pixelColor.Packed, out paletteColor))
             {
                 paletteColor = GetClosestColor(pixelColor);
-                paletteColorDictionary.Add(pixelColor.Packed, paletteColor);
+                //paletteColorDictionary.Add(pixelColor.Packed, paletteColor);
             }
 
             return paletteColor;
         }
 
         Color3 GetClosestColor(Color3 pixelColor)
+        {
+            int R, G, B;
+            R = (int)(Math.Round(pixelColor.R / bitSpacing) * bitSpacing);
+            G = (int)(Math.Round(pixelColor.G / bitSpacing) * bitSpacing);
+            B = (int)(Math.Round(pixelColor.B / bitSpacing) * bitSpacing);
+
+            return new Color3(R, G, B);
+        }
+
+        /*Color3 GetClosestColor(Color3 pixelColor)
         {
             var leastDiff = 10000000f;
             var leastIndex = -1;
@@ -714,16 +699,17 @@ namespace WhipsImageConverter
             }
 
             return paletteColors[leastIndex];
-        }
+        }*/
 
         char ColorToChar(byte r, byte g, byte b)
         {
             return (char)(0xe100 + ((int)Math.Round(r / bitSpacing) << 6) + ((int)Math.Round(g / bitSpacing) << 3) + (int)Math.Round(b / bitSpacing));
         }
 
+        StringBuilder sb = new StringBuilder();
         string BuildFinalString(int[,] colorArray, int width, int height)
         {
-            var sb = new StringBuilder();
+            sb.Clear();
             for (int row = 0; row < height; row++)
             {
                 for (int col = 0; col < width; col++)
@@ -884,7 +870,7 @@ namespace WhipsImageConverter
             textBox_Return.Clear();
             label_stringLength.Text = "String Length: 0";
 
-            ResetPaletteDictionary();
+            //ResetPaletteDictionary();
             CacheImages(); //cache all image size
             DitherImage(); //initial image dithering
             newImageLoaded = false;
