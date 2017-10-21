@@ -29,7 +29,8 @@ namespace WhipsImageConverter
 {
     public partial class ImageToLCD : Form
     {
-        const string myVersionString = "1.1.3.5";
+        const string myVersionString = "1.1.3.7";
+        const string buildDateString = "9/23/17";
         const string githubVersionUrl = "https://github.com/Whiplash141/Whips-Image-Converter/releases/latest";
 
         string formTitle = $"Whip's Image Converter (Version {myVersionString} - {buildDateString})";
@@ -165,18 +166,15 @@ namespace WhipsImageConverter
 
         void CheckForUpdates()
         {
-            /*
-            var client = new GitHubClient(new ProductHeaderValue("WhipsImageConverter"));
-            var latest = client.Repository.Release.GetLatest("Whiplash141", "Whips-Image-Converter");
-            textBox_Return.Text = latest.ToString();
-            */
-
             var webRequest = (HttpWebRequest)WebRequest.Create(githubVersionUrl);
+            webRequest.CachePolicy = new System.Net.Cache.RequestCachePolicy(System.Net.Cache.RequestCacheLevel.NoCacheNoStore);
             webRequest.AllowAutoRedirect = true;
             HttpWebResponse webResponse = (HttpWebResponse)webRequest.GetResponse();
 
             var latestVersionUrl = webResponse.ResponseUri.ToString();
             var urlSplit = latestVersionUrl.Split('/');
+            if (urlSplit.Length < 1)
+                return;
             var latestVersionString = urlSplit[urlSplit.Length - 1];
             latestVersionString = latestVersionString.ToLower().Replace("v", "");
             
@@ -791,6 +789,7 @@ namespace WhipsImageConverter
             this.Enabled = true;
             convertedImage = ArrayToBmp(convertedColorArray, imageWidth, imageHeight);
             ImagePreviewBox.Image = convertedImage;
+            //ResetPaletteDictionary();
         }
         #endregion
 
