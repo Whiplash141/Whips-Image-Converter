@@ -132,6 +132,9 @@
      into your in-game LCD panel. Make the font size 0.1 and the 
      font MONOSPACED.</value>
   </data>
+  <metadata name="toolTipMaster.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>436, 17</value>
+  </metadata>
   <metadata name="backgroundWorkerDithering.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>

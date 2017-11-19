@@ -69,6 +69,7 @@
             this.button_background_color = new System.Windows.Forms.Button();
             this.pictureBox_background_color = new System.Windows.Forms.PictureBox();
             this.backgroundWorkerUpdate = new System.ComponentModel.BackgroundWorker();
+            this.linkLabel_GitHub = new System.Windows.Forms.LinkLabel();
             ((System.ComponentModel.ISupportInitialize)(this.ImagePreviewBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWidth)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHeight)).BeginInit();
@@ -169,7 +170,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(9, 577);
+            this.label3.Location = new System.Drawing.Point(13, 586);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(148, 17);
             this.label3.TabIndex = 12;
@@ -209,7 +210,7 @@
             // 
             this.linkLabel_Credits.AutoSize = true;
             this.linkLabel_Credits.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.linkLabel_Credits.Location = new System.Drawing.Point(19, 595);
+            this.linkLabel_Credits.Location = new System.Drawing.Point(72, 603);
             this.linkLabel_Credits.Name = "linkLabel_Credits";
             this.linkLabel_Credits.Size = new System.Drawing.Size(129, 17);
             this.linkLabel_Credits.TabIndex = 16;
@@ -499,11 +500,23 @@
             // 
             this.backgroundWorkerUpdate.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorkerUpdate_DoWork);
             // 
+            // linkLabel_GitHub
+            // 
+            this.linkLabel_GitHub.AutoSize = true;
+            this.linkLabel_GitHub.Location = new System.Drawing.Point(13, 603);
+            this.linkLabel_GitHub.Name = "linkLabel_GitHub";
+            this.linkLabel_GitHub.Size = new System.Drawing.Size(52, 17);
+            this.linkLabel_GitHub.TabIndex = 40;
+            this.linkLabel_GitHub.TabStop = true;
+            this.linkLabel_GitHub.Text = "GitHub";
+            this.linkLabel_GitHub.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel_GitHub_LinkClicked);
+            // 
             // ImageToLCD
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(862, 623);
+            this.Controls.Add(this.linkLabel_GitHub);
             this.Controls.Add(this.pictureBox_background_color);
             this.Controls.Add(this.button_background_color);
             this.Controls.Add(this.buttonUpdateResolution);
@@ -594,6 +607,7 @@
         private System.Windows.Forms.Button button_background_color;
         private System.Windows.Forms.PictureBox pictureBox_background_color;
         private System.ComponentModel.BackgroundWorker backgroundWorkerUpdate;
+        private System.Windows.Forms.LinkLabel linkLabel_GitHub;
     }
 }
 

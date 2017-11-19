@@ -29,7 +29,7 @@ namespace WhipsImageConverter
 {
     public partial class ImageToLCD : Form
     {
-        const string myVersionString = "1.1.4.2";
+        const string myVersionString = "1.1.4.3";
         const string buildDateString = "11/18/17";
         const string githubVersionUrl = "https://github.com/Whiplash141/Whips-Image-Converter/releases/latest";
 
@@ -1041,6 +1041,11 @@ namespace WhipsImageConverter
                     DitherImage();
                 }
             }
+        }
+
+        private void linkLabel_GitHub_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start(githubVersionUrl);
         }
         #endregion
     }
