@@ -495,6 +495,10 @@
             this.pictureBox_background_color.TabStop = false;
             this.pictureBox_background_color.Click += new System.EventHandler(this.pictureBox_background_color_Click);
             // 
+            // backgroundWorkerUpdate
+            // 
+            this.backgroundWorkerUpdate.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorkerUpdate_DoWork);
+            // 
             // ImageToLCD
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);

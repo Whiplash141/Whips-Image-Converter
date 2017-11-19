@@ -29,7 +29,7 @@ namespace WhipsImageConverter
 {
     public partial class ImageToLCD : Form
     {
-        const string myVersionString = "1.1.4.1";
+        const string myVersionString = "1.1.4.2";
         const string buildDateString = "11/18/17";
         const string githubVersionUrl = "https://github.com/Whiplash141/Whips-Image-Converter/releases/latest";
 
@@ -156,7 +156,9 @@ namespace WhipsImageConverter
         void StartUpdateBackgroundWorker()
         {
             if (!backgroundWorkerUpdate.IsBusy)
+            {
                 backgroundWorkerUpdate.RunWorkerAsync();
+            }
         }
 
         private void backgroundWorkerUpdate_DoWork(object sender, DoWorkEventArgs e)
