@@ -29,8 +29,8 @@ namespace WhipsImageConverter
 {
     public partial class ImageToLCD : Form
     {
-        const string myVersionString = "1.1.3.7";
-        const string buildDateString = "9/23/17";
+        const string myVersionString = "1.1.3.8";
+        const string buildDateString = "11/18/17";
         const string githubVersionUrl = "https://github.com/Whiplash141/Whips-Image-Converter/releases/latest";
 
         string formTitle = $"Whip's Image Converter (Version {myVersionString} - {buildDateString})";
@@ -825,7 +825,10 @@ namespace WhipsImageConverter
         private void button_Clipboard_Click(object sender, EventArgs e)
         {
             if (!String.IsNullOrEmpty(textBox_Return.Text))
-                Clipboard.SetText(textBox_Return.Text, TextDataFormat.UnicodeText);
+            {
+                //Clipboard.SetText(textBox_Return.Text, TextDataFormat.UnicodeText);
+                Clipboard.SetDataObject(textBox_Return.Text, true);
+            }
         }
 
         private void linkLabel_Credits_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
