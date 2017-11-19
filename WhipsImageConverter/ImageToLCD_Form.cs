@@ -29,7 +29,7 @@ namespace WhipsImageConverter
 {
     public partial class ImageToLCD : Form
     {
-        const string myVersionString = "1.1.4.3";
+        const string myVersionString = "1.1.4.4";
         const string buildDateString = "11/18/17";
         const string githubVersionUrl = "https://github.com/Whiplash141/Whips-Image-Converter/releases/latest";
 
@@ -436,7 +436,7 @@ namespace WhipsImageConverter
             textBox_Return.Text = convertedImageString;
 
             label_stringLength.Text = $"String Length: {textBox_Return.Text.Length}";
-            MessageBox.Show("Image Converted"); //successful conversion
+            //MessageBox.Show("Image Converted"); //successful conversion
         }
 
         public Color3 ColorToColor3(Color regularColor)
@@ -814,10 +814,12 @@ namespace WhipsImageConverter
             DitherImage(); //rotated image dithering
         }
 
+        /*
         private void button_Convert_Click(object sender, EventArgs e)
         {
             ConvertImage();
         }
+        */
 
         private void BrowseButton_Click(object sender, EventArgs e)
         {
@@ -826,6 +828,8 @@ namespace WhipsImageConverter
 
         private void button_Clipboard_Click(object sender, EventArgs e)
         {
+            ConvertImage();
+
             if (!String.IsNullOrEmpty(textBox_Return.Text))
             {
                 try

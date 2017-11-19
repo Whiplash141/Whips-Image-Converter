@@ -30,7 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ImageToLCD));
-            this.button_Convert = new System.Windows.Forms.Button();
             this.ImagePreviewBox = new System.Windows.Forms.PictureBox();
             this.label2 = new System.Windows.Forms.Label();
             this.BrowseButton = new System.Windows.Forms.Button();
@@ -75,18 +74,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHeight)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_background_color)).BeginInit();
             this.SuspendLayout();
-            // 
-            // button_Convert
-            // 
-            this.button_Convert.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button_Convert.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_Convert.Location = new System.Drawing.Point(510, 390);
-            this.button_Convert.Name = "button_Convert";
-            this.button_Convert.Size = new System.Drawing.Size(151, 42);
-            this.button_Convert.TabIndex = 0;
-            this.button_Convert.Text = "Convert";
-            this.button_Convert.UseVisualStyleBackColor = true;
-            this.button_Convert.Click += new System.EventHandler(this.button_Convert_Click);
             // 
             // ImagePreviewBox
             // 
@@ -133,7 +120,7 @@
             // 
             // textBox_Return
             // 
-            this.textBox_Return.Location = new System.Drawing.Point(84, 465);
+            this.textBox_Return.Location = new System.Drawing.Point(84, 442);
             this.textBox_Return.Multiline = true;
             this.textBox_Return.Name = "textBox_Return";
             this.textBox_Return.ReadOnly = true;
@@ -149,7 +136,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(71, 425);
+            this.label1.Location = new System.Drawing.Point(71, 397);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(150, 20);
             this.label1.TabIndex = 10;
@@ -159,11 +146,11 @@
             // 
             this.button_Clipboard.Cursor = System.Windows.Forms.Cursors.Hand;
             this.button_Clipboard.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_Clipboard.Location = new System.Drawing.Point(326, 551);
+            this.button_Clipboard.Location = new System.Drawing.Point(263, 528);
             this.button_Clipboard.Name = "button_Clipboard";
-            this.button_Clipboard.Size = new System.Drawing.Size(218, 34);
+            this.button_Clipboard.Size = new System.Drawing.Size(362, 47);
             this.button_Clipboard.TabIndex = 11;
-            this.button_Clipboard.Text = "Copy to Clipboard";
+            this.button_Clipboard.Text = "Convert and Copy to Clipboard";
             this.button_Clipboard.UseVisualStyleBackColor = true;
             this.button_Clipboard.Click += new System.EventHandler(this.button_Clipboard_Click);
             // 
@@ -234,7 +221,7 @@
             // 
             this.label_stringLength.AutoSize = true;
             this.label_stringLength.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_stringLength.Location = new System.Drawing.Point(614, 445);
+            this.label_stringLength.Location = new System.Drawing.Point(614, 422);
             this.label_stringLength.Name = "label_stringLength";
             this.label_stringLength.Size = new System.Drawing.Size(125, 17);
             this.label_stringLength.TabIndex = 18;
@@ -270,7 +257,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(104, 445);
+            this.label6.Location = new System.Drawing.Point(104, 422);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(334, 17);
             this.label6.TabIndex = 21;
@@ -550,7 +537,6 @@
             this.Controls.Add(this.BrowseButton);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.ImagePreviewBox);
-            this.Controls.Add(this.button_Convert);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -567,8 +553,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.Button button_Convert;
         private System.Windows.Forms.PictureBox ImagePreviewBox;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button BrowseButton;
