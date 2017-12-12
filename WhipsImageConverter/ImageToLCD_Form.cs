@@ -29,8 +29,8 @@ namespace WhipsImageConverter
 {
     public partial class ImageToLCD : Form
     {
-        const string myVersionString = "1.1.4.4";
-        const string buildDateString = "11/18/17";
+        const string myVersionString = "1.1.4.5";
+        const string buildDateString = "12/12/17";
         const string githubVersionUrl = "https://github.com/Whiplash141/Whips-Image-Converter/releases/latest";
 
         string formTitle = $"Whip's Image Converter (Version {myVersionString} - {buildDateString})";
@@ -554,24 +554,11 @@ namespace WhipsImageConverter
 
             Color3[,] initialColorArray = new Color3[height, width];
 
-            /*
-            BitmapData data = image.LockBits(new Rectangle(Point.Empty, image.Size), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
-            int lineWidth = data.Stride / 4;
-            int[] pixelData = new int[lineWidth * data.Height];
-            Marshal.Copy(data.Scan0, pixelData, 0, pixelData.Length);
-            image.UnlockBits(data);
-            */
-
             for (int row = 0; row < height; row++)
             {
                 for (int col = 0; col < width; col++)
                 {
                     initialColorArray[row, col] = ColorToColor3(image.GetPixel(col, row));
-                    /*
-                    int position = lineWidth * row + col;
-                    var pixel = pixelData[position];
-                    initialColorArray[row, col] = new Color3((byte)(pixel >> 16), (byte)(pixel >> 8), (byte)pixel);
-                    */
                 }
             }
 
@@ -681,26 +668,6 @@ namespace WhipsImageConverter
             return new Color3(R, G, B);
         }
 
-        /*Color3 GetClosestColor(Color3 pixelColor)
-        {
-            var leastDiff = 10000000f;
-            var leastIndex = -1;
-
-            for (int i = 0; i < paletteColors.Count; i++)
-            {
-                var comparisonColor = paletteColors[i];
-                var thisDiff = pixelColor.Diff(comparisonColor);
-
-                if (thisDiff < leastDiff)
-                {
-                    leastIndex = i;
-                    leastDiff = thisDiff;
-                }
-            }
-
-            return paletteColors[leastIndex];
-        }*/
-
         char ColorToChar(byte r, byte g, byte b)
         {
             return (char)(0xe100 + ((int)Math.Round(r / bitSpacing) << 6) + ((int)Math.Round(g / bitSpacing) << 3) + (int)Math.Round(b / bitSpacing));
@@ -793,6 +760,28 @@ namespace WhipsImageConverter
             ImagePreviewBox.Image = convertedImage;
             //ResetPaletteDictionary();
         }
+
+        void StartInvertBackgroundWorker()
+        {
+            if (baseImage == null)
+                return;
+
+            this.Enabled = false;
+
+            if (!backgroundWorkerInvert.IsBusy)
+                backgroundWorkerInvert.RunWorkerAsync();
+        }
+
+        private void backgroundWorkerInvert_DoWork(object sender, DoWorkEventArgs e)
+        {
+            InvertImageColors();
+        }
+
+        private void backgroundWorkerInvert_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            CacheImages(false); //cache rotated images
+            DitherImage(); //rotated image dithering
+        }
         #endregion
 
         #region Windows Forms Interface Methods
@@ -814,12 +803,19 @@ namespace WhipsImageConverter
             DitherImage(); //rotated image dithering
         }
 
-        /*
-        private void button_Convert_Click(object sender, EventArgs e)
+        
+        void InvertImageColors()
         {
-            ConvertImage();
+            for (int i = 0; i < baseImage.Height; i++)
+            {
+                for (int j = 0; j < baseImage.Width; j++)
+                {
+                    var pixel = ColorToColor3(baseImage.GetPixel(j, i));
+                    var invertedPixel = new Color3(255, 255, 255) - pixel;
+                    baseImage.SetPixel(j, i, invertedPixel.ToColor());
+                }
+            }
         }
-        */
 
         private void BrowseButton_Click(object sender, EventArgs e)
         {
@@ -1041,7 +1037,7 @@ namespace WhipsImageConverter
                 //Redraw image
                 if (imageLoaded)
                 {
-                    CacheImages();
+                    CacheImages(false);
                     DitherImage();
                 }
             }
@@ -1052,5 +1048,10 @@ namespace WhipsImageConverter
             System.Diagnostics.Process.Start(githubVersionUrl);
         }
         #endregion
+
+        private void buttonInvertColors_Click(object sender, EventArgs e)
+        {
+            StartInvertBackgroundWorker();
+        }
     }
 }

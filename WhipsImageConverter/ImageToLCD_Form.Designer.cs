@@ -58,6 +58,7 @@
             this.toolTipMaster = new System.Windows.Forms.ToolTip(this.components);
             this.buttonFlipHorizontal = new System.Windows.Forms.Button();
             this.buttonFlipVertical = new System.Windows.Forms.Button();
+            this.buttonInvertColors = new System.Windows.Forms.Button();
             this.backgroundWorkerDithering = new System.ComponentModel.BackgroundWorker();
             this.label10 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
@@ -69,6 +70,7 @@
             this.pictureBox_background_color = new System.Windows.Forms.PictureBox();
             this.backgroundWorkerUpdate = new System.ComponentModel.BackgroundWorker();
             this.linkLabel_GitHub = new System.Windows.Forms.LinkLabel();
+            this.backgroundWorkerInvert = new System.ComponentModel.BackgroundWorker();
             ((System.ComponentModel.ISupportInitialize)(this.ImagePreviewBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWidth)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHeight)).BeginInit();
@@ -376,6 +378,19 @@
             this.buttonFlipVertical.UseVisualStyleBackColor = true;
             this.buttonFlipVertical.Click += new System.EventHandler(this.buttonFlipVertical_Click);
             // 
+            // buttonInvertColors
+            // 
+            this.buttonInvertColors.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("buttonInvertColors.BackgroundImage")));
+            this.buttonInvertColors.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.buttonInvertColors.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.buttonInvertColors.Location = new System.Drawing.Point(114, 353);
+            this.buttonInvertColors.Name = "buttonInvertColors";
+            this.buttonInvertColors.Size = new System.Drawing.Size(32, 32);
+            this.buttonInvertColors.TabIndex = 42;
+            this.toolTipMaster.SetToolTip(this.buttonInvertColors, "Invert colors");
+            this.buttonInvertColors.UseVisualStyleBackColor = true;
+            this.buttonInvertColors.Click += new System.EventHandler(this.buttonInvertColors_Click);
+            // 
             // backgroundWorkerDithering
             // 
             this.backgroundWorkerDithering.WorkerReportsProgress = true;
@@ -498,11 +513,17 @@
             this.linkLabel_GitHub.Text = "GitHub";
             this.linkLabel_GitHub.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel_GitHub_LinkClicked);
             // 
+            // backgroundWorkerInvert
+            // 
+            this.backgroundWorkerInvert.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorkerInvert_DoWork);
+            this.backgroundWorkerInvert.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorkerInvert_RunWorkerCompleted);
+            // 
             // ImageToLCD
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(862, 623);
+            this.Controls.Add(this.buttonInvertColors);
             this.Controls.Add(this.linkLabel_GitHub);
             this.Controls.Add(this.pictureBox_background_color);
             this.Controls.Add(this.button_background_color);
@@ -592,6 +613,8 @@
         private System.Windows.Forms.PictureBox pictureBox_background_color;
         private System.ComponentModel.BackgroundWorker backgroundWorkerUpdate;
         private System.Windows.Forms.LinkLabel linkLabel_GitHub;
+        private System.Windows.Forms.Button buttonInvertColors;
+        private System.ComponentModel.BackgroundWorker backgroundWorkerInvert;
     }
 }
 

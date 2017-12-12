@@ -123,6 +123,16 @@ namespace WhipsImageConverter.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap invert_color {
+            get {
+                object obj = ResourceManager.GetObject("invert_color", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap nasa_dither {
             get {
                 object obj = ResourceManager.GetObject("nasa_dither", resourceCulture);
