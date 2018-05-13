@@ -71,6 +71,7 @@
             this.backgroundWorkerUpdate = new System.ComponentModel.BackgroundWorker();
             this.linkLabel_GitHub = new System.Windows.Forms.LinkLabel();
             this.backgroundWorkerInvert = new System.ComponentModel.BackgroundWorker();
+            this.checkBoxTransparency = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.ImagePreviewBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWidth)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHeight)).BeginInit();
@@ -109,6 +110,7 @@
             this.BrowseButton.Size = new System.Drawing.Size(75, 36);
             this.BrowseButton.TabIndex = 7;
             this.BrowseButton.Text = "Browse";
+            this.toolTipMaster.SetToolTip(this.BrowseButton, "Browse for file");
             this.BrowseButton.UseVisualStyleBackColor = true;
             this.BrowseButton.Click += new System.EventHandler(this.BrowseButton_Click);
             // 
@@ -153,6 +155,7 @@
             this.button_Clipboard.Size = new System.Drawing.Size(362, 47);
             this.button_Clipboard.TabIndex = 11;
             this.button_Clipboard.Text = "Convert and Copy to Clipboard";
+            this.toolTipMaster.SetToolTip(this.button_Clipboard, "Convert the image to monospace and automatically copy to system clipboard");
             this.button_Clipboard.UseVisualStyleBackColor = true;
             this.button_Clipboard.Click += new System.EventHandler(this.button_Clipboard_Click);
             // 
@@ -245,6 +248,7 @@
             this.combobox_dither.Name = "combobox_dither";
             this.combobox_dither.Size = new System.Drawing.Size(202, 24);
             this.combobox_dither.TabIndex = 19;
+            this.toolTipMaster.SetToolTip(this.combobox_dither, "Select the error diffusion method to make images look smoother");
             this.combobox_dither.SelectedIndexChanged += new System.EventHandler(this.combobox_dither_SelectedIndexChanged);
             // 
             // label5
@@ -280,6 +284,7 @@
             this.combobox_resize.Name = "combobox_resize";
             this.combobox_resize.Size = new System.Drawing.Size(202, 24);
             this.combobox_resize.TabIndex = 22;
+            this.toolTipMaster.SetToolTip(this.combobox_resize, "Select the type of text panel to display the image on");
             this.combobox_resize.SelectedIndexChanged += new System.EventHandler(this.combobox_resize_SelectedIndexChanged);
             // 
             // label7
@@ -315,11 +320,12 @@
             this.checkBox_aspectratio.Checked = true;
             this.checkBox_aspectratio.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox_aspectratio.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.checkBox_aspectratio.Location = new System.Drawing.Point(399, 346);
+            this.checkBox_aspectratio.Location = new System.Drawing.Point(399, 335);
             this.checkBox_aspectratio.Name = "checkBox_aspectratio";
             this.checkBox_aspectratio.Size = new System.Drawing.Size(167, 21);
             this.checkBox_aspectratio.TabIndex = 26;
             this.checkBox_aspectratio.Text = "Maintain Aspect Ratio";
+            this.toolTipMaster.SetToolTip(this.checkBox_aspectratio, "Will use black bars to maintain the aspect ratio of an image");
             this.checkBox_aspectratio.UseVisualStyleBackColor = true;
             this.checkBox_aspectratio.CheckedChanged += new System.EventHandler(this.checkBox_aspectratio_CheckedChanged);
             // 
@@ -472,17 +478,19 @@
             this.buttonUpdateResolution.Size = new System.Drawing.Size(133, 31);
             this.buttonUpdateResolution.TabIndex = 37;
             this.buttonUpdateResolution.Text = "Update Resolution";
+            this.toolTipMaster.SetToolTip(this.buttonUpdateResolution, "Update preview with custom resolution");
             this.buttonUpdateResolution.UseVisualStyleBackColor = true;
             this.buttonUpdateResolution.Click += new System.EventHandler(this.buttonUpdateResolution_Click);
             // 
             // button_background_color
             // 
             this.button_background_color.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button_background_color.Location = new System.Drawing.Point(647, 340);
+            this.button_background_color.Location = new System.Drawing.Point(631, 340);
             this.button_background_color.Name = "button_background_color";
-            this.button_background_color.Size = new System.Drawing.Size(186, 31);
+            this.button_background_color.Size = new System.Drawing.Size(227, 31);
             this.button_background_color.TabIndex = 38;
-            this.button_background_color.Text = "Change Background Color";
+            this.button_background_color.Text = "Change Aspect Ratio Bar Color";
+            this.toolTipMaster.SetToolTip(this.button_background_color, "Change color of aspect ratio bars");
             this.button_background_color.UseVisualStyleBackColor = true;
             this.button_background_color.Click += new System.EventHandler(this.button_background_color_Click);
             // 
@@ -491,11 +499,12 @@
             this.pictureBox_background_color.BackColor = System.Drawing.Color.Black;
             this.pictureBox_background_color.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox_background_color.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pictureBox_background_color.Location = new System.Drawing.Point(611, 340);
+            this.pictureBox_background_color.Location = new System.Drawing.Point(595, 340);
             this.pictureBox_background_color.Name = "pictureBox_background_color";
             this.pictureBox_background_color.Size = new System.Drawing.Size(30, 31);
             this.pictureBox_background_color.TabIndex = 39;
             this.pictureBox_background_color.TabStop = false;
+            this.toolTipMaster.SetToolTip(this.pictureBox_background_color, "Change color of aspect ratio bars");
             this.pictureBox_background_color.Click += new System.EventHandler(this.pictureBox_background_color_Click);
             // 
             // backgroundWorkerUpdate
@@ -518,11 +527,24 @@
             this.backgroundWorkerInvert.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorkerInvert_DoWork);
             this.backgroundWorkerInvert.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorkerInvert_RunWorkerCompleted);
             // 
+            // checkBoxTransparency
+            // 
+            this.checkBoxTransparency.AutoSize = true;
+            this.checkBoxTransparency.Location = new System.Drawing.Point(399, 363);
+            this.checkBoxTransparency.Name = "checkBoxTransparency";
+            this.checkBoxTransparency.Size = new System.Drawing.Size(179, 21);
+            this.checkBoxTransparency.TabIndex = 43;
+            this.checkBoxTransparency.Text = "Preserve Transparency";
+            this.toolTipMaster.SetToolTip(this.checkBoxTransparency, "Preserve source image\'s transparent pixels");
+            this.checkBoxTransparency.UseVisualStyleBackColor = true;
+            this.checkBoxTransparency.CheckedChanged += new System.EventHandler(this.checkBoxTransparency_CheckedChanged);
+            // 
             // ImageToLCD
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(862, 623);
+            this.Controls.Add(this.checkBoxTransparency);
             this.Controls.Add(this.buttonInvertColors);
             this.Controls.Add(this.linkLabel_GitHub);
             this.Controls.Add(this.pictureBox_background_color);
@@ -615,6 +637,7 @@
         private System.Windows.Forms.LinkLabel linkLabel_GitHub;
         private System.Windows.Forms.Button buttonInvertColors;
         private System.ComponentModel.BackgroundWorker backgroundWorkerInvert;
+        private System.Windows.Forms.CheckBox checkBoxTransparency;
     }
 }
 

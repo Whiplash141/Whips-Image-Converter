@@ -29,8 +29,8 @@ namespace WhipsImageConverter
 {
     public partial class ImageToLCD : Form
     {
-        const string myVersionString = "1.1.4.5";
-        const string buildDateString = "12/12/17";
+        const string myVersionString = "1.1.5.1";
+        const string buildDateString = "5/13/18";
         const string githubVersionUrl = "https://github.com/Whiplash141/Whips-Image-Converter/releases/latest";
 
         string formTitle = $"Whip's Image Converter (Version {myVersionString} - {buildDateString})";
@@ -61,12 +61,15 @@ namespace WhipsImageConverter
 
         const double bitSpacing = 255.0 / 7.0;
 
+        const char transparencyFake = '#';
+
         //Color3 Class Definition
         public struct Color3
         {
             public readonly int R;
             public readonly int G;
             public readonly int B;
+            public readonly int A;
             public readonly int Packed;
 
             public Color3(int R, int G, int B)
@@ -74,6 +77,16 @@ namespace WhipsImageConverter
                 this.R = R;
                 this.G = G;
                 this.B = B;
+                this.A = 255;
+                this.Packed = (255 << 24) | (ClampColor(R) << 16) | (ClampColor(G) << 8) | ClampColor(B);
+            }
+
+            public Color3(int R, int G, int B, int A)
+            {
+                this.R = R;
+                this.G = G;
+                this.B = B;
+                this.A = A; //I only care about full transparency
                 this.Packed = (255 << 24) | (ClampColor(R) << 16) | (ClampColor(G) << 8) | ClampColor(B);
             }
 
@@ -421,6 +434,12 @@ namespace WhipsImageConverter
             return (int)((float)currentValue / maximumValue * 100f);
         }
 
+        string spacer = "" + '\uE075' + '\uE072' + '\uE070';
+        string spacer4 = "" + '\ue076' + '\ue076' + '\ue074' + '\ue072';
+
+        string trans = transparencyFake.ToString();
+        string trans4 = new string(transparencyFake, 4);
+
         void ConvertImage()
         {
             if (!imageLoaded)
@@ -432,6 +451,16 @@ namespace WhipsImageConverter
             //Create encoded string
             string convertedImageString = BuildFinalString(convertedColorArray, imageWidth, imageHeight);
 
+            if (checkBoxTransparency.Checked)
+            {
+                convertedImageString = convertedImageString.Replace(trans4, spacer4);
+                convertedImageString = convertedImageString.Replace(trans, spacer);
+            }
+            else
+            {
+                convertedImageString = convertedImageString.Replace(transparencyFake, '\ue100');
+            }
+
             //Display converted image and encoded string
             textBox_Return.Text = convertedImageString;
 
@@ -441,7 +470,7 @@ namespace WhipsImageConverter
 
         public Color3 ColorToColor3(Color regularColor)
         {
-            return new Color3(regularColor.R, regularColor.G, regularColor.B);
+            return new Color3(regularColor.R, regularColor.G, regularColor.B, regularColor.A);
         }
 
         int[,] GetDitherFilter(int type)
@@ -572,7 +601,11 @@ namespace WhipsImageConverter
                 {
                     var oldColor = initialColorArray[row, col];
                     var newColor = GetClosestColorFast(oldColor);
-                    convertedColorArray[row, col] = newColor.Packed;
+
+                    if (oldColor.A == 0)
+                        convertedColorArray[row, col] = -1;
+                    else
+                        convertedColorArray[row, col] = newColor.Packed;
 
                     Color3 error = oldColor - newColor;
 
@@ -619,7 +652,10 @@ namespace WhipsImageConverter
                 for (int col = 0; col < width; col++)
                 {
                     var pixelColor = initialColorArray[row, col];
-                    convertedColorArray[row, col] = GetClosestColorFast(pixelColor).Packed;
+                    if (pixelColor.A == 0)
+                        convertedColorArray[row, col] = -1;
+                    else
+                        convertedColorArray[row, col] = GetClosestColorFast(pixelColor).Packed;
 
                     if (progressBarForm.DialogResult != DialogResult.Abort)
                         backgroundWorkerDithering.ReportProgress(GetPercentCompletion(height, width, row, col));
@@ -647,7 +683,7 @@ namespace WhipsImageConverter
 
         Color3 GetClosestColorFast(Color3 pixelColor)
         {
-            Color3 paletteColor;
+            Color3 paletteColor = new Color3(0, 0, 0);
 
             if (!paletteColorDictionary.TryGetValue(pixelColor.Packed, out paletteColor))
             {
@@ -682,9 +718,11 @@ namespace WhipsImageConverter
                 for (int col = 0; col < width; col++)
                 {
                     var thisColor = colorArray[row, col];
-                    var colorChar = ColorToChar((byte)(thisColor >> 16), (byte)(thisColor >> 8), (byte)thisColor);
-                    //string colorGlyph = ".";
-                    //colorGlyphs.TryGetValue(colorInt, out colorGlyph);
+                    char colorChar;
+                    if (thisColor == -1)
+                        colorChar = transparencyFake;
+                    else
+                        colorChar = ColorToChar((byte)(thisColor >> 16), (byte)(thisColor >> 8), (byte)thisColor);
                     sb.Append(colorChar);
                 }
 
@@ -713,6 +751,8 @@ namespace WhipsImageConverter
         
         private Color IntToColor(int integer)
         {
+            if (integer == -1)
+                return Color.Black;
             return Color.FromArgb(integer);
         }
 
@@ -962,6 +1002,11 @@ namespace WhipsImageConverter
             DitherImage();
         }
 
+        void CheckBackgroundColorEnabled()
+        {
+
+        }
+
         private void buttonRotateCCW_Click(object sender, EventArgs e)
         {
             RotateImage(false);
@@ -1047,11 +1092,17 @@ namespace WhipsImageConverter
         {
             System.Diagnostics.Process.Start(githubVersionUrl);
         }
-        #endregion
 
         private void buttonInvertColors_Click(object sender, EventArgs e)
         {
             StartInvertBackgroundWorker();
         }
+
+        private void checkBoxTransparency_CheckedChanged(object sender, EventArgs e)
+        {
+            textBox_Return.Clear();
+            label_stringLength.Text = "String Length: 0";
+        }
+        #endregion
     }
 }
