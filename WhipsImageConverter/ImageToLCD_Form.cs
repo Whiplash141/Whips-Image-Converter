@@ -29,7 +29,7 @@ namespace WhipsImageConverter
 {
     public partial class ImageToLCD : Form
     {
-        const string myVersionString = "1.1.5.1";
+        const string myVersionString = "1.1.5.2";
         const string buildDateString = "5/13/18";
         const string githubVersionUrl = "https://github.com/Whiplash141/Whips-Image-Converter/releases/latest";
 
@@ -264,9 +264,7 @@ namespace WhipsImageConverter
             if (getBaseImage)
                 baseImage = (Bitmap)Image.FromFile(fileDirectory, true);
 
-            bool maintainAspectRatio = checkBox_aspectratio.Checked; //default is false
-
-            if (!maintainAspectRatio)
+            if (!checkBox_aspectratio.Checked)
             {
                 squareImage = new Bitmap(baseImage, 178, 178);
                 rectangleImage = new Bitmap(baseImage, 356, 178);
@@ -295,8 +293,12 @@ namespace WhipsImageConverter
 
             //Change background color of the image
             //method from https://stackoverflow.com/a/1720261
+            var thisColor = backgroundColor;
+            if (checkBoxTransparency.Checked)
+                thisColor = Color.FromArgb(0, backgroundColor.R, backgroundColor.G, backgroundColor.B);
+
             using (Graphics gfx = Graphics.FromImage(framedImage))
-            using (SolidBrush brush = new SolidBrush(backgroundColor))
+            using (SolidBrush brush = new SolidBrush(thisColor))
             {
                 gfx.FillRectangle(brush, 0, 0, width, height);
             }
@@ -603,7 +605,7 @@ namespace WhipsImageConverter
                     var newColor = GetClosestColorFast(oldColor);
 
                     if (oldColor.A == 0)
-                        convertedColorArray[row, col] = -1;
+                        convertedColorArray[row, col] = -141;
                     else
                         convertedColorArray[row, col] = newColor.Packed;
 
@@ -653,7 +655,7 @@ namespace WhipsImageConverter
                 {
                     var pixelColor = initialColorArray[row, col];
                     if (pixelColor.A == 0)
-                        convertedColorArray[row, col] = -1;
+                        convertedColorArray[row, col] = -141;
                     else
                         convertedColorArray[row, col] = GetClosestColorFast(pixelColor).Packed;
 
@@ -719,7 +721,7 @@ namespace WhipsImageConverter
                 {
                     var thisColor = colorArray[row, col];
                     char colorChar;
-                    if (thisColor == -1)
+                    if (thisColor == -141)
                         colorChar = transparencyFake;
                     else
                         colorChar = ColorToChar((byte)(thisColor >> 16), (byte)(thisColor >> 8), (byte)thisColor);
@@ -751,8 +753,12 @@ namespace WhipsImageConverter
         
         private Color IntToColor(int integer)
         {
-            if (integer == -1)
+            if (integer == -141)
+            {
                 return Color.Black;
+                //backgroundColor
+            }
+
             return Color.FromArgb(integer);
         }
 
@@ -843,7 +849,6 @@ namespace WhipsImageConverter
             DitherImage(); //rotated image dithering
         }
 
-        
         void InvertImageColors()
         {
             for (int i = 0; i < baseImage.Height; i++)
@@ -995,16 +1000,12 @@ namespace WhipsImageConverter
             textBox_Return.Clear();
 
             //enable or disable background color selector
-            button_background_color.Enabled = checkBox_aspectratio.Checked;
-            pictureBox_background_color.Enabled = checkBox_aspectratio.Checked;
+            //button_background_color.Enabled = checkBox_aspectratio.Checked;
+            //pictureBox_background_color.Enabled = checkBox_aspectratio.Checked;
+            CheckBackgroundColorEnabled();
 
             CacheImages();
             DitherImage();
-        }
-
-        void CheckBackgroundColorEnabled()
-        {
-
         }
 
         private void buttonRotateCCW_Click(object sender, EventArgs e)
@@ -1102,6 +1103,17 @@ namespace WhipsImageConverter
         {
             textBox_Return.Clear();
             label_stringLength.Text = "String Length: 0";
+            CheckBackgroundColorEnabled();
+
+            CacheImages(false);
+            DitherImage();
+        }
+
+        void CheckBackgroundColorEnabled()
+        {
+            bool enabled = (checkBox_aspectratio.Checked && !checkBoxTransparency.Checked);
+            button_background_color.Enabled = enabled;
+            pictureBox_background_color.Enabled = enabled;
         }
         #endregion
     }
