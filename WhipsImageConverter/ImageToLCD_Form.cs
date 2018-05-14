@@ -29,7 +29,7 @@ namespace WhipsImageConverter
 {
     public partial class ImageToLCD : Form
     {
-        const string myVersionString = "1.1.5.2";
+        const string myVersionString = "1.1.5.3";
         const string buildDateString = "5/13/18";
         const string githubVersionUrl = "https://github.com/Whiplash141/Whips-Image-Converter/releases/latest";
 
@@ -58,6 +58,7 @@ namespace WhipsImageConverter
         Dictionary<int, Color3> paletteColorDictionary = new Dictionary<int, Color3>(512);
 
         Color backgroundColor = Color.FromArgb(0, 0, 0);
+        int backgroundColorPacked = (255 << 24);
 
         const double bitSpacing = 255.0 / 7.0;
 
@@ -119,32 +120,33 @@ namespace WhipsImageConverter
 
             public static Color3 operator -(Color3 color1, Color3 color2)
             {
-                return new Color3(color1.R - color2.R, color1.G - color2.G, color1.B - color2.B);
+                //return new Color3(color1.R - color2.R, color1.G - color2.G, color1.B - color2.B);
+                return color1 + -1 * color2;
             }
 
             public static Color3 operator +(Color3 color1, Color3 color2)
             {
-                return new Color3(color1.R + color2.R, color1.G + color2.G, color1.B + color2.B);
+                return new Color3(color1.R + color2.R, color1.G + color2.G, color1.B + color2.B, color1.A);
             }
 
             public static Color3 operator *(Color3 color, float multiplier)
             {
-                return new Color3((int)Math.Round(color.R * multiplier), (int)Math.Round(color.G * multiplier), (int)Math.Round(color.B * multiplier));
+                return new Color3((int)Math.Round(color.R * multiplier), (int)Math.Round(color.G * multiplier), (int)Math.Round(color.B * multiplier), color.A);
             }
 
             public static Color3 operator *(float multiplier, Color3 color)
             {
-                return new Color3((int)Math.Round(color.R * multiplier), (int)Math.Round(color.G * multiplier), (int)Math.Round(color.B * multiplier));
+                return new Color3((int)Math.Round(color.R * multiplier), (int)Math.Round(color.G * multiplier), (int)Math.Round(color.B * multiplier), color.A);
             }
 
             public static Color3 operator /(float dividend, Color3 color)
             {
-                return new Color3((int)Math.Round(dividend / color.R), (int)Math.Round(dividend / color.G), (int)Math.Round(dividend / color.B));
+                return new Color3((int)Math.Round(dividend / color.R), (int)Math.Round(dividend / color.G), (int)Math.Round(dividend / color.B), color.A);
             }
 
             public static Color3 operator /(Color3 color, float dividend)
             {
-                return new Color3((int)Math.Round(color.R / dividend), (int)Math.Round(color.G / dividend), (int)Math.Round(color.B / dividend));
+                return new Color3((int)Math.Round(color.R / dividend), (int)Math.Round(color.G / dividend), (int)Math.Round(color.B / dividend), color.A);
             }
         }
 
@@ -379,7 +381,7 @@ namespace WhipsImageConverter
             }
 
             label_stringLength.Text = "String Length: 0";
-            textBox_Return.Text = "";
+            textBox_Return.Clear();
 
             desiredImage = baseImage;
             
@@ -603,13 +605,19 @@ namespace WhipsImageConverter
                 {
                     var oldColor = initialColorArray[row, col];
                     var newColor = GetClosestColorFast(oldColor);
+                    var error = oldColor - newColor;
 
-                    if (oldColor.A == 0)
-                        convertedColorArray[row, col] = -141;
+                    if (oldColor.A < 36)
+                    {
+                        if (checkBoxTransparency.Checked)
+                            convertedColorArray[row, col] = -141;
+                        else
+                            convertedColorArray[row, col] = backgroundColorPacked;
+
+                        error = new Color3(0, 0, 0, 0);
+                    }
                     else
                         convertedColorArray[row, col] = newColor.Packed;
-
-                    Color3 error = oldColor - newColor;
 
                     for (int i = 0; i < filterArray.GetLength(0); i++) //iterate through each row
                     {
@@ -654,8 +662,13 @@ namespace WhipsImageConverter
                 for (int col = 0; col < width; col++)
                 {
                     var pixelColor = initialColorArray[row, col];
-                    if (pixelColor.A == 0)
-                        convertedColorArray[row, col] = -141;
+                    if (pixelColor.A < 36) //and check rgb too
+                    {
+                        if (checkBoxTransparency.Checked)
+                            convertedColorArray[row, col] = -141;
+                        else
+                            convertedColorArray[row, col] = backgroundColorPacked;
+                    }
                     else
                         convertedColorArray[row, col] = GetClosestColorFast(pixelColor).Packed;
 
@@ -755,7 +768,7 @@ namespace WhipsImageConverter
         {
             if (integer == -141)
             {
-                return Color.Black;
+                return Color.Transparent;
                 //backgroundColor
             }
 
@@ -825,8 +838,8 @@ namespace WhipsImageConverter
 
         private void backgroundWorkerInvert_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            CacheImages(false); //cache rotated images
-            DitherImage(); //rotated image dithering
+            CacheImages(false); //cache images
+            DitherImage(); //image dithering
         }
         #endregion
 
@@ -937,7 +950,9 @@ namespace WhipsImageConverter
             label_stringLength.Text = "String Length: 0";
 
             if (!newImageLoaded)
+            {
                 DitherImage();
+            }
         }
 
         private void combobox_resize_SelectedIndexChanged(object sender, EventArgs e)
@@ -1074,6 +1089,7 @@ namespace WhipsImageConverter
             if (result == DialogResult.OK)
             {
                 backgroundColor = colorDialog1.Color;
+                backgroundColorPacked = ColorToColor3(backgroundColor).Packed;
 
                 pictureBox_background_color.BackColor = backgroundColor;
 

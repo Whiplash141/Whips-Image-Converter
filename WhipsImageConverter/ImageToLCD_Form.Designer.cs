@@ -485,12 +485,12 @@
             // button_background_color
             // 
             this.button_background_color.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button_background_color.Location = new System.Drawing.Point(631, 340);
+            this.button_background_color.Location = new System.Drawing.Point(642, 340);
             this.button_background_color.Name = "button_background_color";
-            this.button_background_color.Size = new System.Drawing.Size(227, 31);
+            this.button_background_color.Size = new System.Drawing.Size(190, 31);
             this.button_background_color.TabIndex = 38;
-            this.button_background_color.Text = "Change Aspect Ratio Bar Color";
-            this.toolTipMaster.SetToolTip(this.button_background_color, "Change color of aspect ratio bars");
+            this.button_background_color.Text = "Change Background Color";
+            this.toolTipMaster.SetToolTip(this.button_background_color, "Change color of the background");
             this.button_background_color.UseVisualStyleBackColor = true;
             this.button_background_color.Click += new System.EventHandler(this.button_background_color_Click);
             // 
@@ -499,7 +499,7 @@
             this.pictureBox_background_color.BackColor = System.Drawing.Color.Black;
             this.pictureBox_background_color.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox_background_color.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pictureBox_background_color.Location = new System.Drawing.Point(595, 340);
+            this.pictureBox_background_color.Location = new System.Drawing.Point(606, 340);
             this.pictureBox_background_color.Name = "pictureBox_background_color";
             this.pictureBox_background_color.Size = new System.Drawing.Size(30, 31);
             this.pictureBox_background_color.TabIndex = 39;
