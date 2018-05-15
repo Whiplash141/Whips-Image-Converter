@@ -29,7 +29,7 @@ namespace WhipsImageConverter
 {
     public partial class ImageToLCD : Form
     {
-        const string myVersionString = "1.1.5.3";
+        const string myVersionString = "1.1.5.4";
         const string buildDateString = "5/13/18";
         const string githubVersionUrl = "https://github.com/Whiplash141/Whips-Image-Converter/releases/latest";
 

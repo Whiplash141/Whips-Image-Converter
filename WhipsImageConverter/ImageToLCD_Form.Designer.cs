@@ -59,23 +59,23 @@
             this.buttonFlipHorizontal = new System.Windows.Forms.Button();
             this.buttonFlipVertical = new System.Windows.Forms.Button();
             this.buttonInvertColors = new System.Windows.Forms.Button();
+            this.buttonUpdateResolution = new System.Windows.Forms.Button();
+            this.button_background_color = new System.Windows.Forms.Button();
+            this.pictureBox_background_color = new System.Windows.Forms.PictureBox();
+            this.checkBoxTransparency = new System.Windows.Forms.CheckBox();
             this.backgroundWorkerDithering = new System.ComponentModel.BackgroundWorker();
             this.label10 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.numericUpDownWidth = new System.Windows.Forms.NumericUpDown();
             this.numericUpDownHeight = new System.Windows.Forms.NumericUpDown();
-            this.buttonUpdateResolution = new System.Windows.Forms.Button();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
-            this.button_background_color = new System.Windows.Forms.Button();
-            this.pictureBox_background_color = new System.Windows.Forms.PictureBox();
             this.backgroundWorkerUpdate = new System.ComponentModel.BackgroundWorker();
             this.linkLabel_GitHub = new System.Windows.Forms.LinkLabel();
             this.backgroundWorkerInvert = new System.ComponentModel.BackgroundWorker();
-            this.checkBoxTransparency = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.ImagePreviewBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_background_color)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWidth)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHeight)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_background_color)).BeginInit();
             this.SuspendLayout();
             // 
             // ImagePreviewBox
@@ -363,7 +363,7 @@
             this.buttonFlipHorizontal.BackgroundImage = global::WhipsImageConverter.Properties.Resources.Double_headed_arrow;
             this.buttonFlipHorizontal.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.buttonFlipHorizontal.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.buttonFlipHorizontal.Location = new System.Drawing.Point(152, 353);
+            this.buttonFlipHorizontal.Location = new System.Drawing.Point(169, 353);
             this.buttonFlipHorizontal.Name = "buttonFlipHorizontal";
             this.buttonFlipHorizontal.Size = new System.Drawing.Size(32, 32);
             this.buttonFlipHorizontal.TabIndex = 29;
@@ -376,7 +376,7 @@
             this.buttonFlipVertical.BackgroundImage = global::WhipsImageConverter.Properties.Resources.Double_headed_arrow_rotated;
             this.buttonFlipVertical.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.buttonFlipVertical.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.buttonFlipVertical.Location = new System.Drawing.Point(190, 353);
+            this.buttonFlipVertical.Location = new System.Drawing.Point(207, 353);
             this.buttonFlipVertical.Name = "buttonFlipVertical";
             this.buttonFlipVertical.Size = new System.Drawing.Size(32, 32);
             this.buttonFlipVertical.TabIndex = 30;
@@ -389,13 +389,63 @@
             this.buttonInvertColors.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("buttonInvertColors.BackgroundImage")));
             this.buttonInvertColors.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.buttonInvertColors.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.buttonInvertColors.Location = new System.Drawing.Point(114, 353);
+            this.buttonInvertColors.Location = new System.Drawing.Point(131, 353);
             this.buttonInvertColors.Name = "buttonInvertColors";
             this.buttonInvertColors.Size = new System.Drawing.Size(32, 32);
             this.buttonInvertColors.TabIndex = 42;
             this.toolTipMaster.SetToolTip(this.buttonInvertColors, "Invert colors");
             this.buttonInvertColors.UseVisualStyleBackColor = true;
             this.buttonInvertColors.Click += new System.EventHandler(this.buttonInvertColors_Click);
+            // 
+            // buttonUpdateResolution
+            // 
+            this.buttonUpdateResolution.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.buttonUpdateResolution.Enabled = false;
+            this.buttonUpdateResolution.Location = new System.Drawing.Point(544, 298);
+            this.buttonUpdateResolution.Name = "buttonUpdateResolution";
+            this.buttonUpdateResolution.Size = new System.Drawing.Size(133, 31);
+            this.buttonUpdateResolution.TabIndex = 37;
+            this.buttonUpdateResolution.Text = "Update Resolution";
+            this.toolTipMaster.SetToolTip(this.buttonUpdateResolution, "Update preview with custom resolution");
+            this.buttonUpdateResolution.UseVisualStyleBackColor = true;
+            this.buttonUpdateResolution.Click += new System.EventHandler(this.buttonUpdateResolution_Click);
+            // 
+            // button_background_color
+            // 
+            this.button_background_color.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button_background_color.Location = new System.Drawing.Point(642, 340);
+            this.button_background_color.Name = "button_background_color";
+            this.button_background_color.Size = new System.Drawing.Size(190, 31);
+            this.button_background_color.TabIndex = 38;
+            this.button_background_color.Text = "Change Background Color";
+            this.toolTipMaster.SetToolTip(this.button_background_color, "Change color of the background");
+            this.button_background_color.UseVisualStyleBackColor = true;
+            this.button_background_color.Click += new System.EventHandler(this.button_background_color_Click);
+            // 
+            // pictureBox_background_color
+            // 
+            this.pictureBox_background_color.BackColor = System.Drawing.Color.Black;
+            this.pictureBox_background_color.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBox_background_color.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pictureBox_background_color.Location = new System.Drawing.Point(606, 340);
+            this.pictureBox_background_color.Name = "pictureBox_background_color";
+            this.pictureBox_background_color.Size = new System.Drawing.Size(30, 31);
+            this.pictureBox_background_color.TabIndex = 39;
+            this.pictureBox_background_color.TabStop = false;
+            this.toolTipMaster.SetToolTip(this.pictureBox_background_color, "Change color of aspect ratio bars");
+            this.pictureBox_background_color.Click += new System.EventHandler(this.pictureBox_background_color_Click);
+            // 
+            // checkBoxTransparency
+            // 
+            this.checkBoxTransparency.AutoSize = true;
+            this.checkBoxTransparency.Location = new System.Drawing.Point(399, 363);
+            this.checkBoxTransparency.Name = "checkBoxTransparency";
+            this.checkBoxTransparency.Size = new System.Drawing.Size(179, 21);
+            this.checkBoxTransparency.TabIndex = 43;
+            this.checkBoxTransparency.Text = "Preserve Transparency";
+            this.toolTipMaster.SetToolTip(this.checkBoxTransparency, "Preserve source image\'s transparent pixels");
+            this.checkBoxTransparency.UseVisualStyleBackColor = true;
+            this.checkBoxTransparency.CheckedChanged += new System.EventHandler(this.checkBoxTransparency_CheckedChanged);
             // 
             // backgroundWorkerDithering
             // 
@@ -469,44 +519,6 @@
             0,
             0});
             // 
-            // buttonUpdateResolution
-            // 
-            this.buttonUpdateResolution.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.buttonUpdateResolution.Enabled = false;
-            this.buttonUpdateResolution.Location = new System.Drawing.Point(544, 298);
-            this.buttonUpdateResolution.Name = "buttonUpdateResolution";
-            this.buttonUpdateResolution.Size = new System.Drawing.Size(133, 31);
-            this.buttonUpdateResolution.TabIndex = 37;
-            this.buttonUpdateResolution.Text = "Update Resolution";
-            this.toolTipMaster.SetToolTip(this.buttonUpdateResolution, "Update preview with custom resolution");
-            this.buttonUpdateResolution.UseVisualStyleBackColor = true;
-            this.buttonUpdateResolution.Click += new System.EventHandler(this.buttonUpdateResolution_Click);
-            // 
-            // button_background_color
-            // 
-            this.button_background_color.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button_background_color.Location = new System.Drawing.Point(642, 340);
-            this.button_background_color.Name = "button_background_color";
-            this.button_background_color.Size = new System.Drawing.Size(190, 31);
-            this.button_background_color.TabIndex = 38;
-            this.button_background_color.Text = "Change Background Color";
-            this.toolTipMaster.SetToolTip(this.button_background_color, "Change color of the background");
-            this.button_background_color.UseVisualStyleBackColor = true;
-            this.button_background_color.Click += new System.EventHandler(this.button_background_color_Click);
-            // 
-            // pictureBox_background_color
-            // 
-            this.pictureBox_background_color.BackColor = System.Drawing.Color.Black;
-            this.pictureBox_background_color.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox_background_color.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pictureBox_background_color.Location = new System.Drawing.Point(606, 340);
-            this.pictureBox_background_color.Name = "pictureBox_background_color";
-            this.pictureBox_background_color.Size = new System.Drawing.Size(30, 31);
-            this.pictureBox_background_color.TabIndex = 39;
-            this.pictureBox_background_color.TabStop = false;
-            this.toolTipMaster.SetToolTip(this.pictureBox_background_color, "Change color of aspect ratio bars");
-            this.pictureBox_background_color.Click += new System.EventHandler(this.pictureBox_background_color_Click);
-            // 
             // backgroundWorkerUpdate
             // 
             this.backgroundWorkerUpdate.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorkerUpdate_DoWork);
@@ -526,18 +538,6 @@
             // 
             this.backgroundWorkerInvert.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorkerInvert_DoWork);
             this.backgroundWorkerInvert.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorkerInvert_RunWorkerCompleted);
-            // 
-            // checkBoxTransparency
-            // 
-            this.checkBoxTransparency.AutoSize = true;
-            this.checkBoxTransparency.Location = new System.Drawing.Point(399, 363);
-            this.checkBoxTransparency.Name = "checkBoxTransparency";
-            this.checkBoxTransparency.Size = new System.Drawing.Size(179, 21);
-            this.checkBoxTransparency.TabIndex = 43;
-            this.checkBoxTransparency.Text = "Preserve Transparency";
-            this.toolTipMaster.SetToolTip(this.checkBoxTransparency, "Preserve source image\'s transparent pixels");
-            this.checkBoxTransparency.UseVisualStyleBackColor = true;
-            this.checkBoxTransparency.CheckedChanged += new System.EventHandler(this.checkBoxTransparency_CheckedChanged);
             // 
             // ImageToLCD
             // 
@@ -587,9 +587,9 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Whip\'s Image Converter (Version <num> - <date>)";
             ((System.ComponentModel.ISupportInitialize)(this.ImagePreviewBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_background_color)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWidth)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHeight)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_background_color)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
