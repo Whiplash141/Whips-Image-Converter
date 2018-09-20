@@ -29,8 +29,8 @@ namespace WhipsImageConverter
 {
     public partial class ImageToLCD : Form
     {
-        const string myVersionString = "1.1.5.4";
-        const string buildDateString = "5/13/18";
+        const string myVersionString = "1.1.6.0";
+        const string buildDateString = "9/16/18";
         const string githubVersionUrl = "https://github.com/Whiplash141/Whips-Image-Converter/releases/latest";
 
         string formTitle = $"Whip's Image Converter (Version {myVersionString} - {buildDateString})";
@@ -156,6 +156,7 @@ namespace WhipsImageConverter
             combobox_dither.SelectedIndex = 0;
             combobox_resize.SelectedIndex = 0;
             openFileDialog1.Filter = "Image files (*.jpg, *.jpeg, *.jpe, *.jfif, *.png, *.bmp) | *.jpg; *.jpeg; *.jpe; *.jfif; *.png; *.bmp";
+            CheckBackgroundColorEnabled();
 
             //Set form name
             this.Text = formTitle;
@@ -439,10 +440,16 @@ namespace WhipsImageConverter
         }
 
         string spacer = "" + '\uE075' + '\uE072' + '\uE070';
+        string spacer2 = "" + '\ue076' + '\ue073' + '\ue071';
         string spacer4 = "" + '\ue076' + '\ue076' + '\ue074' + '\ue072';
+        string spacer8 = "" + '\ue078' + '\ue075' + '\ue073';
+        string spacer178 = new string('\ue078', 25) + '\ue077' + '\ue075' + '\ue074' + '\ue073' + '\ue071';
 
         string trans = transparencyFake.ToString();
+        string trans2 = new string(transparencyFake, 2);
         string trans4 = new string(transparencyFake, 4);
+        string trans8 = new string(transparencyFake, 8);
+        string trans178 = new string(transparencyFake, 178);
 
         void ConvertImage()
         {
@@ -457,7 +464,10 @@ namespace WhipsImageConverter
 
             if (checkBoxTransparency.Checked)
             {
+                convertedImageString = convertedImageString.Replace(trans178, spacer178);
+                convertedImageString = convertedImageString.Replace(trans8, spacer8);
                 convertedImageString = convertedImageString.Replace(trans4, spacer4);
+                convertedImageString = convertedImageString.Replace(trans2, spacer2);
                 convertedImageString = convertedImageString.Replace(trans, spacer);
             }
             else
@@ -899,19 +909,19 @@ namespace WhipsImageConverter
         private void linkLabel_Credits_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             var creditsPopup = new popup_credits();
-            creditsPopup.Show();
+            creditsPopup.ShowDialog();
         }
 
         private void linkLabel_Dithering_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             var popupForm = new DitheringPopup(1);
-            popupForm.Show();
+            popupForm.ShowDialog();
         }
 
         private void linkLabel_Dithering2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             var popupForm = new DitheringPopup(2);
-            popupForm.Show();
+            popupForm.ShowDialog();
         }
 
         private void ImagePreviewBox_Click(object sender, EventArgs e)
@@ -919,7 +929,7 @@ namespace WhipsImageConverter
             if (ImagePreviewBox.Image != null)
             {
                 var popup_image = new popup_imagebox((Bitmap)ImagePreviewBox.Image);
-                popup_image.Show();
+                popup_image.ShowDialog();
             }
         }
 
