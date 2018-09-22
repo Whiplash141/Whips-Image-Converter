@@ -84,7 +84,7 @@
             this.ImagePreviewBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.ImagePreviewBox.Cursor = System.Windows.Forms.Cursors.Hand;
             this.ImagePreviewBox.Location = new System.Drawing.Point(10, 23);
-            this.ImagePreviewBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.ImagePreviewBox.Margin = new System.Windows.Forms.Padding(2);
             this.ImagePreviewBox.Name = "ImagePreviewBox";
             this.ImagePreviewBox.Size = new System.Drawing.Size(285, 285);
             this.ImagePreviewBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -96,7 +96,9 @@
             // label2
             // 
             this.label2.AutoSize = true;
+            this.label2.BackColor = System.Drawing.Color.Transparent;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.ForeColor = System.Drawing.Color.White;
             this.label2.Location = new System.Drawing.Point(10, 5);
             this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
@@ -106,21 +108,27 @@
             // 
             // BrowseButton
             // 
+            this.BrowseButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
             this.BrowseButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.BrowseButton.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.BrowseButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BrowseButton.ForeColor = System.Drawing.Color.White;
             this.BrowseButton.Location = new System.Drawing.Point(595, 145);
-            this.BrowseButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BrowseButton.Margin = new System.Windows.Forms.Padding(2);
             this.BrowseButton.Name = "BrowseButton";
             this.BrowseButton.Size = new System.Drawing.Size(60, 29);
             this.BrowseButton.TabIndex = 7;
             this.BrowseButton.Text = "Browse";
             this.toolTipMaster.SetToolTip(this.BrowseButton, "Browse for file");
-            this.BrowseButton.UseVisualStyleBackColor = true;
+            this.BrowseButton.UseVisualStyleBackColor = false;
             this.BrowseButton.Click += new System.EventHandler(this.BrowseButton_Click);
             // 
             // textBox_FileDirectory
             // 
+            this.textBox_FileDirectory.BackColor = System.Drawing.Color.Black;
+            this.textBox_FileDirectory.ForeColor = System.Drawing.Color.White;
             this.textBox_FileDirectory.Location = new System.Drawing.Point(319, 150);
-            this.textBox_FileDirectory.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBox_FileDirectory.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_FileDirectory.Name = "textBox_FileDirectory";
             this.textBox_FileDirectory.ReadOnly = true;
             this.textBox_FileDirectory.Size = new System.Drawing.Size(268, 20);
@@ -128,8 +136,10 @@
             // 
             // textBox_Return
             // 
+            this.textBox_Return.BackColor = System.Drawing.Color.Black;
+            this.textBox_Return.ForeColor = System.Drawing.Color.White;
             this.textBox_Return.Location = new System.Drawing.Point(67, 354);
-            this.textBox_Return.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.textBox_Return.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_Return.Multiline = true;
             this.textBox_Return.Name = "textBox_Return";
             this.textBox_Return.ReadOnly = true;
@@ -144,7 +154,9 @@
             // label1
             // 
             this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.White;
             this.label1.Location = new System.Drawing.Point(57, 318);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
@@ -154,22 +166,28 @@
             // 
             // button_Clipboard
             // 
+            this.button_Clipboard.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
             this.button_Clipboard.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button_Clipboard.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.button_Clipboard.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Clipboard.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_Clipboard.ForeColor = System.Drawing.Color.White;
             this.button_Clipboard.Location = new System.Drawing.Point(210, 422);
-            this.button_Clipboard.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button_Clipboard.Margin = new System.Windows.Forms.Padding(2);
             this.button_Clipboard.Name = "button_Clipboard";
             this.button_Clipboard.Size = new System.Drawing.Size(290, 38);
             this.button_Clipboard.TabIndex = 11;
             this.button_Clipboard.Text = "Convert and Copy to Clipboard";
             this.toolTipMaster.SetToolTip(this.button_Clipboard, "Convert the image to monospace and automatically copy to system clipboard");
-            this.button_Clipboard.UseVisualStyleBackColor = true;
+            this.button_Clipboard.UseVisualStyleBackColor = false;
             this.button_Clipboard.Click += new System.EventHandler(this.button_Clipboard_Click);
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(10, 469);
+            this.label3.BackColor = System.Drawing.Color.Transparent;
+            this.label3.ForeColor = System.Drawing.Color.White;
+            this.label3.Location = new System.Drawing.Point(13, 456);
             this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(113, 13);
@@ -178,7 +196,9 @@
             // 
             // instructions
             // 
+            this.instructions.BackColor = System.Drawing.Color.Transparent;
             this.instructions.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.instructions.ForeColor = System.Drawing.Color.White;
             this.instructions.Location = new System.Drawing.Point(308, 23);
             this.instructions.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.instructions.Name = "instructions";
@@ -189,7 +209,9 @@
             // label4
             // 
             this.label4.AutoSize = true;
+            this.label4.BackColor = System.Drawing.Color.Transparent;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.ForeColor = System.Drawing.Color.White;
             this.label4.Location = new System.Drawing.Point(316, 5);
             this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label4.Name = "label4";
@@ -199,7 +221,9 @@
             // 
             // linkLabel_Dithering
             // 
+            this.linkLabel_Dithering.BackColor = System.Drawing.Color.Transparent;
             this.linkLabel_Dithering.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.linkLabel_Dithering.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(255)))));
             this.linkLabel_Dithering.Location = new System.Drawing.Point(459, 56);
             this.linkLabel_Dithering.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.linkLabel_Dithering.Name = "linkLabel_Dithering";
@@ -212,8 +236,10 @@
             // linkLabel_Credits
             // 
             this.linkLabel_Credits.AutoSize = true;
+            this.linkLabel_Credits.BackColor = System.Drawing.Color.Transparent;
             this.linkLabel_Credits.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.linkLabel_Credits.Location = new System.Drawing.Point(58, 482);
+            this.linkLabel_Credits.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(255)))));
+            this.linkLabel_Credits.Location = new System.Drawing.Point(61, 473);
             this.linkLabel_Credits.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.linkLabel_Credits.Name = "linkLabel_Credits";
             this.linkLabel_Credits.Size = new System.Drawing.Size(100, 13);
@@ -224,8 +250,9 @@
             // 
             // linkLabel_Dithering2
             // 
-            this.linkLabel_Dithering2.BackColor = System.Drawing.SystemColors.Control;
+            this.linkLabel_Dithering2.BackColor = System.Drawing.Color.Transparent;
             this.linkLabel_Dithering2.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.linkLabel_Dithering2.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(255)))));
             this.linkLabel_Dithering2.Location = new System.Drawing.Point(571, 56);
             this.linkLabel_Dithering2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.linkLabel_Dithering2.Name = "linkLabel_Dithering2";
@@ -238,7 +265,9 @@
             // label_stringLength
             // 
             this.label_stringLength.AutoSize = true;
+            this.label_stringLength.BackColor = System.Drawing.Color.Transparent;
             this.label_stringLength.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_stringLength.ForeColor = System.Drawing.Color.White;
             this.label_stringLength.Location = new System.Drawing.Point(521, 338);
             this.label_stringLength.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_stringLength.Name = "label_stringLength";
@@ -248,7 +277,10 @@
             // 
             // combobox_dither
             // 
+            this.combobox_dither.BackColor = System.Drawing.Color.Black;
             this.combobox_dither.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.combobox_dither.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.combobox_dither.ForeColor = System.Drawing.Color.White;
             this.combobox_dither.FormattingEnabled = true;
             this.combobox_dither.Items.AddRange(new object[] {
             "(None)",
@@ -259,7 +291,7 @@
             "Sierra-2",
             "Sierra Lite"});
             this.combobox_dither.Location = new System.Drawing.Point(505, 196);
-            this.combobox_dither.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.combobox_dither.Margin = new System.Windows.Forms.Padding(2);
             this.combobox_dither.Name = "combobox_dither";
             this.combobox_dither.Size = new System.Drawing.Size(162, 21);
             this.combobox_dither.TabIndex = 19;
@@ -269,6 +301,8 @@
             // label5
             // 
             this.label5.AutoSize = true;
+            this.label5.BackColor = System.Drawing.Color.Transparent;
+            this.label5.ForeColor = System.Drawing.Color.White;
             this.label5.Location = new System.Drawing.Point(502, 180);
             this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label5.Name = "label5";
@@ -279,6 +313,8 @@
             // label6
             // 
             this.label6.AutoSize = true;
+            this.label6.BackColor = System.Drawing.Color.Transparent;
+            this.label6.ForeColor = System.Drawing.Color.White;
             this.label6.Location = new System.Drawing.Point(65, 338);
             this.label6.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label6.Name = "label6";
@@ -289,7 +325,10 @@
             // 
             // combobox_resize
             // 
+            this.combobox_resize.BackColor = System.Drawing.Color.Black;
             this.combobox_resize.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.combobox_resize.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.combobox_resize.ForeColor = System.Drawing.Color.White;
             this.combobox_resize.FormattingEnabled = true;
             this.combobox_resize.Items.AddRange(new object[] {
             "Square (178x178)",
@@ -299,7 +338,7 @@
             "(Custom)",
             "(None)"});
             this.combobox_resize.Location = new System.Drawing.Point(319, 196);
-            this.combobox_resize.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.combobox_resize.Margin = new System.Windows.Forms.Padding(2);
             this.combobox_resize.Name = "combobox_resize";
             this.combobox_resize.Size = new System.Drawing.Size(162, 21);
             this.combobox_resize.TabIndex = 22;
@@ -309,6 +348,8 @@
             // label7
             // 
             this.label7.AutoSize = true;
+            this.label7.BackColor = System.Drawing.Color.Transparent;
+            this.label7.ForeColor = System.Drawing.Color.White;
             this.label7.Location = new System.Drawing.Point(317, 180);
             this.label7.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label7.Name = "label7";
@@ -319,6 +360,8 @@
             // label8
             // 
             this.label8.AutoSize = true;
+            this.label8.BackColor = System.Drawing.Color.Transparent;
+            this.label8.ForeColor = System.Drawing.Color.White;
             this.label8.Location = new System.Drawing.Point(317, 132);
             this.label8.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label8.Name = "label8";
@@ -329,6 +372,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
+            this.label9.ForeColor = System.Drawing.Color.White;
             this.label9.Location = new System.Drawing.Point(119, 7);
             this.label9.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label9.Name = "label9";
@@ -339,117 +383,132 @@
             // checkBox_aspectratio
             // 
             this.checkBox_aspectratio.AutoSize = true;
+            this.checkBox_aspectratio.BackColor = System.Drawing.Color.Transparent;
             this.checkBox_aspectratio.Checked = true;
             this.checkBox_aspectratio.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox_aspectratio.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.checkBox_aspectratio.ForeColor = System.Drawing.Color.White;
             this.checkBox_aspectratio.Location = new System.Drawing.Point(319, 268);
-            this.checkBox_aspectratio.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.checkBox_aspectratio.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox_aspectratio.Name = "checkBox_aspectratio";
             this.checkBox_aspectratio.Size = new System.Drawing.Size(130, 17);
             this.checkBox_aspectratio.TabIndex = 26;
             this.checkBox_aspectratio.Text = "Maintain Aspect Ratio";
             this.toolTipMaster.SetToolTip(this.checkBox_aspectratio, "Will use black bars to maintain the aspect ratio of an image");
-            this.checkBox_aspectratio.UseVisualStyleBackColor = true;
+            this.checkBox_aspectratio.UseVisualStyleBackColor = false;
             this.checkBox_aspectratio.CheckedChanged += new System.EventHandler(this.checkBox_aspectratio_CheckedChanged);
             // 
             // buttonRotateCW
             // 
+            this.buttonRotateCW.BackColor = System.Drawing.Color.White;
             this.buttonRotateCW.BackgroundImage = global::WhipsImageConverter.Properties.Resources.CW_arrow;
             this.buttonRotateCW.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.buttonRotateCW.Cursor = System.Windows.Forms.Cursors.Hand;
             this.buttonRotateCW.Font = new System.Drawing.Font("Century", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonRotateCW.Location = new System.Drawing.Point(10, 282);
-            this.buttonRotateCW.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.buttonRotateCW.Margin = new System.Windows.Forms.Padding(2);
             this.buttonRotateCW.Name = "buttonRotateCW";
             this.buttonRotateCW.Size = new System.Drawing.Size(26, 26);
             this.buttonRotateCW.TabIndex = 27;
             this.buttonRotateCW.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.toolTipMaster.SetToolTip(this.buttonRotateCW, "Rotate clockwise");
-            this.buttonRotateCW.UseVisualStyleBackColor = true;
+            this.buttonRotateCW.UseVisualStyleBackColor = false;
             this.buttonRotateCW.Click += new System.EventHandler(this.buttonRotateCW_Click);
             // 
             // buttonRotateCCW
             // 
+            this.buttonRotateCCW.BackColor = System.Drawing.Color.White;
             this.buttonRotateCCW.BackgroundImage = global::WhipsImageConverter.Properties.Resources.CCW_arrow;
             this.buttonRotateCCW.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.buttonRotateCCW.Cursor = System.Windows.Forms.Cursors.Hand;
             this.buttonRotateCCW.Font = new System.Drawing.Font("Century", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonRotateCCW.Location = new System.Drawing.Point(269, 282);
-            this.buttonRotateCCW.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.buttonRotateCCW.Margin = new System.Windows.Forms.Padding(2);
             this.buttonRotateCCW.Name = "buttonRotateCCW";
             this.buttonRotateCCW.Size = new System.Drawing.Size(26, 26);
             this.buttonRotateCCW.TabIndex = 28;
             this.toolTipMaster.SetToolTip(this.buttonRotateCCW, "Rotate counter-clockwise");
-            this.buttonRotateCCW.UseVisualStyleBackColor = true;
+            this.buttonRotateCCW.UseVisualStyleBackColor = false;
             this.buttonRotateCCW.Click += new System.EventHandler(this.buttonRotateCCW_Click);
             // 
             // buttonFlipHorizontal
             // 
+            this.buttonFlipHorizontal.BackColor = System.Drawing.Color.White;
             this.buttonFlipHorizontal.BackgroundImage = global::WhipsImageConverter.Properties.Resources.Double_headed_arrow;
             this.buttonFlipHorizontal.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.buttonFlipHorizontal.Cursor = System.Windows.Forms.Cursors.Hand;
             this.buttonFlipHorizontal.Location = new System.Drawing.Point(135, 282);
-            this.buttonFlipHorizontal.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.buttonFlipHorizontal.Margin = new System.Windows.Forms.Padding(2);
             this.buttonFlipHorizontal.Name = "buttonFlipHorizontal";
             this.buttonFlipHorizontal.Size = new System.Drawing.Size(26, 26);
             this.buttonFlipHorizontal.TabIndex = 29;
             this.toolTipMaster.SetToolTip(this.buttonFlipHorizontal, "Flip horizontally");
-            this.buttonFlipHorizontal.UseVisualStyleBackColor = true;
+            this.buttonFlipHorizontal.UseVisualStyleBackColor = false;
             this.buttonFlipHorizontal.Click += new System.EventHandler(this.buttonFlipHorizontal_Click);
             // 
             // buttonFlipVertical
             // 
+            this.buttonFlipVertical.BackColor = System.Drawing.Color.White;
             this.buttonFlipVertical.BackgroundImage = global::WhipsImageConverter.Properties.Resources.Double_headed_arrow_rotated;
             this.buttonFlipVertical.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.buttonFlipVertical.Cursor = System.Windows.Forms.Cursors.Hand;
             this.buttonFlipVertical.Location = new System.Drawing.Point(166, 282);
-            this.buttonFlipVertical.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.buttonFlipVertical.Margin = new System.Windows.Forms.Padding(2);
             this.buttonFlipVertical.Name = "buttonFlipVertical";
             this.buttonFlipVertical.Size = new System.Drawing.Size(26, 26);
             this.buttonFlipVertical.TabIndex = 30;
             this.toolTipMaster.SetToolTip(this.buttonFlipVertical, "Flip vertically");
-            this.buttonFlipVertical.UseVisualStyleBackColor = true;
+            this.buttonFlipVertical.UseVisualStyleBackColor = false;
             this.buttonFlipVertical.Click += new System.EventHandler(this.buttonFlipVertical_Click);
             // 
             // buttonInvertColors
             // 
+            this.buttonInvertColors.BackColor = System.Drawing.Color.White;
             this.buttonInvertColors.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("buttonInvertColors.BackgroundImage")));
             this.buttonInvertColors.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.buttonInvertColors.Cursor = System.Windows.Forms.Cursors.Hand;
             this.buttonInvertColors.Location = new System.Drawing.Point(105, 282);
-            this.buttonInvertColors.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.buttonInvertColors.Margin = new System.Windows.Forms.Padding(2);
             this.buttonInvertColors.Name = "buttonInvertColors";
             this.buttonInvertColors.Size = new System.Drawing.Size(26, 26);
             this.buttonInvertColors.TabIndex = 42;
             this.toolTipMaster.SetToolTip(this.buttonInvertColors, "Invert colors");
-            this.buttonInvertColors.UseVisualStyleBackColor = true;
+            this.buttonInvertColors.UseVisualStyleBackColor = false;
             this.buttonInvertColors.Click += new System.EventHandler(this.buttonInvertColors_Click);
             // 
             // buttonUpdateResolution
             // 
+            this.buttonUpdateResolution.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
             this.buttonUpdateResolution.Cursor = System.Windows.Forms.Cursors.Hand;
             this.buttonUpdateResolution.Enabled = false;
+            this.buttonUpdateResolution.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.buttonUpdateResolution.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonUpdateResolution.ForeColor = System.Drawing.Color.White;
             this.buttonUpdateResolution.Location = new System.Drawing.Point(435, 238);
-            this.buttonUpdateResolution.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.buttonUpdateResolution.Margin = new System.Windows.Forms.Padding(2);
             this.buttonUpdateResolution.Name = "buttonUpdateResolution";
             this.buttonUpdateResolution.Size = new System.Drawing.Size(106, 25);
             this.buttonUpdateResolution.TabIndex = 37;
             this.buttonUpdateResolution.Text = "Update Resolution";
             this.toolTipMaster.SetToolTip(this.buttonUpdateResolution, "Update preview with custom resolution");
-            this.buttonUpdateResolution.UseVisualStyleBackColor = true;
+            this.buttonUpdateResolution.UseVisualStyleBackColor = false;
             this.buttonUpdateResolution.Click += new System.EventHandler(this.buttonUpdateResolution_Click);
             // 
             // button_background_color
             // 
+            this.button_background_color.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
             this.button_background_color.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button_background_color.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.button_background_color.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_background_color.ForeColor = System.Drawing.Color.White;
             this.button_background_color.Location = new System.Drawing.Point(514, 272);
-            this.button_background_color.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button_background_color.Margin = new System.Windows.Forms.Padding(2);
             this.button_background_color.Name = "button_background_color";
             this.button_background_color.Size = new System.Drawing.Size(152, 25);
             this.button_background_color.TabIndex = 38;
             this.button_background_color.Text = "Change Background Color";
             this.toolTipMaster.SetToolTip(this.button_background_color, "Change color of the background");
-            this.button_background_color.UseVisualStyleBackColor = true;
+            this.button_background_color.UseVisualStyleBackColor = false;
             this.button_background_color.Click += new System.EventHandler(this.button_background_color_Click);
             // 
             // pictureBox_background_color
@@ -458,7 +517,7 @@
             this.pictureBox_background_color.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox_background_color.Cursor = System.Windows.Forms.Cursors.Hand;
             this.pictureBox_background_color.Location = new System.Drawing.Point(485, 272);
-            this.pictureBox_background_color.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pictureBox_background_color.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox_background_color.Name = "pictureBox_background_color";
             this.pictureBox_background_color.Size = new System.Drawing.Size(24, 25);
             this.pictureBox_background_color.TabIndex = 39;
@@ -469,16 +528,18 @@
             // checkBoxTransparency
             // 
             this.checkBoxTransparency.AutoSize = true;
+            this.checkBoxTransparency.BackColor = System.Drawing.Color.Transparent;
             this.checkBoxTransparency.Checked = true;
             this.checkBoxTransparency.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxTransparency.ForeColor = System.Drawing.Color.White;
             this.checkBoxTransparency.Location = new System.Drawing.Point(319, 290);
-            this.checkBoxTransparency.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.checkBoxTransparency.Margin = new System.Windows.Forms.Padding(2);
             this.checkBoxTransparency.Name = "checkBoxTransparency";
             this.checkBoxTransparency.Size = new System.Drawing.Size(136, 17);
             this.checkBoxTransparency.TabIndex = 43;
             this.checkBoxTransparency.Text = "Preserve Transparency";
             this.toolTipMaster.SetToolTip(this.checkBoxTransparency, "Preserve source image\'s transparent pixels");
-            this.checkBoxTransparency.UseVisualStyleBackColor = true;
+            this.checkBoxTransparency.UseVisualStyleBackColor = false;
             this.checkBoxTransparency.CheckedChanged += new System.EventHandler(this.checkBoxTransparency_CheckedChanged);
             // 
             // backgroundWorkerDithering
@@ -492,6 +553,8 @@
             // label10
             // 
             this.label10.AutoSize = true;
+            this.label10.BackColor = System.Drawing.Color.Transparent;
+            this.label10.ForeColor = System.Drawing.Color.White;
             this.label10.Location = new System.Drawing.Point(317, 226);
             this.label10.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label10.Name = "label10";
@@ -502,6 +565,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
+            this.label11.ForeColor = System.Drawing.Color.White;
             this.label11.Location = new System.Drawing.Point(370, 244);
             this.label11.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label11.Name = "label11";
@@ -511,9 +575,11 @@
             // 
             // numericUpDownWidth
             // 
+            this.numericUpDownWidth.BackColor = System.Drawing.Color.Black;
             this.numericUpDownWidth.Enabled = false;
+            this.numericUpDownWidth.ForeColor = System.Drawing.Color.White;
             this.numericUpDownWidth.Location = new System.Drawing.Point(319, 242);
-            this.numericUpDownWidth.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.numericUpDownWidth.Margin = new System.Windows.Forms.Padding(2);
             this.numericUpDownWidth.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -535,9 +601,11 @@
             // 
             // numericUpDownHeight
             // 
+            this.numericUpDownHeight.BackColor = System.Drawing.Color.Black;
             this.numericUpDownHeight.Enabled = false;
+            this.numericUpDownHeight.ForeColor = System.Drawing.Color.White;
             this.numericUpDownHeight.Location = new System.Drawing.Point(384, 242);
-            this.numericUpDownHeight.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.numericUpDownHeight.Margin = new System.Windows.Forms.Padding(2);
             this.numericUpDownHeight.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -564,7 +632,9 @@
             // linkLabel_GitHub
             // 
             this.linkLabel_GitHub.AutoSize = true;
-            this.linkLabel_GitHub.Location = new System.Drawing.Point(10, 482);
+            this.linkLabel_GitHub.BackColor = System.Drawing.Color.Transparent;
+            this.linkLabel_GitHub.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(120)))), ((int)(((byte)(255)))));
+            this.linkLabel_GitHub.Location = new System.Drawing.Point(13, 473);
             this.linkLabel_GitHub.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.linkLabel_GitHub.Name = "linkLabel_GitHub";
             this.linkLabel_GitHub.Size = new System.Drawing.Size(40, 13);
@@ -582,6 +652,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
             this.ClientSize = new System.Drawing.Size(690, 498);
             this.Controls.Add(this.checkBoxTransparency);
             this.Controls.Add(this.buttonInvertColors);
@@ -621,11 +692,12 @@
             this.Controls.Add(this.ImagePreviewBox);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximizeBox = false;
             this.Name = "ImageToLCD";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Whip\'s Image Converter (Version <num> - <date>)";
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.OnMainFormPaint);
             ((System.ComponentModel.ISupportInitialize)(this.ImagePreviewBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_background_color)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWidth)).EndInit();

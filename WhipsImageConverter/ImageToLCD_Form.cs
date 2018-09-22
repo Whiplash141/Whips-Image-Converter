@@ -13,6 +13,7 @@ using System.IO;
 using System.Numerics;
 using System.Net.Http;
 using System.Net;
+using System.Drawing.Drawing2D;
 
 /*
 Color3 method adapted from user dacwe on StackExchange 
@@ -30,7 +31,7 @@ namespace WhipsImageConverter
     public partial class ImageToLCD : Form
     {
         const string myVersionString = "1.1.6.0";
-        const string buildDateString = "9/16/18";
+        const string buildDateString = "9/20/18";
         const string githubVersionUrl = "https://github.com/Whiplash141/Whips-Image-Converter/releases/latest";
 
         string formTitle = $"Whip's Image Converter (Version {myVersionString} - {buildDateString})";
@@ -166,6 +167,19 @@ namespace WhipsImageConverter
 
             //Construct colormap
             ConstructColorMap();
+        }
+
+        /// <summary>
+        /// Colors main form with a gradient.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnMainFormPaint(object sender, PaintEventArgs e)
+        {
+            Graphics graphics = e.Graphics;
+            Rectangle gradient_rectangle = new Rectangle(0, 0, this.Width, this.Height);
+            Brush b = new LinearGradientBrush(gradient_rectangle, Color.FromArgb(0, 0, 0), Color.FromArgb(80, 0, 0), 45f);
+            graphics.FillRectangle(b, gradient_rectangle);
         }
 
         #region Update Checking
