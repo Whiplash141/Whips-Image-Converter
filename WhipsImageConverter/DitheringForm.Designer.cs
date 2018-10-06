@@ -1,6 +1,6 @@
 ﻿namespace WhipsImageConverter
 {
-    partial class DitheringPopup
+    partial class DitheringForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DitheringPopup));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DitheringForm));
             this.OriginalBox = new System.Windows.Forms.PictureBox();
             this.NoDitherBox = new System.Windows.Forms.PictureBox();
             this.DitherBox = new System.Windows.Forms.PictureBox();

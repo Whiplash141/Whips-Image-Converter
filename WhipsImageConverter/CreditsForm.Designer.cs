@@ -1,6 +1,6 @@
 ﻿namespace WhipsImageConverter
 {
-    partial class popup_credits
+    partial class CreditsForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(popup_credits));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CreditsForm));
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -79,7 +79,7 @@
             this.link_wiki.TabIndex = 3;
             this.link_wiki.TabStop = true;
             this.link_wiki.Text = "https://en.wikipedia.org/wiki/Floyd%E2%80%93Steinberg_dithering\r\n";
-            this.link_wiki.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.link_wiki_LinkClicked);
+            this.link_wiki.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.OnLinkWikiLinkClicked);
             // 
             // link_stackOverflow
             // 
@@ -92,7 +92,7 @@
             this.link_stackOverflow.TabStop = true;
             this.link_stackOverflow.Text = "https://stackoverflow.com/questions/5940188/how-to-convert-a-24-bit-png-to-3-bit-" +
     "png-using-floyd-steinberg-dithering";
-            this.link_stackOverflow.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.link_stackOverflow_LinkClicked);
+            this.link_stackOverflow.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.OnLinkStackOverflowLinkClicked);
             // 
             // label4
             // 
@@ -102,7 +102,6 @@
             this.label4.Size = new System.Drawing.Size(82, 51);
             this.label4.TabIndex = 5;
             this.label4.Text = "Violinninja8\r\nDarkInferno\r\nJonnytaco";
-            this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
             // link_tanner
             // 
@@ -114,7 +113,7 @@
             this.link_tanner.TabIndex = 6;
             this.link_tanner.TabStop = true;
             this.link_tanner.Text = "http://www.tannerhelland.com/4660/dithering-eleven-algorithms-source-code/";
-            this.link_tanner.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.link_tanner_LinkClicked);
+            this.link_tanner.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.OnLinkTannerLinkClicked);
             // 
             // link_efg2
             // 
@@ -126,7 +125,7 @@
             this.link_efg2.TabIndex = 7;
             this.link_efg2.TabStop = true;
             this.link_efg2.Text = "http://www.efg2.com/Lab/Library/ImageProcessing/DHALF.TXT";
-            this.link_efg2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.link_efg2_LinkClicked);
+            this.link_efg2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.OnLinkEfg2LinkClicked);
             // 
             // popup_credits
             // 

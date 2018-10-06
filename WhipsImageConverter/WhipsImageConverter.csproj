@@ -75,46 +75,46 @@
     <Compile Include="ImageLoadProgressForm.Designer.cs">
       <DependentUpon>ImageLoadProgressForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="ImageToLCD_Form.cs">
+    <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ImageToLCD_Form.Designer.cs">
-      <DependentUpon>ImageToLCD_Form.cs</DependentUpon>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="DitheringPopup_Form.cs">
+    <Compile Include="DitheringForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DitheringPopup_Form.Designer.cs">
-      <DependentUpon>DitheringPopup_Form.cs</DependentUpon>
+    <Compile Include="DitheringForm.Designer.cs">
+      <DependentUpon>DitheringForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="popup_credits.cs">
+    <Compile Include="CreditsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="popup_credits.Designer.cs">
-      <DependentUpon>popup_credits.cs</DependentUpon>
+    <Compile Include="CreditsForm.Designer.cs">
+      <DependentUpon>CreditsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="popup_imagebox.cs">
+    <Compile Include="EnlargedImageForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="popup_imagebox.Designer.cs">
-      <DependentUpon>popup_imagebox.cs</DependentUpon>
+    <Compile Include="EnlargedImageForm.Designer.cs">
+      <DependentUpon>EnlargedImageForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="ImageLoadProgressForm.resx">
       <DependentUpon>ImageLoadProgressForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ImageToLCD_Form.resx">
-      <DependentUpon>ImageToLCD_Form.cs</DependentUpon>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DitheringPopup_Form.resx">
-      <DependentUpon>DitheringPopup_Form.cs</DependentUpon>
+    <EmbeddedResource Include="DitheringForm.resx">
+      <DependentUpon>DitheringForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="popup_credits.resx">
-      <DependentUpon>popup_credits.cs</DependentUpon>
+    <EmbeddedResource Include="CreditsForm.resx">
+      <DependentUpon>CreditsForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="popup_imagebox.resx">
-      <DependentUpon>popup_imagebox.cs</DependentUpon>
+    <EmbeddedResource Include="EnlargedImageForm.resx">
+      <DependentUpon>EnlargedImageForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

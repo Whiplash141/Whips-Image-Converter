@@ -27,7 +27,7 @@ namespace WhipsImageConverter
             Update();
         }
 
-        private void buttonCancelLoading_Click(object sender, EventArgs e)
+        private void OnButtonCancelLoadingClick(object sender, EventArgs e)
         {
             this.Close();
             this.DialogResult = DialogResult.Abort;

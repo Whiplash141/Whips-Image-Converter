@@ -18,8 +18,7 @@ namespace WhipsImageConverter
         static void Main()
         {
             const string appName = "Whip's Image Converter";
-            bool createdNew;
-            mutex = new Mutex(true, appName, out createdNew);
+            mutex = new Mutex(true, appName, out bool createdNew);
 
             if (!createdNew)
             {
@@ -32,7 +31,7 @@ namespace WhipsImageConverter
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new ImageToLCD());
+            Application.Run(new MainForm());
         }
     }
 }

@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace WhipsImageConverter
 {
-    public partial class DitheringPopup : Form
+    public partial class DitheringForm : Form
     {
-        public DitheringPopup(int mode)
+        public DitheringForm(int mode)
         {
             InitializeComponent();
             ShowImages(mode);

@@ -28,12 +28,13 @@ http://www.efg2.com/Lab/Library/ImageProcessing/DHALF.TXT
 
 namespace WhipsImageConverter
 {
-    public partial class ImageToLCD : Form
+    public partial class MainForm : Form
     {
-        const string myVersionString = "1.1.6.0";
-        const string buildDateString = "9/20/18";
+        const string myVersionString = "1.1.6.1";
+        const string buildDateString = "10/6/18";
         const string githubVersionUrl = "https://github.com/Whiplash141/Whips-Image-Converter/releases/latest";
 
+        #region Member fields
         string formTitle = $"Whip's Image Converter (Version {myVersionString} - {buildDateString})";
         string fileDirectory = "";
 
@@ -64,6 +65,20 @@ namespace WhipsImageConverter
         const double bitSpacing = 255.0 / 7.0;
 
         const char transparencyFake = '#';
+
+        string spacer = "" + '\uE075' + '\uE072' + '\uE070';
+        string spacer2 = "" + '\ue076' + '\ue073' + '\ue071';
+        string spacer4 = "" + '\ue076' + '\ue076' + '\ue074' + '\ue072';
+        string spacer8 = "" + '\ue078' + '\ue075' + '\ue073';
+        string spacer178 = new string('\ue078', 25) + '\ue077' + '\ue075' + '\ue074' + '\ue073' + '\ue071';
+
+        string trans = transparencyFake.ToString();
+        string trans2 = new string(transparencyFake, 2);
+        string trans4 = new string(transparencyFake, 4);
+        string trans8 = new string(transparencyFake, 8);
+        string trans178 = new string(transparencyFake, 178);
+        StringBuilder sb = new StringBuilder();
+        #endregion
 
         //Color3 Class Definition
         public struct Color3
@@ -151,7 +166,7 @@ namespace WhipsImageConverter
             }
         }
 
-        public ImageToLCD()
+        public MainForm()
         {
             InitializeComponent();
             combobox_dither.SelectedIndex = 0;
@@ -191,7 +206,7 @@ namespace WhipsImageConverter
             }
         }
 
-        private void backgroundWorkerUpdate_DoWork(object sender, DoWorkEventArgs e)
+        private void OnBackgroundWorkerUpdateDoWork(object sender, DoWorkEventArgs e)
         {
             CheckForUpdates();
         }
@@ -452,18 +467,6 @@ namespace WhipsImageConverter
             int currentValue = currentRow * maxColumns + (currentColumn + 1);
             return (int)((float)currentValue / maximumValue * 100f);
         }
-
-        string spacer = "" + '\uE075' + '\uE072' + '\uE070';
-        string spacer2 = "" + '\ue076' + '\ue073' + '\ue071';
-        string spacer4 = "" + '\ue076' + '\ue076' + '\ue074' + '\ue072';
-        string spacer8 = "" + '\ue078' + '\ue075' + '\ue073';
-        string spacer178 = new string('\ue078', 25) + '\ue077' + '\ue075' + '\ue074' + '\ue073' + '\ue071';
-
-        string trans = transparencyFake.ToString();
-        string trans2 = new string(transparencyFake, 2);
-        string trans4 = new string(transparencyFake, 4);
-        string trans8 = new string(transparencyFake, 8);
-        string trans178 = new string(transparencyFake, 178);
 
         void ConvertImage()
         {
@@ -748,7 +751,6 @@ namespace WhipsImageConverter
             return (char)(0xe100 + ((int)Math.Round(r / bitSpacing) << 6) + ((int)Math.Round(g / bitSpacing) << 3) + (int)Math.Round(b / bitSpacing));
         }
 
-        StringBuilder sb = new StringBuilder();
         string BuildFinalString(int[,] colorArray, int width, int height)
         {
             sb.Clear();
@@ -769,7 +771,7 @@ namespace WhipsImageConverter
                     sb.Append("\n");
             }
 
-            sb.Append($"Converted with Whip's Image Converter - Version {myVersionString}");
+            sb.Append($"WIC v{myVersionString} - Dither mode: {combobox_dither.SelectedItem} - {imageWidth}x{imageHeight} px");
             return sb.ToString();
         }
 
@@ -799,7 +801,7 @@ namespace WhipsImageConverter
             return Color.FromArgb(integer);
         }
 
-        #region Running the mathy crap in another thread
+        #region Image Dithering
         void StartDitheringBackgroundWorker(int type)
         {
             this.Enabled = false;
@@ -812,7 +814,7 @@ namespace WhipsImageConverter
             progressBarForm.ShowDialog();
         }
 
-        private void backgroundWorkerDithering_DoWork(object sender, DoWorkEventArgs e)
+        private void OnBackgroundWorkerDitheringDoWork(object sender, DoWorkEventArgs e)
         {
             if (backgroundWorkerDithering.CancellationPending)
             {
@@ -830,12 +832,12 @@ namespace WhipsImageConverter
             }
         }
 
-        private void backgroundWorkerDithering_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        private void OnBackgroundWorkerDitheringProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             progressBarForm.SetProgressBarValue(e.ProgressPercentage);
         }
 
-        private void backgroundWorkerDithering_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        private void OnBackgroundWorkerDitheringRunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             progressBarForm.Close();
             this.Enabled = true;
@@ -843,7 +845,9 @@ namespace WhipsImageConverter
             ImagePreviewBox.Image = convertedImage;
             //ResetPaletteDictionary();
         }
+        #endregion
 
+        #region Image Invert
         void StartInvertBackgroundWorker()
         {
             if (baseImage == null)
@@ -855,19 +859,19 @@ namespace WhipsImageConverter
                 backgroundWorkerInvert.RunWorkerAsync();
         }
 
-        private void backgroundWorkerInvert_DoWork(object sender, DoWorkEventArgs e)
+        private void OnBackgroundWorkerInvertDoWork(object sender, DoWorkEventArgs e)
         {
             InvertImageColors();
         }
 
-        private void backgroundWorkerInvert_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        private void OnBackgroundWorkerInvertRunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             CacheImages(false); //cache images
             DitherImage(); //image dithering
         }
         #endregion
 
-        #region Windows Forms Interface Methods
+        #region Event Driven Actions
         void RotateImage(bool clockwise)
         {
             if (baseImage == null)
@@ -904,7 +908,7 @@ namespace WhipsImageConverter
             openFileDialog1.ShowDialog(); // Show the dialog.
         }
 
-        private void button_Clipboard_Click(object sender, EventArgs e)
+        private void OnButtonClipboardClick(object sender, EventArgs e)
         {
             ConvertImage();
 
@@ -920,35 +924,35 @@ namespace WhipsImageConverter
             }
         }
 
-        private void linkLabel_Credits_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void OnLinkLabelCreditsClick(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            var creditsPopup = new popup_credits();
+            var creditsPopup = new CreditsForm();
             creditsPopup.ShowDialog();
         }
 
-        private void linkLabel_Dithering_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void OnLinkLabelDitheringClick(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            var popupForm = new DitheringPopup(1);
+            var popupForm = new DitheringForm(1);
             popupForm.ShowDialog();
         }
 
-        private void linkLabel_Dithering2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void OnLinkLabelDithering2Click(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            var popupForm = new DitheringPopup(2);
+            var popupForm = new DitheringForm(2);
             popupForm.ShowDialog();
         }
 
-        private void ImagePreviewBox_Click(object sender, EventArgs e)
+        private void OnImagePreviewBoxClick(object sender, EventArgs e)
         {
             if (ImagePreviewBox.Image != null)
             {
-                var popup_image = new popup_imagebox((Bitmap)ImagePreviewBox.Image);
+                var popup_image = new EnlargedImageForm((Bitmap)ImagePreviewBox.Image);
                 popup_image.ShowDialog();
             }
         }
 
         bool newImageLoaded = false;
-        private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
+        private void OnOpenFileDialogFileOk(object sender, CancelEventArgs e)
         {
             newImageLoaded = true;
             textBox_FileDirectory.Text = openFileDialog1.FileName;
@@ -967,7 +971,7 @@ namespace WhipsImageConverter
             newImageLoaded = false;
         }
 
-        private void combobox_dither_SelectedIndexChanged(object sender, EventArgs e)
+        private void OnComboboxDitherSelectedIndexChanged(object sender, EventArgs e)
         {
             //reset return string
             textBox_Return.Clear();
@@ -979,7 +983,7 @@ namespace WhipsImageConverter
             }
         }
 
-        private void combobox_resize_SelectedIndexChanged(object sender, EventArgs e)
+        private void OnComboboxResizeSelectedIndexChanged(object sender, EventArgs e)
         {
             //reset return string
             textBox_Return.Clear();
@@ -1033,7 +1037,7 @@ namespace WhipsImageConverter
                 DitherImage();
         }
 
-        private void checkBox_aspectratio_CheckedChanged(object sender, EventArgs e)
+        private void OnCheckBoxAspectRatioCheckedChanged(object sender, EventArgs e)
         {
             //reset return string
             textBox_Return.Clear();
@@ -1047,17 +1051,17 @@ namespace WhipsImageConverter
             DitherImage();
         }
 
-        private void buttonRotateCCW_Click(object sender, EventArgs e)
+        private void OnButtonRotateCCWClick(object sender, EventArgs e)
         {
             RotateImage(false);
         }
 
-        private void buttonRotateCW_Click(object sender, EventArgs e)
+        private void OnButtonRotateCWClick(object sender, EventArgs e)
         {
             RotateImage(true);
         }
 
-        private void buttonFlipHorizontal_Click(object sender, EventArgs e)
+        private void OnButtonFlipHorizontalClick(object sender, EventArgs e)
         {
             if (baseImage == null)
                 return;
@@ -1068,7 +1072,7 @@ namespace WhipsImageConverter
             DitherImage(); //rotated image dithering
         }
 
-        private void buttonFlipVertical_Click(object sender, EventArgs e)
+        private void OnButtonFlipVerticalClick(object sender, EventArgs e)
         {
             if (baseImage == null)
                 return;
@@ -1089,7 +1093,7 @@ namespace WhipsImageConverter
             }
         }
 
-        private void buttonUpdateResolution_Click(object sender, EventArgs e)
+        private void OnButtonUpdateResolutionClick(object sender, EventArgs e)
         {
             if (combobox_resize.SelectedIndex == 4)
             {
@@ -1097,12 +1101,12 @@ namespace WhipsImageConverter
             }
         }
 
-        private void button_background_color_Click(object sender, EventArgs e)
+        private void OnButtonBackgroundColorClick(object sender, EventArgs e)
         {
             BackgroundColorButtonPressed();
         }
 
-        private void pictureBox_background_color_Click(object sender, EventArgs e)
+        private void OnPictureBoxBackgroundColorClick(object sender, EventArgs e)
         {
             BackgroundColorButtonPressed();
         }
@@ -1129,17 +1133,17 @@ namespace WhipsImageConverter
             }
         }
 
-        private void linkLabel_GitHub_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void OnLinkLabelGitHubClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             System.Diagnostics.Process.Start(githubVersionUrl);
         }
 
-        private void buttonInvertColors_Click(object sender, EventArgs e)
+        private void OnButtonInvertColorsClick(object sender, EventArgs e)
         {
             StartInvertBackgroundWorker();
         }
 
-        private void checkBoxTransparency_CheckedChanged(object sender, EventArgs e)
+        private void OnCheckBoxTransparencyCheckedChanged(object sender, EventArgs e)
         {
             textBox_Return.Clear();
             label_stringLength.Text = "String Length: 0";

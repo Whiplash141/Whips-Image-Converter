@@ -13,26 +13,26 @@ using System.Numerics;
 
 namespace WhipsImageConverter
 {
-    public partial class popup_imagebox : Form
+    public partial class EnlargedImageForm : Form
     {
-        public popup_imagebox(Bitmap convertedImage)
+        public EnlargedImageForm(Bitmap convertedImage)
         {
             InitializeComponent();
             picturebox_imagepopup.Image = convertedImage;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void OnButton1Click(object sender, EventArgs e)
         {
-            saveFileDialog1.Filter = "PNG Image|*.png|Bitmap Image|*.bmp|JPEG Image|*.jpg";
-            saveFileDialog1.Title = "Save Converted Image File";
-            saveFileDialog1.ShowDialog();
+            saveFileDialog.Filter = "PNG Image|*.png|Bitmap Image|*.bmp|JPEG Image|*.jpg";
+            saveFileDialog.Title = "Save Converted Image File";
+            saveFileDialog.ShowDialog();
         }
 
-        private void saveFileDialog1_FileOk(object sender, CancelEventArgs e)
+        private void OnSaveFileDialogFileOk(object sender, CancelEventArgs e)
         {
-            string imageSavePath = saveFileDialog1.FileName;
+            string imageSavePath = saveFileDialog.FileName;
 
-            switch (saveFileDialog1.FilterIndex)
+            switch (saveFileDialog.FilterIndex)
             {
                 case 1:
                     picturebox_imagepopup.Image.Save(imageSavePath, ImageFormat.Png);

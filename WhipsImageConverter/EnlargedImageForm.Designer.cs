@@ -1,6 +1,6 @@
 ﻿namespace WhipsImageConverter
 {
-    partial class popup_imagebox
+    partial class EnlargedImageForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,10 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(popup_imagebox));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EnlargedImageForm));
             this.picturebox_imagepopup = new System.Windows.Forms.PictureBox();
             this.button_saveimage = new System.Windows.Forms.Button();
-            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.picturebox_imagepopup)).BeginInit();
             this.SuspendLayout();
             // 
@@ -59,12 +59,12 @@
             this.button_saveimage.TabIndex = 1;
             this.button_saveimage.Text = "Save Image";
             this.button_saveimage.UseVisualStyleBackColor = true;
-            this.button_saveimage.Click += new System.EventHandler(this.button1_Click);
+            this.button_saveimage.Click += new System.EventHandler(this.OnButton1Click);
             // 
             // saveFileDialog1
             // 
-            this.saveFileDialog1.DefaultExt = "png";
-            this.saveFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.saveFileDialog1_FileOk);
+            this.saveFileDialog.DefaultExt = "png";
+            this.saveFileDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.OnSaveFileDialogFileOk);
             // 
             // popup_imagebox
             // 
@@ -87,6 +87,6 @@
 
         private System.Windows.Forms.PictureBox picturebox_imagepopup;
         private System.Windows.Forms.Button button_saveimage;
-        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog;
     }
 }

@@ -67,7 +67,7 @@
             this.toolTip1.SetToolTip(this.buttonCancelLoading, "This is the NUKE button. It will close the entire program! Use this to stop the c" +
         "ode if it gets stuck processing an image.");
             this.buttonCancelLoading.UseVisualStyleBackColor = true;
-            this.buttonCancelLoading.Click += new System.EventHandler(this.buttonCancelLoading_Click);
+            this.buttonCancelLoading.Click += new System.EventHandler(this.OnButtonCancelLoadingClick);
             // 
             // toolTip1
             // 
