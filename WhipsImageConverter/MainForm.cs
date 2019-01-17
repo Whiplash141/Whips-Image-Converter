@@ -30,12 +30,12 @@ namespace WhipsImageConverter
 {
     public partial class MainForm : Form
     {
-        const string myVersionString = "1.1.6.1";
-        const string buildDateString = "10/6/18";
-        const string githubVersionUrl = "https://github.com/Whiplash141/Whips-Image-Converter/releases/latest";
+        const string myVersionString = "1.1.6.2";
+        const string buildDateString = "01/17/19";
+        const string githubVersionUrl = "https://github.com/stpog/Whips-Image-Converter/releases/latest";
 
         #region Member fields
-        string formTitle = $"Whip's Image Converter (Version {myVersionString} - {buildDateString})";
+        string formTitle = $"Whip's Image Converter (Version {myVersionString} - {buildDateString}) - Mod by stpog";
         string fileDirectory = "";
 
         Bitmap squareImage;
@@ -224,7 +224,7 @@ namespace WhipsImageConverter
                 return;
             var latestVersionString = urlSplit[urlSplit.Length - 1];
             latestVersionString = latestVersionString.ToLower().Replace("v", "");
-            
+
             Version latestVersion = new Version();
             if (!Version.TryParse(latestVersionString, out latestVersion))
                 return;
@@ -242,7 +242,7 @@ namespace WhipsImageConverter
                     System.Diagnostics.Process.Start(githubVersionUrl);
                     this.Close();
                 }
-            }            
+            }
         }
         #endregion
 
@@ -274,10 +274,13 @@ namespace WhipsImageConverter
             }
         }
 
-        void CacheImages(bool getBaseImage = true)
+        void CacheImages(bool getBaseImage = true, string fileDirectory = null)
         {
             //Check if file exists
-            fileDirectory = textBox_FileDirectory.Text;
+            if (fileDirectory == null)
+            {
+                fileDirectory = textBox_FileDirectory.Text;
+            }
 
             if (!File.Exists(fileDirectory))
             {
@@ -313,6 +316,7 @@ namespace WhipsImageConverter
 
             imageLoaded = true;
         }
+
 
         Bitmap FrameImage(Bitmap baseImage, int width, int height)
         {
@@ -414,7 +418,7 @@ namespace WhipsImageConverter
             textBox_Return.Clear();
 
             desiredImage = baseImage;
-            
+
             //Get resize parameters
             switch (combobox_resize.SelectedIndex)
             {
@@ -445,7 +449,7 @@ namespace WhipsImageConverter
                     desiredImage = baseImage;
                     break;
             }
-            
+
             //Get image dimensions
             imageWidth = desiredImage.Width;
             imageHeight = desiredImage.Height;
@@ -474,8 +478,8 @@ namespace WhipsImageConverter
             {
                 MessageBox.Show("Error: No image loaded");
                 return;
-            } 
-            
+            }
+
             //Create encoded string
             string convertedImageString = BuildFinalString(convertedColorArray, imageWidth, imageHeight);
 
@@ -499,6 +503,26 @@ namespace WhipsImageConverter
             //MessageBox.Show("Image Converted"); //successful conversion
         }
 
+        void ConvertImage(string exportFilePath)
+        {
+            //Create encoded string
+            string convertedImageString = BuildFinalString(convertedColorArray, imageWidth, imageHeight);
+
+            if (checkBoxTransparency.Checked)
+            {
+                convertedImageString = convertedImageString.Replace(trans178, spacer178);
+                convertedImageString = convertedImageString.Replace(trans8, spacer8);
+                convertedImageString = convertedImageString.Replace(trans4, spacer4);
+                convertedImageString = convertedImageString.Replace(trans2, spacer2);
+                convertedImageString = convertedImageString.Replace(trans, spacer);
+            }
+            else
+            {
+                convertedImageString = convertedImageString.Replace(transparencyFake, '\ue100');
+            }
+            File.WriteAllText(exportFilePath + ".txt", convertedImageString);
+        }
+
         public Color3 ColorToColor3(Color regularColor)
         {
             return new Color3(regularColor.R, regularColor.G, regularColor.B, regularColor.A);
@@ -506,11 +530,11 @@ namespace WhipsImageConverter
 
         int[,] GetDitherFilter(int type)
         {
-            int[,] ditherFilter = new int[1,1];
+            int[,] ditherFilter = new int[1, 1];
             switch (type)
             {
                 case 1: //Floyd Steinberg
-                    ditherFilter = new int [,]
+                    ditherFilter = new int[,]
                     {
                         { 7,0,1 },
                         { 1,1,1 },
@@ -771,7 +795,7 @@ namespace WhipsImageConverter
                     sb.Append("\n");
             }
 
-            sb.Append($"WIC v{myVersionString} - Dither mode: {combobox_dither.SelectedItem} - {imageWidth}x{imageHeight} px");
+            //sb.Append($"WIC v{myVersionString} - Dither mode: {combobox_dither.SelectedItem} - {imageWidth}x{imageHeight} px");
             return sb.ToString();
         }
 
@@ -789,7 +813,7 @@ namespace WhipsImageConverter
 
             return bmp;
         }
-        
+
         private Color IntToColor(int integer)
         {
             if (integer == -141)
@@ -908,6 +932,46 @@ namespace WhipsImageConverter
             openFileDialog1.ShowDialog(); // Show the dialog.
         }
 
+        private void button_DirBrowse_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog fbd = new FolderBrowserDialog();
+            DialogResult result = fbd.ShowDialog();
+            if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
+            {
+                textBox_DirPath.Text = fbd.SelectedPath;
+            }
+        }
+
+        private void button_ConvertDir_Click(object sender, EventArgs e)
+        {
+            string imageSrcDir = textBox_DirPath.Text;
+            string[] filesPath = Directory.GetFiles(imageSrcDir);
+            string exportPath = Path.Combine(imageSrcDir, "export");
+
+            if (!Directory.Exists(exportPath))
+            {
+                Directory.CreateDirectory(exportPath);
+            }
+
+            foreach (string filePath in filesPath)
+            {
+                newImageLoaded = true;
+
+                CacheImages(fileDirectory: filePath); //cache all image size
+                DitherImage(); //initial image dithering
+                newImageLoaded = false;
+
+                FileInfo fi = new FileInfo(filePath);
+
+                string destPath = Path.Combine(exportPath, fi.Name.Replace(fi.Extension, ""));
+
+                ConvertImage(destPath);
+
+                progressBarForm.Close();
+                progressBarForm.Dispose();
+            }
+        }
+
         private void OnButtonClipboardClick(object sender, EventArgs e)
         {
             ConvertImage();
@@ -919,7 +983,7 @@ namespace WhipsImageConverter
                     Clipboard.SetText(textBox_Return.Text, TextDataFormat.UnicodeText);
                 }
                 catch
-                {}
+                { }
                 //Clipboard.SetDataObject(textBox_Return.Text, true, 2, 100);
             }
         }
@@ -991,7 +1055,7 @@ namespace WhipsImageConverter
 
             if (combobox_resize.SelectedIndex == 5)
             {
-                var confirmResult = MessageBox.Show("Selecting '(None)' for the resizing option can cause the code to take longer than normal and can lead to unexpected crashes!\n\nContinue?", 
+                var confirmResult = MessageBox.Show("Selecting '(None)' for the resizing option can cause the code to take longer than normal and can lead to unexpected crashes!\n\nContinue?",
                     "WARNING", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
                 if (confirmResult == DialogResult.No)
                 {
@@ -1159,6 +1223,49 @@ namespace WhipsImageConverter
             button_background_color.Enabled = enabled;
             pictureBox_background_color.Enabled = enabled;
         }
+
+        private void checkBox_isDirMode_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox_isDirMode.Checked)
+            {
+                textBox_FileDirectory.Enabled = false;
+                textBox_FileDirectory.BackColor = Color.Gray;
+                BrowseButton.Enabled = false;
+                BrowseButton.BackColor = Color.Gray;
+
+                textBox_DirPath.Enabled = true;
+                textBox_DirPath.BackColor = Color.Black;
+                button_DirBrowse.Enabled = true;
+                button_DirBrowse.BackColor = Color.FromArgb(45, 45, 48);
+
+                button_Clipboard.Enabled = false;
+                button_Clipboard.Visible = false;
+                button_ConvertDir.Enabled = true;
+                button_ConvertDir.Visible = true;
+
+                //ImagePreviewBox.Visible=false;
+            }
+            if (!checkBox_isDirMode.Checked)
+            {
+                textBox_FileDirectory.Enabled = true;
+                textBox_FileDirectory.BackColor = Color.Black;
+                BrowseButton.Enabled = true;
+                BrowseButton.BackColor = Color.FromArgb(45, 45, 48);
+
+                textBox_DirPath.Enabled = false;
+                textBox_DirPath.BackColor = Color.Gray;
+                button_DirBrowse.Enabled = false;
+                button_DirBrowse.BackColor = Color.Gray;
+
+                button_Clipboard.Enabled = true;
+                button_Clipboard.Visible = true;
+                button_ConvertDir.Enabled = false;
+                button_ConvertDir.Visible = false;
+
+                //ImagePreviewBox.Visible = true;
+            }
+        }
+
         #endregion
     }
 }
