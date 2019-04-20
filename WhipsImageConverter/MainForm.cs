@@ -30,7 +30,7 @@ namespace WhipsImageConverter
 {
     public partial class MainForm : Form
     {
-        const string myVersionString = "1.2.0.2";
+        const string myVersionString = "1.2.0.4";
         const string buildDateString = "4/19/19";
         const string githubVersionUrl = "https://github.com/Whiplash141/Whips-Image-Converter/releases/latest";
 
@@ -81,7 +81,7 @@ namespace WhipsImageConverter
         readonly List<string> blockNames = new List<string>();
         readonly List<string> surfaceNames = new List<string>();
 
-        Vector2 screenSize;
+        Vector2 screenSizeChars;
 
         #endregion
 
@@ -224,7 +224,7 @@ namespace WhipsImageConverter
             }
         }
 
-        void CacheImages()
+        void LoadImage()
         {
             //Check if file exists
             fileDirectory = textBox_FileDirectory.Text;
@@ -253,8 +253,8 @@ namespace WhipsImageConverter
             if (!imageLoaded)
                 return;
 
-            imageStretched = new Bitmap(baseImage, (int)screenSize.X, (int)screenSize.Y);
-            imageOriginalAspect = FrameImage(baseImage, (int)screenSize.X, (int)screenSize.Y);
+            imageStretched = new Bitmap(baseImage, (int)screenSizeChars.X, (int)screenSizeChars.Y);
+            imageOriginalAspect = FrameImage(baseImage, (int)screenSizeChars.X, (int)screenSizeChars.Y);
         }
 
         Bitmap FrameImage(Bitmap baseImage, int width, int height)
@@ -881,7 +881,7 @@ namespace WhipsImageConverter
             label_stringLength.Text = "String Length: 0";
 
             //ResetPaletteDictionary();
-            CacheImages(); //cache all image size
+            LoadImage(); //cache all image size
             BuildBitmaps();
             DitherImage(); //initial image dithering
             newImageLoaded = false;
@@ -905,8 +905,6 @@ namespace WhipsImageConverter
             textBox_Return.Clear();
             label_stringLength.Text = "String Length: 0";
 
-            SelectTextSurfaceTypeComboBoxes(comboBoxBlock.SelectedIndex);
-
             if (comboBoxBlock.SelectedIndex == blockNames.Count - 1)
             {
                 var confirmResult = MessageBox.Show("Selecting '(None)' for the resizing option can cause the code to take longer than normal and can lead to unexpected crashes!\n\nContinue?", 
@@ -916,6 +914,7 @@ namespace WhipsImageConverter
                     newImageLoaded = true; //this avoids double processing of the image
                     comboBoxBlock.SelectedIndex = 0; //reset selection index to a safe option
                     newImageLoaded = false;
+                    return;
                 }
             }
             else if (comboBoxBlock.SelectedIndex == blockNames.Count - 2)
@@ -928,14 +927,13 @@ namespace WhipsImageConverter
                     comboBoxBlock.SelectedIndex = 0; //reset selection index to a safe option
                     newImageLoaded = false;
 
-                    //disable numeric sliders
                     numericUpDownWidth.Enabled = false;
                     numericUpDownHeight.Enabled = false;
                     buttonUpdateResolution.Enabled = false;
+                    return;
                 }
                 else
                 {
-                    //enable numeric sliders
                     numericUpDownWidth.Enabled = true;
                     numericUpDownHeight.Enabled = true;
                     buttonUpdateResolution.Enabled = true;
@@ -943,15 +941,12 @@ namespace WhipsImageConverter
             }
             else
             {
-                //numericUpDownWidth.Value = 100;
-                //numericUpDownHeight.Value = 100;
                 numericUpDownWidth.Enabled = false;
                 numericUpDownHeight.Enabled = false;
                 buttonUpdateResolution.Enabled = false;
             }
 
-            if (!newImageLoaded)
-                DitherImage();
+            SelectTextSurfaceTypeComboBoxes(comboBoxBlock.SelectedIndex);
         }
 
         private void OnCheckBoxAspectRatioCheckedChanged(object sender, EventArgs e)
@@ -964,7 +959,7 @@ namespace WhipsImageConverter
             //pictureBox_background_color.Enabled = checkBox_aspectratio.Checked;
             CheckBackgroundColorEnabled();
 
-            CacheImages();
+            LoadImage();
             BuildBitmaps();
             DitherImage();
         }
@@ -1015,7 +1010,7 @@ namespace WhipsImageConverter
         {
             if (comboBoxBlock.SelectedIndex == blockNames.Count - 2)
             {
-                screenSize = new Vector2((int)numericUpDownWidth.Value, (int)numericUpDownHeight.Value);
+                screenSizeChars = new Vector2((int)numericUpDownWidth.Value, (int)numericUpDownHeight.Value);
                 BuildBitmaps();
                 DitherImage(); //this will update our resolution and recompile the image
             }
@@ -1085,25 +1080,25 @@ namespace WhipsImageConverter
         {
             if (comboBoxBlock.SelectedIndex == blockNames.Count - 1) // None
             {
-                screenSize = new Vector2(baseImage.Width, baseImage.Height);
+                screenSizeChars = new Vector2(baseImage.Width, baseImage.Height);
             }
             else if (comboBoxBlock.SelectedIndex == blockNames.Count - 2) // Custom
             {
-                screenSize = new Vector2((int)numericUpDownWidth.Value, (int)numericUpDownHeight.Value);
+                screenSizeChars = new Vector2((int)numericUpDownWidth.Value, (int)numericUpDownHeight.Value);
             }
             else // Presets
             {
                 var surface = TextSurfaceProvider.TextSurfaceProviders[comboBoxBlock.SelectedIndex].TextSurfaces[comboBoxSurface.SelectedIndex];
                 float scale = 512f / Math.Min(surface.TextureSize.X, surface.TextureSize.Y);
-                screenSize = surface.SurfaceSize * PIXELS_TO_CHARACTERS * scale;
-                screenSize.X = (float)Math.Round(screenSize.X);
-                screenSize.Y = (float)Math.Round(screenSize.Y);
+                screenSizeChars = surface.SurfaceSize * PIXELS_TO_CHARACTERS * scale;
+                screenSizeChars.X = (float)Math.Round(screenSizeChars.X);
+                screenSizeChars.Y = (float)Math.Round(screenSizeChars.Y);
             }
 
             BuildBitmaps();
             DitherImage();
 
-            Console.WriteLine($"screen size:{screenSize} | {PIXELS_TO_CHARACTERS}");
+            Console.WriteLine($"screen size:{screenSizeChars} | {PIXELS_TO_CHARACTERS}");
         }
     }
 }

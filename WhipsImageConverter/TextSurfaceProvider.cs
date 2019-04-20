@@ -21,6 +21,9 @@ namespace WhipsImageConverter
         public static TextSurfaceProvider SmallCockpit = new TextSurfaceProvider("Small Cockpit", 4);
         public static TextSurfaceProvider LargeIndustrialCockpit = new TextSurfaceProvider("Large Industrial Cockpit", 6);
         public static TextSurfaceProvider SmallIndustrialCockpit = new TextSurfaceProvider("Small Industrial Cockpit", 5);
+        public static TextSurfaceProvider LargeFlightSeat = new TextSurfaceProvider("Flight Seat");
+        public static TextSurfaceProvider LargeControlStation = new TextSurfaceProvider("Control Station");
+
 
         public static List<TextSurfaceProvider> TextSurfaceProviders = new List<TextSurfaceProvider>();
 
@@ -85,6 +88,9 @@ namespace WhipsImageConverter
             SmallIndustrialCockpit.TextSurfaces[3] = new TextSurface("Keyboard", new Vector2(256f, 128f), new Vector2(256f, 128f));
             SmallIndustrialCockpit.TextSurfaces[4] = new TextSurface("Numpad", new Vector2(128f, 128f), new Vector2(106.6667f, 128f));
 
+            LargeFlightSeat.TextSurfaces[0] = new TextSurface("Large Display", new Vector2(512,128), new Vector2(512,113.7778f));
+            LargeControlStation.TextSurfaces[0] = new TextSurface("Large Display", new Vector2(512, 512), new Vector2(512, 307.2f));
+
             TextSurfaceProviders = new List<TextSurfaceProvider>()
             {
                 Lcd,
@@ -99,6 +105,8 @@ namespace WhipsImageConverter
                 SmallCockpit,
                 LargeIndustrialCockpit,
                 SmallIndustrialCockpit,
+                LargeFlightSeat,
+                LargeControlStation,
             };
         }
     }
