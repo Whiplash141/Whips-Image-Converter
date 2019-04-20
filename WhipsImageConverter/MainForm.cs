@@ -30,7 +30,7 @@ namespace WhipsImageConverter
 {
     public partial class MainForm : Form
     {
-        const string myVersionString = "1.2.0.0";
+        const string myVersionString = "1.2.0.1";
         const string buildDateString = "4/19/19";
         const string githubVersionUrl = "https://github.com/Whiplash141/Whips-Image-Converter/releases/latest";
 
@@ -38,17 +38,14 @@ namespace WhipsImageConverter
         string formTitle = $"Whip's Image Converter (Version {myVersionString} - {buildDateString})";
         string fileDirectory = "";
 
-        Bitmap squareImage;
-        Bitmap rectangleImage;
-        Bitmap largeCornerImage;
-        Bitmap smallCornerImage;
         Bitmap baseImage;
         Bitmap convertedImage;
         Bitmap desiredImage;
+        Bitmap imageOriginalAspect;
+        Bitmap imageStretched;
 
         bool imageLoaded = false;
 
-        //Color[,] convertedColorArray = null;
         int[,] convertedColorArray = null;
         int imageWidth = 0;
         int imageHeight = 0;
@@ -79,7 +76,7 @@ namespace WhipsImageConverter
         string trans178 = new string(transparencyFake, 178);
         StringBuilder sb = new StringBuilder();
 
-        const float PIXELS_TO_CHARACTERS = 2.88f / 37f;
+        const float PIXELS_TO_CHARACTERS =  1f / 2.88f;
 
         readonly List<string> blockNames = new List<string>();
         readonly List<string> surfaceNames = new List<string>();
@@ -96,13 +93,13 @@ namespace WhipsImageConverter
             openFileDialog1.Filter = "Image files (*.jpg, *.jpeg, *.jpe, *.jfif, *.png, *.bmp) | *.jpg; *.jpeg; *.jpe; *.jfif; *.png; *.bmp";
             CheckBackgroundColorEnabled();
 
-            //Set form name
+            // Set form name
             this.Text = formTitle;
 
-            //Check for any new updates
+            // Check for any new updates
             StartUpdateBackgroundWorker();
 
-            //Construct colormap
+            // Construct colormap
             ConstructColorMap();
 
             PopulateComboBoxes();
@@ -227,7 +224,7 @@ namespace WhipsImageConverter
             }
         }
 
-        void CacheImages(bool getBaseImage = true)
+        void CacheImages()
         {
             //Check if file exists
             fileDirectory = textBox_FileDirectory.Text;
@@ -246,25 +243,18 @@ namespace WhipsImageConverter
                 return;
             }
 
-            if (getBaseImage)
-                baseImage = (Bitmap)Image.FromFile(fileDirectory, true);
-
-            if (!checkBox_aspectratio.Checked)
-            {
-                squareImage = new Bitmap(baseImage, 178, 178);
-                rectangleImage = new Bitmap(baseImage, 356, 178);
-                largeCornerImage = new Bitmap(baseImage, 178, 27);
-                smallCornerImage = new Bitmap(baseImage, 178, 47);
-            }
-            else
-            {
-                squareImage = FrameImage(baseImage, 178, 178);
-                rectangleImage = FrameImage(baseImage, 356, 178);
-                largeCornerImage = FrameImage(baseImage, 178, 27);
-                smallCornerImage = FrameImage(baseImage, 178, 47);
-            }
+            baseImage = (Bitmap)Image.FromFile(fileDirectory, true);
 
             imageLoaded = true;
+        }
+
+        void BuildBitmaps()
+        {
+            if (!imageLoaded)
+                return;
+
+            imageStretched = new Bitmap(baseImage, (int)screenSize.X, (int)screenSize.Y);
+            imageOriginalAspect = FrameImage(baseImage, (int)screenSize.X, (int)screenSize.Y);
         }
 
         Bitmap FrameImage(Bitmap baseImage, int width, int height)
@@ -366,39 +356,11 @@ namespace WhipsImageConverter
             label_stringLength.Text = "String Length: 0";
             textBox_Return.Clear();
 
-            desiredImage = baseImage;
-            
-            //Get resize parameters
-            switch (comboBoxBlock.SelectedIndex)
-            {
-                case 0:
-                    desiredImage = squareImage;
-                    break;
-
-                case 1:
-                    desiredImage = rectangleImage;
-                    break;
-
-                case 2:
-                    desiredImage = largeCornerImage;
-                    break;
-
-                case 3:
-                    desiredImage = smallCornerImage;
-                    break;
-
-                case 4:
-                    if (!checkBox_aspectratio.Checked)
-                        desiredImage = new Bitmap(baseImage, new Size((int)numericUpDownWidth.Value, (int)numericUpDownHeight.Value));
-                    else
-                        desiredImage = FrameImage(baseImage, (int)numericUpDownWidth.Value, (int)numericUpDownHeight.Value);
-                    break;
-
-                case 5:
-                    desiredImage = baseImage;
-                    break;
-            }
-            
+            if (checkBox_aspectratio.Checked)
+                desiredImage = imageOriginalAspect;
+            else
+                desiredImage = imageStretched;
+                       
             //Get image dimensions
             imageWidth = desiredImage.Width;
             imageHeight = desiredImage.Height;
@@ -819,7 +781,7 @@ namespace WhipsImageConverter
 
         private void OnBackgroundWorkerInvertRunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            CacheImages(false); //cache images
+            BuildBitmaps(); //cache images
             DitherImage(); //image dithering
         }
         #endregion
@@ -839,7 +801,7 @@ namespace WhipsImageConverter
                 baseImage.RotateFlip(RotateFlipType.Rotate270FlipNone);
             }
 
-            CacheImages(false); //cache rotated images
+            BuildBitmaps(); //cache rotated images
             DitherImage(); //rotated image dithering
         }
 
@@ -920,6 +882,7 @@ namespace WhipsImageConverter
 
             //ResetPaletteDictionary();
             CacheImages(); //cache all image size
+            BuildBitmaps();
             DitherImage(); //initial image dithering
             newImageLoaded = false;
         }
@@ -1002,6 +965,7 @@ namespace WhipsImageConverter
             CheckBackgroundColorEnabled();
 
             CacheImages();
+            BuildBitmaps();
             DitherImage();
         }
 
@@ -1022,7 +986,7 @@ namespace WhipsImageConverter
 
             baseImage.RotateFlip(RotateFlipType.RotateNoneFlipX);
 
-            CacheImages(false); //cache rotated images
+            BuildBitmaps(); //cache rotated images
             DitherImage(); //rotated image dithering
         }
 
@@ -1033,7 +997,7 @@ namespace WhipsImageConverter
 
             baseImage.RotateFlip(RotateFlipType.RotateNoneFlipY);
 
-            CacheImages(false); //cache rotated images
+            BuildBitmaps(); //cache rotated images
             DitherImage(); //rotated image dithering
         }
 
@@ -1051,6 +1015,7 @@ namespace WhipsImageConverter
         {
             if (comboBoxBlock.SelectedIndex == 4)
             {
+                BuildBitmaps();
                 DitherImage(); //this will update our resolution and recompile the image
             }
         }
@@ -1081,7 +1046,7 @@ namespace WhipsImageConverter
                 //Redraw image
                 if (imageLoaded)
                 {
-                    CacheImages(false);
+                    BuildBitmaps();
                     DitherImage();
                 }
             }
@@ -1103,7 +1068,7 @@ namespace WhipsImageConverter
             label_stringLength.Text = "String Length: 0";
             CheckBackgroundColorEnabled();
 
-            CacheImages(false);
+            BuildBitmaps();
             DitherImage();
         }
 
@@ -1117,27 +1082,27 @@ namespace WhipsImageConverter
 
         private void ComboBoxSurface_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Vector2 surfaceSize = new Vector2();
-            Vector2 textureSize = new Vector2();
-
             if (comboBoxBlock.SelectedIndex == blockNames.Count - 1) // None
             {
-
+                screenSize = new Vector2(baseImage.Width, baseImage.Height);
             }
             else if (comboBoxBlock.SelectedIndex == blockNames.Count - 2) // Custom
             {
-
+                screenSize = new Vector2((int)numericUpDownWidth.Value, (int)numericUpDownHeight.Value);
             }
             else // Presets
             {
                 var surface = TextSurfaceProvider.TextSurfaceProviders[comboBoxBlock.SelectedIndex].TextSurfaces[comboBoxSurface.SelectedIndex];
-                surfaceSize = surface.SurfaceSize;
-                textureSize = surface.TextureSize;
+                Vector2 surfaceSize = surface.SurfaceSize;
+                screenSize = surfaceSize * PIXELS_TO_CHARACTERS;
+                screenSize.X = (float)Math.Round(screenSize.X);
+                screenSize.Y = (float)Math.Round(screenSize.Y);
             }
 
-            screenSize = textureSize / PIXELS_TO_CHARACTERS;
-            screenSize.X = (float)Math.Round(screenSize.X);
-            screenSize.Y = (float)Math.Round(screenSize.Y);
+            BuildBitmaps();
+            DitherImage();
+
+            Console.WriteLine($"screen size:{screenSize} | {PIXELS_TO_CHARACTERS}");
         }
     }
 }
