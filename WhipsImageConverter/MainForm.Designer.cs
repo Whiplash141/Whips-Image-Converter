@@ -295,7 +295,7 @@
             "Sierra-3",
             "Sierra-2",
             "Sierra Lite"});
-            this.comboBoxDither.Location = new System.Drawing.Point(320, 197);
+            this.comboBoxDither.Location = new System.Drawing.Point(669, 200);
             this.comboBoxDither.Margin = new System.Windows.Forms.Padding(2);
             this.comboBoxDither.MaxDropDownItems = 15;
             this.comboBoxDither.Name = "comboBoxDither";
@@ -309,7 +309,7 @@
             this.label5.AutoSize = true;
             this.label5.BackColor = System.Drawing.Color.Transparent;
             this.label5.ForeColor = System.Drawing.Color.White;
-            this.label5.Location = new System.Drawing.Point(317, 181);
+            this.label5.Location = new System.Drawing.Point(666, 184);
             this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(82, 13);
@@ -344,7 +344,7 @@
             "Small Grid Corner (178x47)",
             "(Custom)",
             "(None)"});
-            this.comboBoxBlock.Location = new System.Drawing.Point(494, 197);
+            this.comboBoxBlock.Location = new System.Drawing.Point(320, 200);
             this.comboBoxBlock.Margin = new System.Windows.Forms.Padding(2);
             this.comboBoxBlock.MaxDropDownItems = 15;
             this.comboBoxBlock.Name = "comboBoxBlock";
@@ -358,7 +358,7 @@
             this.label7.AutoSize = true;
             this.label7.BackColor = System.Drawing.Color.Transparent;
             this.label7.ForeColor = System.Drawing.Color.White;
-            this.label7.Location = new System.Drawing.Point(492, 181);
+            this.label7.Location = new System.Drawing.Point(318, 184);
             this.label7.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(74, 13);
@@ -570,7 +570,7 @@
             "Small Grid Corner (178x47)",
             "(Custom)",
             "(None)"});
-            this.comboBoxSurface.Location = new System.Drawing.Point(669, 197);
+            this.comboBoxSurface.Location = new System.Drawing.Point(495, 200);
             this.comboBoxSurface.Margin = new System.Windows.Forms.Padding(2);
             this.comboBoxSurface.MaxDropDownItems = 15;
             this.comboBoxSurface.Name = "comboBoxSurface";
@@ -690,7 +690,7 @@
             this.label12.AutoSize = true;
             this.label12.BackColor = System.Drawing.Color.Transparent;
             this.label12.ForeColor = System.Drawing.Color.White;
-            this.label12.Location = new System.Drawing.Point(667, 181);
+            this.label12.Location = new System.Drawing.Point(493, 184);
             this.label12.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(78, 13);

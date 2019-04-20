@@ -30,7 +30,7 @@ namespace WhipsImageConverter
 {
     public partial class MainForm : Form
     {
-        const string myVersionString = "1.2.0.1";
+        const string myVersionString = "1.2.0.2";
         const string buildDateString = "4/19/19";
         const string githubVersionUrl = "https://github.com/Whiplash141/Whips-Image-Converter/releases/latest";
 
@@ -1013,8 +1013,9 @@ namespace WhipsImageConverter
 
         private void OnButtonUpdateResolutionClick(object sender, EventArgs e)
         {
-            if (comboBoxBlock.SelectedIndex == 4)
+            if (comboBoxBlock.SelectedIndex == blockNames.Count - 2)
             {
+                screenSize = new Vector2((int)numericUpDownWidth.Value, (int)numericUpDownHeight.Value);
                 BuildBitmaps();
                 DitherImage(); //this will update our resolution and recompile the image
             }
@@ -1093,8 +1094,8 @@ namespace WhipsImageConverter
             else // Presets
             {
                 var surface = TextSurfaceProvider.TextSurfaceProviders[comboBoxBlock.SelectedIndex].TextSurfaces[comboBoxSurface.SelectedIndex];
-                Vector2 surfaceSize = surface.SurfaceSize;
-                screenSize = surfaceSize * PIXELS_TO_CHARACTERS;
+                float scale = 512f / Math.Min(surface.TextureSize.X, surface.TextureSize.Y);
+                screenSize = surface.SurfaceSize * PIXELS_TO_CHARACTERS * scale;
                 screenSize.X = (float)Math.Round(screenSize.X);
                 screenSize.Y = (float)Math.Round(screenSize.Y);
             }
