@@ -30,8 +30,8 @@ namespace WhipsImageConverter
 {
     public partial class MainForm : Form
     {
-        const string myVersionString = "1.2.0.4";
-        const string buildDateString = "4/19/19";
+        const string myVersionString = "1.3.0.1";
+        const string buildDateString = "06/17/2019";
         const string githubVersionUrl = "https://github.com/Whiplash141/Whips-Image-Converter/releases/latest";
 
         #region Member fields
@@ -244,7 +244,11 @@ namespace WhipsImageConverter
             }
 
             baseImage = (Bitmap)Image.FromFile(fileDirectory, true);
-
+            if (comboBoxBlock.SelectedIndex == blockNames.Count - 1)
+            {
+                numericUpDownWidth.Value = baseImage.Width;
+                numericUpDownHeight.Value = baseImage.Height;
+            }
             imageLoaded = true;
         }
 
@@ -905,6 +909,8 @@ namespace WhipsImageConverter
             textBox_Return.Clear();
             label_stringLength.Text = "String Length: 0";
 
+            bool enableComboBoxes = false;
+
             if (comboBoxBlock.SelectedIndex == blockNames.Count - 1)
             {
                 var confirmResult = MessageBox.Show("Selecting '(None)' for the resizing option can cause the code to take longer than normal and can lead to unexpected crashes!\n\nContinue?", 
@@ -926,25 +932,22 @@ namespace WhipsImageConverter
                     newImageLoaded = true; //this avoids double processing of the image
                     comboBoxBlock.SelectedIndex = 0; //reset selection index to a safe option
                     newImageLoaded = false;
-
-                    numericUpDownWidth.Enabled = false;
-                    numericUpDownHeight.Enabled = false;
                     buttonUpdateResolution.Enabled = false;
                     return;
                 }
                 else
                 {
-                    numericUpDownWidth.Enabled = true;
-                    numericUpDownHeight.Enabled = true;
                     buttonUpdateResolution.Enabled = true;
+                    enableComboBoxes = true;
                 }
             }
             else
             {
-                numericUpDownWidth.Enabled = false;
-                numericUpDownHeight.Enabled = false;
                 buttonUpdateResolution.Enabled = false;
             }
+
+            numericUpDownWidth.Enabled = enableComboBoxes;
+            numericUpDownHeight.Enabled = enableComboBoxes;
 
             SelectTextSurfaceTypeComboBoxes(comboBoxBlock.SelectedIndex);
         }
@@ -1074,13 +1077,17 @@ namespace WhipsImageConverter
             button_background_color.Enabled = enabled;
             pictureBox_background_color.Enabled = enabled;
         }
-        #endregion
-
+        
         private void ComboBoxSurface_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (comboBoxBlock.SelectedIndex == blockNames.Count - 1) // None
             {
+                if (!imageLoaded)
+                    return;
+
                 screenSizeChars = new Vector2(baseImage.Width, baseImage.Height);
+                numericUpDownWidth.Value = baseImage.Width;
+                numericUpDownHeight.Value = baseImage.Height;
             }
             else if (comboBoxBlock.SelectedIndex == blockNames.Count - 2) // Custom
             {
@@ -1093,6 +1100,8 @@ namespace WhipsImageConverter
                 screenSizeChars = surface.SurfaceSize * PIXELS_TO_CHARACTERS * scale;
                 screenSizeChars.X = (float)Math.Round(screenSizeChars.X);
                 screenSizeChars.Y = (float)Math.Round(screenSizeChars.Y);
+                numericUpDownWidth.Value = (int)(screenSizeChars.X + 0.5); // Poor man's rounding lol
+                numericUpDownHeight.Value = (int)(screenSizeChars.Y + 0.5);
             }
 
             BuildBitmaps();
@@ -1100,5 +1109,7 @@ namespace WhipsImageConverter
 
             Console.WriteLine($"screen size:{screenSizeChars} | {PIXELS_TO_CHARACTERS}");
         }
+
+        #endregion
     }
 }
