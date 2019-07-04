@@ -595,9 +595,9 @@
             this.label10.Location = new System.Drawing.Point(317, 239);
             this.label10.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(98, 13);
+            this.label10.Size = new System.Drawing.Size(60, 13);
             this.label10.TabIndex = 33;
-            this.label10.Text = "Custom Resoultion:";
+            this.label10.Text = "Resoultion:";
             // 
             // label11
             // 

@@ -90,7 +90,7 @@ namespace WhipsImageConverter
             SmallIndustrialCockpit.TextSurfaces[3] = new TextSurface("Keyboard", new Vector2(256f, 128f), new Vector2(256f, 128f));
             SmallIndustrialCockpit.TextSurfaces[4] = new TextSurface("Numpad", new Vector2(128f, 128f), new Vector2(106.6667f, 128f));
 
-            LargeFlightSeat.TextSurfaces[0] = new TextSurface("Large Display", new Vector2(512,128), new Vector2(512,113.7778f));
+            LargeFlightSeat.TextSurfaces[0] = new TextSurface("Large Display", new Vector2(512,128), new Vector2(512, 113.7778f));
             LargeControlStation.TextSurfaces[0] = new TextSurface("Large Display", new Vector2(512, 512), new Vector2(512, 307.2f));
 
             TextSurfaceProviders = new List<TextSurfaceProvider>()
