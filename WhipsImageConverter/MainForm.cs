@@ -16,11 +16,11 @@ using System.Net;
 using System.Drawing.Drawing2D;
 
 /*
-Color3 method adapted from user dacwe on StackExchange 
+Color3 method adapted from user dacwe on StackExchange
 Without using a custom color class, the clamping of Color will distort the colors
 https://stackoverflow.com/questions/5940188/how-to-convert-a-24-bit-png-to-3-bit-png-using-floyd-steinberg-dithering
 
-Dithering methods found from: 
+Dithering methods found from:
 https://en.wikipedia.org/wiki/Floyd%E2%80%93Steinberg_dithering
 http://www.tannerhelland.com/4660/dithering-eleven-algorithms-source-code/
 http://www.efg2.com/Lab/Library/ImageProcessing/DHALF.TXT
@@ -31,7 +31,7 @@ namespace WhipsImageConverter
     public partial class MainForm : Form
     {
         const string myVersionString = "1.3.0.1";
-        const string buildDateString = "06/17/2019";
+        const string buildDateString = "07/04/19";
         const string githubVersionUrl = "https://github.com/Whiplash141/Whips-Image-Converter/releases/latest";
 
         #region Member fields
@@ -174,7 +174,7 @@ namespace WhipsImageConverter
                 return;
             var latestVersionString = urlSplit[urlSplit.Length - 1];
             latestVersionString = latestVersionString.ToLower().Replace("v", "");
-            
+
             Version latestVersion = new Version();
             if (!Version.TryParse(latestVersionString, out latestVersion))
                 return;
@@ -192,7 +192,7 @@ namespace WhipsImageConverter
                     System.Diagnostics.Process.Start(githubVersionUrl);
                     this.Close();
                 }
-            }            
+            }
         }
         #endregion
 
@@ -364,7 +364,7 @@ namespace WhipsImageConverter
                 desiredImage = imageOriginalAspect;
             else
                 desiredImage = imageStretched;
-                       
+
             //Get image dimensions
             imageWidth = desiredImage.Width;
             imageHeight = desiredImage.Height;
@@ -393,8 +393,8 @@ namespace WhipsImageConverter
             {
                 MessageBox.Show("Error: No image loaded");
                 return;
-            } 
-            
+            }
+
             //Create encoded string
             string convertedImageString = BuildFinalString(convertedColorArray, imageWidth, imageHeight);
 
@@ -567,7 +567,7 @@ namespace WhipsImageConverter
 
                     for (int i = 0; i < filterArray.GetLength(0); i++) //iterate through each row
                     {
-                        int factor = filterArray[i, 0]; //factor 
+                        int factor = filterArray[i, 0]; //factor
                         int rowIndex = filterArray[i, 1] + row; //adjusted row
                         int colIndex = filterArray[i, 2] + col; //adjusted column
 
@@ -708,7 +708,7 @@ namespace WhipsImageConverter
 
             return bmp;
         }
-        
+
         Color IntToColor(int integer)
         {
             if (integer == -141)
@@ -913,7 +913,7 @@ namespace WhipsImageConverter
 
             if (comboBoxBlock.SelectedIndex == blockNames.Count - 1)
             {
-                var confirmResult = MessageBox.Show("Selecting '(None)' for the resizing option can cause the code to take longer than normal and can lead to unexpected crashes!\n\nContinue?", 
+                var confirmResult = MessageBox.Show("Selecting '(None)' for the resizing option can cause the code to take longer than normal and can lead to unexpected crashes!\n\nContinue?",
                     "WARNING", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
                 if (confirmResult == DialogResult.No)
                 {
@@ -1077,7 +1077,7 @@ namespace WhipsImageConverter
             button_background_color.Enabled = enabled;
             pictureBox_background_color.Enabled = enabled;
         }
-        
+
         private void ComboBoxSurface_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (comboBoxBlock.SelectedIndex == blockNames.Count - 1) // None

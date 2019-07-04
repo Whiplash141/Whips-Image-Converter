@@ -11,7 +11,8 @@ namespace WhipsImageConverter
     {
         public static TextSurfaceProvider Lcd = new TextSurfaceProvider("LCD Panel");
         public static TextSurfaceProvider WideLcd = new TextSurfaceProvider("Wide LCD Panel");
-        public static TextSurfaceProvider CornerLcd = new TextSurfaceProvider("Corner LCD");
+        public static TextSurfaceProvider LargeCornerLcd = new TextSurfaceProvider("Large Corner LCD");
+        public static TextSurfaceProvider SmallCornerLcd = new TextSurfaceProvider("Small Corner LCD");
         public static TextSurfaceProvider TextPanel = new TextSurfaceProvider("Text Panel");
         public static TextSurfaceProvider LargeProgrammableBlock = new TextSurfaceProvider("Large Programmable Block", 2);
         public static TextSurfaceProvider SmallProgrammableBlock = new TextSurfaceProvider("Small Programmable Block", 2);
@@ -42,7 +43,8 @@ namespace WhipsImageConverter
 
             Lcd.TextSurfaces[0] = new TextSurface("ScreenArea", standardSize);
             WideLcd.TextSurfaces[0] = new TextSurface("ScreenArea", new Vector2(1024, 512));
-            CornerLcd.TextSurfaces[0] = new TextSurface("ScreenArea", standardSize);
+            LargeCornerLcd.TextSurfaces[0] = new TextSurface("ScreenArea", standardSize, new Vector2(512, 86));
+            SmallCornerLcd.TextSurfaces[0] = new TextSurface("ScreenArea", standardSize, new Vector2(512, 144));
             TextPanel.TextSurfaces[0] = new TextSurface("ScreenArea", standardSize, new Vector2(512f, 307.2f));
 
             LargeProgrammableBlock.TextSurfaces[0] = new TextSurface("Large Display", standardSize, new Vector2(512f, 320f));
@@ -95,7 +97,8 @@ namespace WhipsImageConverter
             {
                 Lcd,
                 WideLcd,
-                CornerLcd,
+                LargeCornerLcd,
+                SmallCornerLcd,
                 TextPanel,
                 LargeProgrammableBlock,
                 SmallProgrammableBlock,
