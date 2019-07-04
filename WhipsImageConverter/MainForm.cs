@@ -30,8 +30,8 @@ namespace WhipsImageConverter
 {
     public partial class MainForm : Form
     {
-        const string myVersionString = "1.2.0.4";
-        const string buildDateString = "4/19/19";
+        const string myVersionString = "1.2.1.0";
+        const string buildDateString = "07/04/19";
         const string githubVersionUrl = "https://github.com/Whiplash141/Whips-Image-Converter/releases/latest";
 
         #region Member fields
