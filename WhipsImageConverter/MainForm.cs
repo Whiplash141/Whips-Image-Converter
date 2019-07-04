@@ -1100,8 +1100,8 @@ namespace WhipsImageConverter
                 screenSizeChars = surface.SurfaceSize * PIXELS_TO_CHARACTERS * scale;
                 screenSizeChars.X = (float)Math.Round(screenSizeChars.X);
                 screenSizeChars.Y = (float)Math.Round(screenSizeChars.Y);
-                numericUpDownWidth.Value = (int)(screenSizeChars.X + 0.5); // Poor man's rounding lol
-                numericUpDownHeight.Value = (int)(screenSizeChars.Y + 0.5);
+                numericUpDownWidth.Value = (int)screenSizeChars.X;
+                numericUpDownHeight.Value = (int)screenSizeChars.Y;
             }
 
             BuildBitmaps();
