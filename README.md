@@ -10,7 +10,8 @@ If you modify this, please credit me :)
 This is my first windows app, and I spent a lot of time on this. I hope y'all enjoy!
 
 ## Interface
-![Interface](https://i.imgur.com/HkKSjvI.png)
+![Interface](https://i.imgur.com/lBdkB5H.png)
+
 
 ## Description
 This code utilizes a variety of dithering methods to convert each pixel from  a 24 bit color into a 9 bit color.
@@ -20,11 +21,14 @@ to "draw" the image on a text panel without the need for mods.
 ## How to use
 1. Browse for your desired image file.
 
-2. Select resizing option.
+1. Select surface type and name.
 
-3. Select dithering option.
+1. Select dithering option
 
-4. Click "Convert".
+1. Click "Convert and Copy to Clipboard"
 
-5. Copy and Paste all of the text in the "Converted String" output into your in-game LCD panel. Make the font size 0.1 and the 
-   font MONOSPACED.
+1. Copy and paste all the text from you clip board into your in-game LCD screen
+
+1. Set the "Content" to "Text and Images"
+
+1. Set font size to 0.1 (minimum), text padding to 0, and the font MONOSPACED
