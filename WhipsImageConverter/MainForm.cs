@@ -30,7 +30,7 @@ namespace WhipsImageConverter
 {
     public partial class MainForm : Form
     {
-        const string myVersionString = "1.2.3.1";
+        const string myVersionString = "1.2.3.2";
         const string buildDateString = "05/14/20";
         const string githubVersionUrl = "https://github.com/Whiplash141/Whips-Image-Converter/releases/latest";
 
@@ -890,18 +890,17 @@ namespace WhipsImageConverter
         bool newImageLoaded = false;
         private void OnOpenFileDialogFileOk(object sender, CancelEventArgs e)
         {
-            newImageLoaded = true;
+            
             textBox_FileDirectory.Text = openFileDialog1.FileName;
-
-            //reset return string
-            textBox_Return.Clear();
-            label_stringLength.Text = "String Length: 0";
-
-            //ResetPaletteDictionary();
-            LoadImage(); //cache all image sizes
-            BuildBitmaps();
-            DitherImage(); //initial image dithering
-            newImageLoaded = false;
+            if (LoadImage()) //cache all image sizes
+            {
+                newImageLoaded = true;
+                textBox_Return.Clear();
+                label_stringLength.Text = "String Length: 0";
+                BuildBitmaps();
+                DitherImage(); //initial image dithering
+                newImageLoaded = false;
+            }
         }
 
         private void OnComboboxDitherSelectedIndexChanged(object sender, EventArgs e)
@@ -975,9 +974,15 @@ namespace WhipsImageConverter
             //pictureBox_background_color.Enabled = checkBox_aspectratio.Checked;
             CheckBackgroundColorEnabled();
 
-            LoadImage();
-            BuildBitmaps();
-            DitherImage();
+            if (LoadImage())
+            {
+                newImageLoaded = true;
+                textBox_Return.Clear();
+                label_stringLength.Text = "String Length: 0";
+                BuildBitmaps();
+                DitherImage(); //initial image dithering
+                newImageLoaded = false;
+            } 
         }
 
         private void OnButtonRotateCCWClick(object sender, EventArgs e)
