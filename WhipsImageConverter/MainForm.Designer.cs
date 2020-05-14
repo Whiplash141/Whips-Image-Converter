@@ -64,6 +64,7 @@
             this.pictureBox_background_color = new System.Windows.Forms.PictureBox();
             this.checkBoxTransparency = new System.Windows.Forms.CheckBox();
             this.comboBoxSurface = new System.Windows.Forms.ComboBox();
+            this.btnLoad = new System.Windows.Forms.Button();
             this.backgroundWorkerDithering = new System.ComponentModel.BackgroundWorker();
             this.label10 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
@@ -115,7 +116,7 @@
             this.BrowseButton.FlatAppearance.BorderColor = System.Drawing.Color.White;
             this.BrowseButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BrowseButton.ForeColor = System.Drawing.Color.White;
-            this.BrowseButton.Location = new System.Drawing.Point(595, 145);
+            this.BrowseButton.Location = new System.Drawing.Point(669, 145);
             this.BrowseButton.Margin = new System.Windows.Forms.Padding(2);
             this.BrowseButton.Name = "BrowseButton";
             this.BrowseButton.Size = new System.Drawing.Size(60, 29);
@@ -132,7 +133,6 @@
             this.textBox_FileDirectory.Location = new System.Drawing.Point(319, 150);
             this.textBox_FileDirectory.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_FileDirectory.Name = "textBox_FileDirectory";
-            this.textBox_FileDirectory.ReadOnly = true;
             this.textBox_FileDirectory.Size = new System.Drawing.Size(268, 20);
             this.textBox_FileDirectory.TabIndex = 8;
             // 
@@ -579,6 +579,23 @@
             this.toolTipMaster.SetToolTip(this.comboBoxSurface, "Select the type of text panel to display the image on");
             this.comboBoxSurface.SelectedIndexChanged += new System.EventHandler(this.ComboBoxSurface_SelectedIndexChanged);
             // 
+            // btnLoad
+            // 
+            this.btnLoad.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
+            this.btnLoad.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnLoad.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnLoad.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnLoad.ForeColor = System.Drawing.Color.White;
+            this.btnLoad.Location = new System.Drawing.Point(597, 145);
+            this.btnLoad.Margin = new System.Windows.Forms.Padding(2);
+            this.btnLoad.Name = "btnLoad";
+            this.btnLoad.Size = new System.Drawing.Size(60, 29);
+            this.btnLoad.TabIndex = 46;
+            this.btnLoad.Text = "Load";
+            this.toolTipMaster.SetToolTip(this.btnLoad, "Browse for file");
+            this.btnLoad.UseVisualStyleBackColor = false;
+            this.btnLoad.Click += new System.EventHandler(this.OnBtnLoadClick);
+            // 
             // backgroundWorkerDithering
             // 
             this.backgroundWorkerDithering.WorkerReportsProgress = true;
@@ -703,6 +720,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
             this.ClientSize = new System.Drawing.Size(849, 503);
+            this.Controls.Add(this.btnLoad);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.comboBoxSurface);
             this.Controls.Add(this.checkBoxTransparency);
@@ -803,6 +821,7 @@
         private System.Windows.Forms.CheckBox checkBoxTransparency;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.ComboBox comboBoxSurface;
+        private System.Windows.Forms.Button btnLoad;
     }
 }
 

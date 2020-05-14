@@ -30,7 +30,7 @@ namespace WhipsImageConverter
 {
     public partial class MainForm : Form
     {
-        const string myVersionString = "1.2.3.0";
+        const string myVersionString = "1.2.3.1";
         const string buildDateString = "05/14/20";
         const string githubVersionUrl = "https://github.com/Whiplash141/Whips-Image-Converter/releases/latest";
 
@@ -224,7 +224,7 @@ namespace WhipsImageConverter
             }
         }
 
-        void LoadImage()
+        bool LoadImage()
         {
             //Check if file exists
             fileDirectory = textBox_FileDirectory.Text;
@@ -232,15 +232,14 @@ namespace WhipsImageConverter
             if (!File.Exists(fileDirectory))
             {
                 MessageBox.Show("Error! Filepath is invalid");
-                imageLoaded = false;
-                return;
+                return false;
             }
 
             //Check if valid file type
             if (!(fileDirectory.ToLower().EndsWith(".png") || fileDirectory.ToLower().EndsWith(".jpg") || fileDirectory.EndsWith(".jpeg") || fileDirectory.EndsWith(".bmp")))
             {
                 MessageBox.Show("Error! File must be a png or jpg or bmp image");
-                return;
+                return false;
             }
 
             // Does not keep a file handle that is disposed at an indeterminate time
@@ -251,6 +250,7 @@ namespace WhipsImageConverter
                 numericUpDownHeight.Value = baseImage.Height;
             }
             imageLoaded = true;
+            return true;
         }
 
         void BuildBitmaps()
@@ -792,6 +792,22 @@ namespace WhipsImageConverter
         #endregion
 
         #region Event Driven Actions
+        private void OnBtnLoadClick(object sender, EventArgs e)
+        {
+            if (LoadImage())
+            {
+                newImageLoaded = true;
+
+                //reset return string
+                textBox_Return.Clear();
+                label_stringLength.Text = "String Length: 0";
+
+                BuildBitmaps();
+                DitherImage(); //initial image dithering
+                newImageLoaded = false;
+            }
+        }
+
         void RotateImage(bool clockwise)
         {
             if (baseImage == null)
@@ -1108,5 +1124,7 @@ namespace WhipsImageConverter
         }
 
         #endregion
+
+
     }
 }
