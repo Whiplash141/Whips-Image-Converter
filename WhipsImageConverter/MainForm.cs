@@ -30,8 +30,8 @@ namespace WhipsImageConverter
 {
     public partial class MainForm : Form
     {
-        const string myVersionString = "1.2.2.0";
-        const string buildDateString = "07/04/19";
+        const string myVersionString = "1.2.3.0";
+        const string buildDateString = "05/14/20";
         const string githubVersionUrl = "https://github.com/Whiplash141/Whips-Image-Converter/releases/latest";
 
         #region Member fields
@@ -243,7 +243,8 @@ namespace WhipsImageConverter
                 return;
             }
 
-            baseImage = (Bitmap)Image.FromFile(fileDirectory, true);
+            // Does not keep a file handle that is disposed at an indeterminate time
+            baseImage = (Bitmap)Image.FromStream(new MemoryStream(File.ReadAllBytes(fileDirectory)));
             if (comboBoxBlock.SelectedIndex == blockNames.Count - 1)
             {
                 numericUpDownWidth.Value = baseImage.Width;
@@ -876,16 +877,12 @@ namespace WhipsImageConverter
             newImageLoaded = true;
             textBox_FileDirectory.Text = openFileDialog1.FileName;
 
-            //reset comboboxes to initial values
-            //combobox_dither.SelectedIndex = 0;
-            //combobox_resize.SelectedIndex = 0;
-
             //reset return string
             textBox_Return.Clear();
             label_stringLength.Text = "String Length: 0";
 
             //ResetPaletteDictionary();
-            LoadImage(); //cache all image size
+            LoadImage(); //cache all image sizes
             BuildBitmaps();
             DitherImage(); //initial image dithering
             newImageLoaded = false;
