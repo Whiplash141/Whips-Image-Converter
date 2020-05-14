@@ -122,7 +122,7 @@
             this.BrowseButton.Size = new System.Drawing.Size(60, 29);
             this.BrowseButton.TabIndex = 7;
             this.BrowseButton.Text = "Browse";
-            this.toolTipMaster.SetToolTip(this.BrowseButton, "Browse for file");
+            this.toolTipMaster.SetToolTip(this.BrowseButton, "Browse for image");
             this.BrowseButton.UseVisualStyleBackColor = false;
             this.BrowseButton.Click += new System.EventHandler(this.BrowseButton_Click);
             // 
@@ -350,7 +350,7 @@
             this.comboBoxBlock.Name = "comboBoxBlock";
             this.comboBoxBlock.Size = new System.Drawing.Size(162, 21);
             this.comboBoxBlock.TabIndex = 22;
-            this.toolTipMaster.SetToolTip(this.comboBoxBlock, "Select the type of text panel to display the image on");
+            this.toolTipMaster.SetToolTip(this.comboBoxBlock, "Select the desired block type");
             this.comboBoxBlock.SelectedIndexChanged += new System.EventHandler(this.OnComboboxResizeSelectedIndexChanged);
             // 
             // label7
@@ -361,9 +361,9 @@
             this.label7.Location = new System.Drawing.Point(318, 184);
             this.label7.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(74, 13);
+            this.label7.Size = new System.Drawing.Size(64, 13);
             this.label7.TabIndex = 23;
-            this.label7.Text = "Surface Type:";
+            this.label7.Text = "Block Type:";
             // 
             // label8
             // 
@@ -380,6 +380,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
+            this.label9.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.label9.ForeColor = System.Drawing.Color.White;
             this.label9.Location = new System.Drawing.Point(119, 7);
             this.label9.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
@@ -576,7 +577,7 @@
             this.comboBoxSurface.Name = "comboBoxSurface";
             this.comboBoxSurface.Size = new System.Drawing.Size(162, 21);
             this.comboBoxSurface.TabIndex = 44;
-            this.toolTipMaster.SetToolTip(this.comboBoxSurface, "Select the type of text panel to display the image on");
+            this.toolTipMaster.SetToolTip(this.comboBoxSurface, "Select the surface on the block to display the image on");
             this.comboBoxSurface.SelectedIndexChanged += new System.EventHandler(this.ComboBoxSurface_SelectedIndexChanged);
             // 
             // btnLoad
@@ -592,7 +593,7 @@
             this.btnLoad.Size = new System.Drawing.Size(60, 29);
             this.btnLoad.TabIndex = 46;
             this.btnLoad.Text = "Load";
-            this.toolTipMaster.SetToolTip(this.btnLoad, "Browse for file");
+            this.toolTipMaster.SetToolTip(this.btnLoad, "Load or reload image from file path");
             this.btnLoad.UseVisualStyleBackColor = false;
             this.btnLoad.Click += new System.EventHandler(this.OnBtnLoadClick);
             // 
