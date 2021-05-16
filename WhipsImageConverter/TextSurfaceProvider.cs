@@ -43,8 +43,8 @@ namespace WhipsImageConverter
 
             Lcd.TextSurfaces[0] = new TextSurface("ScreenArea", standardSize);
             WideLcd.TextSurfaces[0] = new TextSurface("ScreenArea", new Vector2(1024, 512));
-            LargeCornerLcd.TextSurfaces[0] = new TextSurface("ScreenArea", standardSize, new Vector2(512, 86));
-            SmallCornerLcd.TextSurfaces[0] = new TextSurface("ScreenArea", standardSize, new Vector2(512, 144));
+            LargeCornerLcd.TextSurfaces[0] = new TextSurface("ScreenArea", standardSize, new Vector2(512, 86), 0.4f);
+            SmallCornerLcd.TextSurfaces[0] = new TextSurface("ScreenArea", standardSize, new Vector2(512, 144), 0.2f);
             TextPanel.TextSurfaces[0] = new TextSurface("ScreenArea", standardSize, new Vector2(512f, 307.2f));
 
             LargeProgrammableBlock.TextSurfaces[0] = new TextSurface("Large Display", standardSize, new Vector2(512f, 320f));
