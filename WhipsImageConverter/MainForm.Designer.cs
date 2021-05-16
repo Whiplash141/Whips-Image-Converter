@@ -39,7 +39,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.button_Clipboard = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
-            this.instructions = new System.Windows.Forms.Label();
+            this.labelInstructions = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.linkLabel_Dithering = new System.Windows.Forms.LinkLabel();
             this.linkLabel_Credits = new System.Windows.Forms.LinkLabel();
@@ -198,17 +198,17 @@
             this.label3.TabIndex = 12;
             this.label3.Text = "Made by Whiplash141";
             // 
-            // instructions
+            // labelInstructions
             // 
-            this.instructions.BackColor = System.Drawing.Color.Transparent;
-            this.instructions.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.instructions.ForeColor = System.Drawing.Color.White;
-            this.instructions.Location = new System.Drawing.Point(308, 23);
-            this.instructions.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.instructions.Name = "instructions";
-            this.instructions.Size = new System.Drawing.Size(523, 109);
-            this.instructions.TabIndex = 13;
-            this.instructions.Text = resources.GetString("instructions.Text");
+            this.labelInstructions.BackColor = System.Drawing.Color.Transparent;
+            this.labelInstructions.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelInstructions.ForeColor = System.Drawing.Color.White;
+            this.labelInstructions.Location = new System.Drawing.Point(308, 23);
+            this.labelInstructions.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelInstructions.Name = "labelInstructions";
+            this.labelInstructions.Size = new System.Drawing.Size(523, 109);
+            this.labelInstructions.TabIndex = 13;
+            this.labelInstructions.Text = resources.GetString("labelInstructions.Text");
             // 
             // label4
             // 
@@ -751,7 +751,7 @@
             this.Controls.Add(this.linkLabel_Credits);
             this.Controls.Add(this.linkLabel_Dithering);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.instructions);
+            this.Controls.Add(this.labelInstructions);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.button_Clipboard);
             this.Controls.Add(this.label1);
@@ -787,7 +787,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button button_Clipboard;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label instructions;
+        private System.Windows.Forms.Label labelInstructions;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.LinkLabel linkLabel_Dithering;
         private System.Windows.Forms.LinkLabel linkLabel_Credits;

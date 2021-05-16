@@ -14,6 +14,7 @@ using System.Numerics;
 using System.Net.Http;
 using System.Net;
 using System.Drawing.Drawing2D;
+using System.Globalization;
 
 /*
 Color3 method adapted from user dacwe on StackExchange
@@ -30,8 +31,8 @@ namespace WhipsImageConverter
 {
     public partial class MainForm : Form
     {
-        const string myVersionString = "1.2.3.3";
-        const string buildDateString = "05/14/20";
+        const string myVersionString = "1.2.4.0";
+        const string buildDateString = "2021/05/16";
         const string githubVersionUrl = "https://github.com/Whiplash141/Whips-Image-Converter/releases/latest";
 
         #region Member fields
@@ -82,7 +83,14 @@ namespace WhipsImageConverter
         readonly List<string> surfaceNames = new List<string>();
 
         Vector2 screenSizeChars;
-
+        
+        const string INSTRUCTIONS = @"1) Browse for your desired image file.
+2) Select block type and surface name.
+3) Select dithering option.
+4) Click ""Convert"".
+5) Copy and Paste all of the text in the ""Converted String"" output into your in-game LCD panel.
+6) Set the ""Content"" to ""Text and Images""
+7) Set font size to {0}, text padding to 0, and the font MONOSPACED.";
         #endregion
 
         public MainForm()
@@ -1098,6 +1106,7 @@ namespace WhipsImageConverter
 
         private void ComboBoxSurface_SelectedIndexChanged(object sender, EventArgs e)
         {
+            float fontSize = 0.1f; ;
             if (comboBoxBlock.SelectedIndex == blockNames.Count - 1) // None
             {
                 if (!imageLoaded)
@@ -1115,12 +1124,14 @@ namespace WhipsImageConverter
             {
                 var surface = TextSurfaceProvider.TextSurfaceProviders[comboBoxBlock.SelectedIndex].TextSurfaces[comboBoxSurface.SelectedIndex];
                 float scale = 512f / Math.Min(surface.TextureSize.X, surface.TextureSize.Y);
+                fontSize = surface.FontSize;
                 screenSizeChars = surface.SurfaceSize * PIXELS_TO_CHARACTERS * scale;
                 screenSizeChars.X = (float)Math.Round(screenSizeChars.X);
                 screenSizeChars.Y = (float)Math.Round(screenSizeChars.Y);
                 numericUpDownWidth.Value = (int)screenSizeChars.X;
                 numericUpDownHeight.Value = (int)screenSizeChars.Y;
             }
+            labelInstructions.Text = string.Format(CultureInfo.InvariantCulture, INSTRUCTIONS, fontSize);
 
             BuildBitmaps();
             DitherImage();
