@@ -116,12 +116,12 @@
             this.BrowseButton.FlatAppearance.BorderColor = System.Drawing.Color.White;
             this.BrowseButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BrowseButton.ForeColor = System.Drawing.Color.White;
-            this.BrowseButton.Location = new System.Drawing.Point(669, 145);
+            this.BrowseButton.Location = new System.Drawing.Point(583, 145);
             this.BrowseButton.Margin = new System.Windows.Forms.Padding(2);
             this.BrowseButton.Name = "BrowseButton";
-            this.BrowseButton.Size = new System.Drawing.Size(60, 29);
+            this.BrowseButton.Size = new System.Drawing.Size(117, 29);
             this.BrowseButton.TabIndex = 7;
-            this.BrowseButton.Text = "Browse";
+            this.BrowseButton.Text = "Browse for Image";
             this.toolTipMaster.SetToolTip(this.BrowseButton, "Browse for image");
             this.BrowseButton.UseVisualStyleBackColor = false;
             this.BrowseButton.Click += new System.EventHandler(this.BrowseButton_Click);
@@ -133,8 +133,9 @@
             this.textBox_FileDirectory.Location = new System.Drawing.Point(319, 150);
             this.textBox_FileDirectory.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_FileDirectory.Name = "textBox_FileDirectory";
-            this.textBox_FileDirectory.Size = new System.Drawing.Size(268, 20);
+            this.textBox_FileDirectory.Size = new System.Drawing.Size(247, 20);
             this.textBox_FileDirectory.TabIndex = 8;
+            this.textBox_FileDirectory.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnTextBoxFileDirectoryKeyDown);
             // 
             // textBox_Return
             // 
@@ -587,13 +588,13 @@
             this.btnLoad.FlatAppearance.BorderColor = System.Drawing.Color.White;
             this.btnLoad.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnLoad.ForeColor = System.Drawing.Color.White;
-            this.btnLoad.Location = new System.Drawing.Point(597, 145);
+            this.btnLoad.Location = new System.Drawing.Point(713, 145);
             this.btnLoad.Margin = new System.Windows.Forms.Padding(2);
             this.btnLoad.Name = "btnLoad";
-            this.btnLoad.Size = new System.Drawing.Size(60, 29);
+            this.btnLoad.Size = new System.Drawing.Size(117, 29);
             this.btnLoad.TabIndex = 46;
-            this.btnLoad.Text = "Load";
-            this.toolTipMaster.SetToolTip(this.btnLoad, "Load or reload image from file path");
+            this.btnLoad.Text = "Load from Clipboard";
+            this.toolTipMaster.SetToolTip(this.btnLoad, "Load image stored in clipboard");
             this.btnLoad.UseVisualStyleBackColor = false;
             this.btnLoad.Click += new System.EventHandler(this.OnBtnLoadClick);
             // 

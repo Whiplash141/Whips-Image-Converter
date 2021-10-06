@@ -31,8 +31,8 @@ namespace WhipsImageConverter
 {
     public partial class MainForm : Form
     {
-        const string myVersionString = "1.2.4.0";
-        const string buildDateString = "2021/05/16";
+        const string myVersionString = "1.2.5.0";
+        const string buildDateString = "2021/10/06";
         const string githubVersionUrl = "https://github.com/Whiplash141/Whips-Image-Converter/releases/latest";
 
         #region Member fields
@@ -232,26 +232,46 @@ namespace WhipsImageConverter
             }
         }
 
-        bool LoadImage()
+        bool LoadImage(bool fromClipboard = false)
         {
-            //Check if file exists
-            fileDirectory = textBox_FileDirectory.Text;
-
-            if (!File.Exists(fileDirectory))
+            if (baseImage != null)
             {
-                MessageBox.Show("Error! Filepath is invalid");
-                return false;
+                baseImage.Dispose();
+                baseImage = null;
             }
 
-            //Check if valid file type
-            if (!(fileDirectory.ToLower().EndsWith(".png") || fileDirectory.ToLower().EndsWith(".jpg") || fileDirectory.EndsWith(".jpeg") || fileDirectory.EndsWith(".bmp")))
+            if (fromClipboard)
             {
-                MessageBox.Show("Error! File must be a png or jpg or bmp image");
-                return false;
+                baseImage = (Bitmap)Clipboard.GetImage();
+                textBox_FileDirectory.Text = "";
+                if (baseImage == null)
+                {
+                    MessageBox.Show("Error: No image in clipboard!");
+                    return false;
+                }
+            }
+            else
+            {
+                //Check if file exists
+                fileDirectory = textBox_FileDirectory.Text;
+
+                if (!File.Exists(fileDirectory))
+                {
+                    MessageBox.Show("Error: Filepath is invalid!");
+                    return false;
+                }
+
+                //Check if valid file type
+                if (!(fileDirectory.ToLower().EndsWith(".png") || fileDirectory.ToLower().EndsWith(".jpg") || fileDirectory.EndsWith(".jpeg") || fileDirectory.EndsWith(".bmp")))
+                {
+                    MessageBox.Show("Error: File must be a png or jpg or bmp image!");
+                    return false;
+                }
+
+                // Does not keep a file handle that is disposed at an indeterminate time
+                baseImage = (Bitmap)Image.FromStream(new MemoryStream(File.ReadAllBytes(fileDirectory)));
             }
 
-            // Does not keep a file handle that is disposed at an indeterminate time
-            baseImage = (Bitmap)Image.FromStream(new MemoryStream(File.ReadAllBytes(fileDirectory)));
             if (comboBoxBlock.SelectedIndex == blockNames.Count - 1)
             {
                 numericUpDownWidth.Value = baseImage.Width;
@@ -802,7 +822,23 @@ namespace WhipsImageConverter
         #region Event Driven Actions
         private void OnBtnLoadClick(object sender, EventArgs e)
         {
-            if (LoadImage())
+            if (LoadImage(fromClipboard: true))
+            {
+                newImageLoaded = true;
+
+                //reset return string
+                textBox_Return.Clear();
+                label_stringLength.Text = "String Length: 0";
+
+                BuildBitmaps();
+                DitherImage(); //initial image dithering
+                newImageLoaded = false;
+            }
+        }
+
+        private void OnTextBoxFileDirectoryKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter && LoadImage())
             {
                 newImageLoaded = true;
 
@@ -1139,8 +1175,7 @@ namespace WhipsImageConverter
             Console.WriteLine($"screen size:{screenSizeChars} | {PIXELS_TO_CHARACTERS}");
         }
 
+
         #endregion
-
-
     }
 }
